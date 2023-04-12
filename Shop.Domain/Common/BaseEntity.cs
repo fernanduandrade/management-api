@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Shop.Domain.Common;
 
 public abstract class BaseEntity
