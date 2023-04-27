@@ -1,8 +1,18 @@
+using System.Reflection;
+using Duende.IdentityServer.EntityFramework.Options;
+using MediatR;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Shop.Application.Common.Interfaces;
+using Shop.Infrastructure.Common;
+using Shop.Infrastructure.Persistence.Interceptors;
 using Entities = Shop.Domain.Entities;
+using Shop.Infrastructure.Identity;
 
 namespace Shop.Infrastructure.Persistence;
 
-public class AppDbContext : ApiAuthorizationDbContext<ApplicationUser>, IAppContext
+public class AppDbContext : ApiAuthorizationDbContext<ApplicationUser>, IAppDbContext
 {
     private readonly IMediator _mediator;
     private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;

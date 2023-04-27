@@ -1,6 +1,10 @@
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Shop.Domain.Common;
+
 namespace Shop.Infrastructure.Common;
 
-public static class MediatorExntesions
+public static class MediatorExtensions
 {
     public static async Task DispatchDomainEvents(this IMediator mediator, DbContext context)
     {

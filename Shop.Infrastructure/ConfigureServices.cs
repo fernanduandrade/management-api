@@ -1,4 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Shop.Application.Common.Interfaces;
+using Shop.Infrastructure.Persistence;
+using Shop.Infrastructure.Persistence.Interceptors;
+using Shop.Infrastructure.Services;
 
 namespace Shop.Infrastructure;
 

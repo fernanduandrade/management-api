@@ -4,5 +4,5 @@ namespace Shop.Infrastructure.Services;
 
 public class DateTimeService : IDateTime
 {
-    public DateTimeService Now => DateTime.UtcNow;
+    public DateTime Now => DateTime.UtcNow;
 }
