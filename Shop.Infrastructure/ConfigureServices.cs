@@ -10,7 +10,7 @@ namespace Shop.Infrastructure;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddInfrastructureService(
+    public static IServiceCollection AddInfrastructure(
         this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();
