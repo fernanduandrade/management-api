@@ -1,3 +1,4 @@
+using Microsoft.IdentityModel.Logging;
 using Shop.OAuth.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,15 @@ builder.Services.AddIdentityServer()
     .AddTestUsers(IdentityServerConfiguration.TestUsers)
     .AddDeveloperSigningCredential();
 
+var loggerFactory = LoggerFactory.Create(builder =>
+{
+    builder.AddConsole();
+});
+IdentityModelEventSource.ShowPII = true;
+
+builder.Services.AddSingleton(loggerFactory);
+builder.Services.AddLogging();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,25 +32,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
 
+app.MapGet("/", () => "Hello World!");
 app.UseRouting();
+
 app.UseIdentityServer();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapGet("/", async context =>
-    {
-        await context.Response.WriteAsync("Hello World");
-    });
-});
-app.UseAuthorization();
-
-app.MapRazorPages();
-
 app.Run();

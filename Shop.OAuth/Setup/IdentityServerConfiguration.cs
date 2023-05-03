@@ -45,7 +45,7 @@ public class IdentityServerConfiguration
             new ApiResource("myApi")
             {
                 Scopes = new List<string> { "myApi.read", "myApi.write" },
-                ApiSecrets = new List<Secret> { new Secret("supersecret".Sha256()) }
+                ApiSecrets = new List<Secret> { new Secret("secret".Sha256()) }
             }
         };
 
