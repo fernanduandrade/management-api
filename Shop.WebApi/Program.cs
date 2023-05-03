@@ -17,8 +17,6 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddPresentation();
 
-builder.Services.AddHttpContextAccessor();
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
