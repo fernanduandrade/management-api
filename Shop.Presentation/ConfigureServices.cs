@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Application.Common.Interfaces;
 using Shop.Presentation.Services;
+using Shop.Presentation.Setup;
 
 namespace Shop.Presentation;
 
@@ -15,7 +16,7 @@ public static class ConfigureServices
         var assembly = typeof(Presentation.ConfigureServices).Assembly;
         services.AddControllers().AddApplicationPart(assembly);
         services.AddScoped<ICurrentUserService, CurrentUserService>();
-
+        
         services.AddHttpContextAccessor();
         
         services.Configure<ApiBehaviorOptions>(options =>
@@ -32,7 +33,7 @@ public static class ConfigureServices
 
         services.AddVersionedApiExplorer(setup =>
         {
-            setup.GroupNameFormat = "v' VVV";
+            setup.GroupNameFormat = "'v'VVV";
             setup.SubstituteApiVersionInUrl = true;
         });
         

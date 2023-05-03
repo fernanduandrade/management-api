@@ -1,11 +1,10 @@
-using IdentityModel.AspNetCore.OAuth2Introspection;
-using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
 using Shop.Application;
 using Shop.Infrastructure;
 using Shop.Presentation;
+using Shop.Presentation.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
-    .AddPresentation();
+    .AddPresentation()
+    .AddSwaggerConfig();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -43,11 +43,15 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
+    var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+    app.UseSwaggerConfig(provider);
 }
+app.MapControllers();
+
 
 app.UseRouting();
+
 app.UseCors(builder => builder
     .AllowAnyOrigin()
     .AllowAnyMethod()
@@ -56,7 +60,5 @@ app.UseCors(builder => builder
 app.UseSerilogRequestLogging();
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();
