@@ -1,6 +1,6 @@
 namespace Shop.Domain.Common;
 
-public abstract class BaseAuditiableEntity
+public abstract class BaseAuditiableEntity : BaseEntity
 {
     public DateTime Created {get; set;}
     public string? CreatedBy {get; set;}

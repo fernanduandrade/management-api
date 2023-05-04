@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Remove="Class1.cs" />
     <Compile Remove="Controllers\HealthController.cs" />
+    <Compile Remove="Controllers\HealthTestController.cs" />
   </ItemGroup>
 
   <ItemGroup>

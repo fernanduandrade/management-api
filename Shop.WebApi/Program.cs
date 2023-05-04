@@ -1,5 +1,9 @@
+using System.Net.Mime;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Serilog;
 using Shop.Application;
 using Shop.Infrastructure;
@@ -49,7 +53,26 @@ if (app.Environment.IsDevelopment())
 }
 app.MapControllers();
 
-
+app.UseHealthChecks("/status", new HealthCheckOptions
+{
+    ResultStatusCodes =
+    {
+        [HealthStatus.Healthy] = StatusCodes.Status200OK,
+        [HealthStatus.Degraded] = StatusCodes.Status200OK,
+        [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable,
+    },
+    ResponseWriter = async (context, report) =>
+    {
+        var result = JsonSerializer.Serialize(
+            new
+            {
+                currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                statusApplication = report.Status.ToString(),
+            });
+        context.Response.ContentType = MediaTypeNames.Application.Json;
+        await context.Response.WriteAsync(result);
+    }
+});
 app.UseRouting();
 
 app.UseCors(builder => builder

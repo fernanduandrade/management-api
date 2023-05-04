@@ -30,7 +30,8 @@ public static class ConfigureServices
         services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
 
         services.AddTransient<IDateTime, DateTimeService>();
-
+        services.AddHealthChecks()
+            .AddDbContextCheck<AppDbContext>();
         return services;
     }
 }

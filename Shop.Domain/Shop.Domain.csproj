@@ -7,4 +7,14 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="11.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Entities\User.cs" />
+    <Compile Remove="Events\Product\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Events\Product\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Events\Product\**" />
+  </ItemGroup>
 </Project>

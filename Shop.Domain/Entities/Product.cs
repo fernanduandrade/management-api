@@ -1,6 +1,6 @@
 namespace Shop.Domain.Entities;
 
-public class Product
+public class Product : BaseAuditiableEntity
 {
     public string Description {get; set;}
     public string Name {get; set;}

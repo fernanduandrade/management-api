@@ -7,5 +7,5 @@ public interface IAppDbContext
 {
     DbSet<Entities.Client> Clients {get;}
     DbSet<Entities.Product> Products {get;}
-    DbSet<Entities.User> Users {get;}
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
