@@ -16,8 +16,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Shop.Domain\Shop.Domain.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Product\DTOs\" />
-    <Folder Include="Product\Queries\" />
-  </ItemGroup>
 </Project>
