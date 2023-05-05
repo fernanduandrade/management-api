@@ -9,7 +9,7 @@ using Shop.Application.Product.DTOs;
 
 namespace Shop.Application.Product.Queries;
 
-public record GetAllProductPaginatedQuery :IRequest<ApiResult<PaginatedList<ProductDTO>>>
+public sealed record GetAllProductPaginatedQuery : IRequest<ApiResult<PaginatedList<ProductDTO>>>
 {
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 1;

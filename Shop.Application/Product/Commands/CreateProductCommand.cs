@@ -5,7 +5,7 @@ using Shop.Domain.Events;
 
 namespace Shop.Application.Product.Commands;
 
-public record CreateProductCommand : IRequest<ApiResult<bool>>
+public sealed record CreateProductCommand : IRequest<ApiResult<bool>>
 {
     public string Name { get; init; }
     public string Description { get; init; }

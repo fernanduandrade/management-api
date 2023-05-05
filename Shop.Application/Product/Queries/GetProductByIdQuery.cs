@@ -8,20 +8,20 @@ using Shop.Application.Product.DTOs;
 
 namespace Shop.Application.Product.Queries;
 
-public class GetQuizByIdQuery : IRequest<ApiResult<ProductDTO>>
+public sealed record GetProductByIdQuery : IRequest<ApiResult<ProductDTO>>
 {
-    public int Id { get; init; }
+    public long Id { get; init; }
 }
 
-public class GetquizByIdQueryHandler : IRequestHandler<GetQuizByIdQuery, ApiResult<ProductDTO>>
+public class GetquizByIdQueryHandler : IRequestHandler<GetProductByIdQuery, ApiResult<ProductDTO>>
 {
     private readonly IAppDbContext _context;
     private readonly IMapper _mapper;
-    public async Task<ApiResult<ProductDTO>> Handle(GetQuizByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ApiResult<ProductDTO>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
         var result = await _context.Products
             .AsNoTracking()
-            .Where(quiz => quiz.Id == request.Id)
+            .Where(product => product.Id == request.Id)
             .ProjectTo<ProductDTO>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
 

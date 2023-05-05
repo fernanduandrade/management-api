@@ -4,16 +4,16 @@ using Entites = Shop.Domain.Entities;
 
 namespace Shop.Application.Product.DTOs;
 
-public record ProductDTO : IMapFrom<Entites.Product>
+public sealed record ProductDTO : IMapFrom<Entites.Product>
 {
-    public int Id {get; init; }
-    public string Name { get; init; }
-    public string Description { get; init; }
-    public int Quantity { get; init; }
-    public decimal Price { get; init; }
-    public bool IsAvaliable { get; init; }
+    public long Id {get; init; }
+    public string Description {get; set;}
+    public string Name {get; set;}
+    public decimal Price {get; set;}
+    public int Quantity {get; set;}
+    public bool IsAvaliable {get; set;}
 
-    public ProductDTO(Profile profile)
+    public void Mapping(Profile profile)
     {
         profile.CreateMap<Entites.Product, ProductDTO>();
     }

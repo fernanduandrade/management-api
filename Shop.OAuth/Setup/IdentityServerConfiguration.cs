@@ -35,8 +35,8 @@ public class IdentityServerConfiguration
     public static IEnumerable<ApiScope> ApiScopes =>
         new ApiScope[]
         {
-            new ApiScope("myApi.read"),
-            new ApiScope("myApi.write"),
+            new ApiScope("myApi.read") { UserClaims = { ClaimTypes.Email, ClaimTypes.Name }},
+            new ApiScope("myApi.write") { UserClaims = { ClaimTypes.Email, ClaimTypes.Name }},
         };
 
     public static IEnumerable<ApiResource> ApiResources =>

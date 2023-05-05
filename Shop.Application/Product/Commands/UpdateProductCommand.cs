@@ -7,7 +7,7 @@ using Shop.Domain.Events;
 
 namespace Shop.Application.Product.Commands;
 
-public record UpdateProductCommand : IRequest<ApiResult<bool>>
+public sealed record UpdateProductCommand : IRequest<ApiResult<bool>>
 {
     public int Id {get; init; }
     public string Name { get; init; }

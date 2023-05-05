@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Application.Common.Models;
 using Shop.Application.Product.Commands;
+using Shop.Application.Product.DTOs;
 using Shop.Application.Product.Queries;
 
 namespace Shop.Presentation.Controllers;
@@ -31,18 +34,20 @@ public class ProductController : BaseController
     }
     
     [HttpGet]
-    public async Task<ActionResult> GetAll(GetAllProductPaginatedQuery query)
+    public async Task<ActionResult<ApiResult<PaginatedList<ProductDTO>>>> GetAll([FromQuery] GetAllProductPaginatedQuery query)
     {
         var result = await Mediator.Send(query);
-
+    
         return Ok(result);
     }
     
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetById([FromQuery] GetQuizByIdQuery query)
+    [ProducesResponseType(typeof(ApiResult<ProductDTO>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResult<ProductDTO>>> GetProductById(long id)
     {
+        GetProductByIdQuery query = new() { Id = id};
         var result = await Mediator.Send(query);
-
+    
         return Ok(result);
     }
 }
