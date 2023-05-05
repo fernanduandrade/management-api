@@ -30,6 +30,8 @@ public class AppDbContext : ApiAuthorizationDbContext<ApplicationUser>, IAppDbCo
     public DbSet<Entities.Client> Clients => Set<Entities.Client>();
     
     public DbSet<Entities.Product> Products => Set<Entities.Product>();
+    
+    public DbSet<Entities.Sale> Sales => Set<Entities.Sale>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
