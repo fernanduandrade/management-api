@@ -20,7 +20,7 @@ public class GetClientByIdQueryHandler : IRequestHandler<GetClientByIdQuery ,Api
 
     public GetClientByIdQueryHandler(IAppDbContext context, IMapper mapper)
         => (_context) = (context);
-    public async  Task<ApiResult<ClientDTO>> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ApiResult<ClientDTO>> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
     {
         var result = await _context.Products
             .AsNoTracking()
@@ -28,6 +28,9 @@ public class GetClientByIdQueryHandler : IRequestHandler<GetClientByIdQuery ,Api
             .ProjectTo<ClientDTO>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
 
-        return new ApiResult<ClientDTO>(result, "Operação concluida com sucesso");
+        if(result is null)
+            return new ApiResult<ClientDTO>(null, ResponseTypeEnum.Warning,"Failed to find the register.");
+        
+        return new ApiResult<ClientDTO>(result, ResponseTypeEnum.Success,"Operation completed successfully.");
     }
 }

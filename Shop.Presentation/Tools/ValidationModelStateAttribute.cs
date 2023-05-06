@@ -16,7 +16,7 @@ public class ValidationModelStateAttribute : ActionFilterAttribute
             {
                 foreach (var error in entry.Errors)
                 {
-                    ApiResult<string> resultObject = new(error.ErrorMessage);
+                    ApiResult<string> resultObject = new(error.ErrorMessage, ResponseTypeEnum.Warning);
                     context.Result = new JsonResult(resultObject);
                 }
             }

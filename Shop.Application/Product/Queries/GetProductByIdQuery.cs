@@ -24,7 +24,10 @@ public class GetquizByIdQueryHandler : IRequestHandler<GetProductByIdQuery, ApiR
             .Where(product => product.Id == request.Id)
             .ProjectTo<ProductDTO>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
-
-        return new ApiResult<ProductDTO>(result, "Operação concluida com sucesso");
+        
+        if(result is null)
+            return new ApiResult<ProductDTO>(null, ResponseTypeEnum.Warning,"Failed to find the register.");
+        
+        return new ApiResult<ProductDTO>(result, ResponseTypeEnum.Success,"Operation completed successfully.");
     }
 }

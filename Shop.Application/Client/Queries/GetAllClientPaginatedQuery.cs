@@ -30,6 +30,6 @@ public class
             .ProjectTo<ClientDTO>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
 
-        return new ApiResult<PaginatedList<ClientDTO>>(result, message: "Operação realizada com sucesso");
+        return new ApiResult<PaginatedList<ClientDTO>>(result, ResponseTypeEnum.Success ,message: "Operation completed successfully.");
     }
 }

@@ -1,6 +1,7 @@
 
 
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -17,7 +18,12 @@ public static class ConfigureServices
     {
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerSetup>();
         var assembly = typeof(Presentation.ConfigureServices).Assembly;
-        services.AddControllers().AddApplicationPart(assembly);
+        services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            })
+            .AddApplicationPart(assembly);
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         
         services.AddHttpContextAccessor();

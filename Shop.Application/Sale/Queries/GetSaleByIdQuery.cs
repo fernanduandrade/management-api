@@ -23,11 +23,14 @@ public class GetSaleByQueryHandler : IRequestHandler<GetSaleByIdQuery, ApiResult
     
     public async Task<ApiResult<SaleDTO>> Handle(GetSaleByIdQuery request, CancellationToken cancellationToken)
     {
-        var sale = await _context.Sales
+        var result = await _context.Sales
             .AsNoTracking()
             .ProjectTo<SaleDTO>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync(entity => entity.Id == request.Id);
 
-        return new ApiResult<SaleDTO>(sale, "Operação concluida com sucesso");
+        if(result is null)
+            return new ApiResult<SaleDTO>(null, ResponseTypeEnum.Warning,"Failed to find the register.");
+        
+        return new ApiResult<SaleDTO>(result, ResponseTypeEnum.Success, "Operation completed successfully.");
     }
 }
