@@ -10,7 +10,7 @@ namespace Shop.Presentation.Controllers;
 public class ClientController : BaseController
 {
     [HttpPost]
-    public async Task<ActionResult> Create(CreateClientCommandHandler command)
+    public async Task<ActionResult> Create(CreateClientCommand command)
     {
         var result = await Mediator.Send(command);
 

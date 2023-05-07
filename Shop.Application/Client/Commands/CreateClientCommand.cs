@@ -1,15 +1,13 @@
-using AutoMapper;
 using MediatR;
 using Shop.Application.Client.DTOs;
 using Shop.Application.Common.Interfaces;
-using Shop.Application.Common.Mapping;
 using Shop.Application.Common.Models;
 using Shop.Domain.Events;
 using Entities = Shop.Domain.Entities;
 
 namespace Shop.Application.Client.Commands;
 
-public sealed record CreateClientCommand : IRequest<ApiResult<ClientDTO>>, IMapFrom<Entities.Client>
+public sealed record CreateClientCommand : IRequest<ApiResult<ClientDTO>>
 {
     public string Name { get; set; }
     public string LastName { get; set; }
@@ -17,29 +15,40 @@ public sealed record CreateClientCommand : IRequest<ApiResult<ClientDTO>>, IMapF
     public string Phone { get; set; }
     public decimal Debt { get; set; }
     public decimal Credit { get; set; }
-
-    public void Mapping(Profile profile)
-    {
-        profile.CreateMap<Entities.Client, CreateClientCommand>();
-    }
 }
 
 public class CreateClientCommandHandler : IRequestHandler<CreateClientCommand, ApiResult<ClientDTO>>
 {
     private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
 
-    public CreateClientCommandHandler(IAppDbContext context, IMapper mapper)
-        => (_context, _mapper) = (context, mapper);
+    public CreateClientCommandHandler(IAppDbContext context)
+        => (_context) = (context);
     public async Task<ApiResult<ClientDTO>> Handle(CreateClientCommand request, CancellationToken cancellationToken)
     {
-        var entity = _mapper.Map<Entities.Client>(request);
+        Entities.Client entity = new()
+        {
+            Credit = request.Credit,	
+            Name = request.Name,	
+            IsActive = request.IsActive,	
+            LastName = request.LastName,	
+            Phone = request.Phone,	
+            Debt = request.Debt,
+        };
         
         entity.AddDomainEvent(new ClientCreateEvent(entity));
         _context.Clients.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        ClientDTO dto = _mapper.Map<ClientDTO>(entity);
+        ClientDTO dto = new()
+        {
+            Id = entity.Id,
+            Credit = entity.Credit,	
+            Name = entity.Name,	
+            IsActive = entity.IsActive,	
+            LastName = entity.LastName,	
+            Phone = entity.Phone,	
+            Debt = entity.Debt,
+        };
         
         if (entity.Id <= 0)
             return new ApiResult<ClientDTO>(dto, ResponseTypeEnum.Error, "Error while trying to create the register.");
