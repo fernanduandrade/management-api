@@ -24,7 +24,7 @@ public class ProductController : BaseController
 
         return Ok(result);
     }
-    
+
     [HttpDelete]
     public async Task<ActionResult> Delete(DeleteProductCommand command)
     {

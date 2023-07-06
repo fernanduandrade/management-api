@@ -18,13 +18,14 @@ public class CurrentUserService : ICurrentUserService
 
     public string GetUserId()
     {
-        var identity = _httpContextAccessor.HttpContext?.User.Identity as ClaimsIdentity;
-        var token = identity.Claims.Where(x => x.Type == "access_token").ToList();
-        if (token.Count > 0)
-        {
-            var jwt = new JwtSecurityToken(token[0].Value);
-            var claims = jwt.Claims;
-        }
-        return "";
+        // var identity = _httpContextAccessor.HttpContext?.User.Identity as ClaimsIdentity;
+        // var token = identity.Claims.Where(x => x.Type == "access_token").ToList();
+        // if (token is not null && token.Count > 0)
+        // {
+        //     var jwt = new JwtSecurityToken(token[0].Value);
+        //     var claims = jwt.Claims;
+        //     return "22";
+        // }
+        return "1";
     }
 }

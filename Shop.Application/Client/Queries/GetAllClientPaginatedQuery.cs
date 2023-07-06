@@ -25,7 +25,7 @@ public class
         => (_context, _mapper) = (context, mapper);
     public async Task<ApiResult<PaginatedList<ClientDTO>>> Handle(GetAllClientPaginatedQuery request, CancellationToken cancellationToken)
     {
-        var result = await _context.Products
+        var result = await _context.Clients
             .AsNoTracking()
             .ProjectTo<ClientDTO>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
