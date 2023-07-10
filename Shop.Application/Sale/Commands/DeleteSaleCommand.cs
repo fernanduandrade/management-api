@@ -21,11 +21,11 @@ public class DeleteSaleCommandHandler : IRequestHandler<DeleteSaleCommand, ApiRe
         var entity = await _context.Sales.FirstOrDefaultAsync(
             sale => sale.Id == request.Id);
 
-        if (entity is null) return new ApiResult("Error while trying to delete the register.", ResponseTypeEnum.Error);
+        if (entity is null) return new ApiResult(false, ResponseTypeEnum.Error, "Error while trying to delete the register.");
 
         _context.Sales.Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return new ApiResult("Operation completed successfully.", ResponseTypeEnum.Success);
+        return new ApiResult(true, ResponseTypeEnum.Success, "Error while trying to delete the register.");
     }
 }

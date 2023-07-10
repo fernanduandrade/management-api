@@ -25,12 +25,14 @@ public class ProductController : BaseController
         return Ok(result);
     }
 
-    [HttpDelete]
-    public async Task<ActionResult> Delete(DeleteProductCommand command)
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
     {
+        var command = new DeleteProductCommand() { Id = id };
         var result = await Mediator.Send(command);
+        if(result.Data)  return Ok(result);
 
-        return Ok(result);
+        return BadRequest(result);
     }
     
     [HttpGet]
