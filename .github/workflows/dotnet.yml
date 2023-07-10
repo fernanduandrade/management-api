@@ -22,7 +22,5 @@ jobs:
         dotnet-version: 7.0.x
     - name: Restore dependencies
       run: dotnet restore ./Shop.WebApi/Shop.WebApi.csproj
-    - name: Build
-      run: dotnet build ./Shop.WebApi/Shop.WebApi.csproj --no-restore
     - name: Running Tests
       run: dotnet test
