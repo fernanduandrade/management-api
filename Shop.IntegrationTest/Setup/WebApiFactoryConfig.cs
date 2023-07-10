@@ -22,7 +22,7 @@ public class WebApiFactoryConfig<TProgram, TDbContext>
                 Password = "postgres",
                 Username = "postgres"
             })
-            .WithImage("postgres:11")
+            .WithImage("postgres:14")
             .WithCleanUp(true)
             .Build();
     protected override void ConfigureWebHost(IWebHostBuilder builder)

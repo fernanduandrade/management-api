@@ -25,11 +25,12 @@ public class ClientController : BaseController
         return Ok(result);
     }
     
-    [HttpDelete]
-    public async Task<ActionResult> Delete(DeleteClientCommand command)
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
     {
+        DeleteClientCommand command = new() { Id = id};
         var result = await Mediator.Send(command);
-
+        if (result.Type == ResponseTypeEnum.Error) return BadRequest(result);
         return Ok(result);
     }
     

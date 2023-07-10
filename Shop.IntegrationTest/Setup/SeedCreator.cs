@@ -9,18 +9,17 @@ public class SeedCreator
 
     public SeedCreator(AppDbContext context) => (_context) = (context);
 
-    public async Task AddClients()
+    public void AddClients()
     {
         List<Client> clients = new()
         {
-            new Client { Name = "Joaquim", LastName = "Andrade", Credit = 80, Phone = "00000000000", IsActive = true },
-            new Client { Name = "Marina", LastName = "Visgueira", Credit = 10, Phone = "00000000000", IsActive = false },
-            new Client { Name = "Andre", LastName = "Osvaldo", Credit = 0, Debt = 23, Phone = "00000000000", IsActive = true },
-            new Client { Name = "Alfredo", LastName = "Siqueira", Credit = 80, Phone = "00000000000", IsActive = false },
-            new Client { Name = "Clara", LastName = "Siqueira", Credit = 120, Phone = "00000000000", IsActive = true }
+            new Client { Id = 2, Name = "Marina", LastName = "Visgueira", Credit = 0, Debt = 12, Phone = "00000000000", IsActive = false },
+            new Client { Id = 3, Name = "Andre", LastName = "Osvaldo", Credit = 0, Debt = 23, Phone = "00000000000", IsActive = true },
+            new Client { Id = 4, Name = "Alfredo", LastName = "Siqueira", Credit = 80, Debt = 0, Phone = "00000000000", IsActive = false },
+            new Client { Id = 5, Name = "Clara", LastName = "Siqueira", Credit = 120, Debt = 0, Phone = "00000000000", IsActive = true }
         };
 
-        await _context.AddRangeAsync(clients);
-        await _context.SaveChangesAsync();
+        _context.Clients.AddRange(clients);
+        _context.SaveChanges();
     }
 }

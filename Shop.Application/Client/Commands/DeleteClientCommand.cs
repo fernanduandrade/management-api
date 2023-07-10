@@ -19,13 +19,13 @@ public class DeleteClientCommandHandler : IRequestHandler<DeleteClientCommand, A
     public async Task<ApiResult> Handle(DeleteClientCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Clients.FirstOrDefaultAsync(
-            quiz => quiz.Id == request.Id);
+            client => client.Id == request.Id);
 
-        if (entity is null) return new ApiResult("Error while trying to delete the register.", ResponseTypeEnum.Error);
+        if (entity is null) return new ApiResult(false, ResponseTypeEnum.Error, "Error while trying to delete the register.");
 
         _context.Clients.Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return new ApiResult("Operation completed successfully.", ResponseTypeEnum.Success);
+        return new ApiResult(true, ResponseTypeEnum.Success, "Operation completed successfully.");
     }
 }
