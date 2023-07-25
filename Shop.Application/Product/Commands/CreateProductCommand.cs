@@ -31,7 +31,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             Price = request.Price,	
             Quantity = request.Quantity	
         };
-   
+        
         entity.AddDomainEvent(new ProductCreateEvent(entity));
         _context.Products.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
