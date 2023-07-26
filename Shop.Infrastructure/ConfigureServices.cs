@@ -2,8 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Application.Common.Interfaces;
+using Shop.Application.Product.Interfaces;
 using Shop.Infrastructure.Persistence;
 using Shop.Infrastructure.Persistence.Interceptors;
+using Shop.Infrastructure.Persistence.Repositories;
 using Shop.Infrastructure.Services;
 
 namespace Shop.Infrastructure;
@@ -28,7 +30,7 @@ public static class ConfigureServices
         }
 
         services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
-
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddTransient<IDateTime, DateTimeService>();
         services.AddHealthChecks()
             .AddDbContextCheck<AppDbContext>();
