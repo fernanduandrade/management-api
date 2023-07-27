@@ -9,7 +9,7 @@ public sealed record SaleDTO : IMapFrom<Entities.Sale>
     public long Id { get; init; }
     public DateTime SaleDate { get; set; }
     public string ClientName { get; set; }
-    public string ProductName { get; set; }
+    public long ProductId { get; set; }
     public int Quantity { get; set; }
     public decimal PricePerUnit { get; set; }
     public decimal TotalPrice { get; set; }

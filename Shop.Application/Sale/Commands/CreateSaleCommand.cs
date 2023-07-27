@@ -11,7 +11,7 @@ public sealed record CreateSaleCommand : IRequest<ApiResult<SaleDTO>>
 {
     public DateTime SaleDate { get; init; }
     public string ClientName { get; init; }
-    public string ProductName { get; init; }
+    public long ProductId { get; init; }
     public int Quantity { get; init; }
     public decimal PricePerUnit { get; init; }
     public decimal TotalPrice { get; init; }
@@ -29,7 +29,7 @@ public class CreateSaleCommandHandler : IRequestHandler<CreateSaleCommand, ApiRe
         {	
             SaleDate = request.SaleDate,	
             ClientName = request.ClientName,	
-            ProductName = request.ProductName,	
+            ProductFk = request.ProductId,	
             TotalPrice = request.TotalPrice,	
             Quantity = request.Quantity,
             PricePerUnit = request.PricePerUnit
@@ -44,7 +44,7 @@ public class CreateSaleCommandHandler : IRequestHandler<CreateSaleCommand, ApiRe
             Id = entity.Id,
             SaleDate = entity.SaleDate,	
             ClientName = entity.ClientName,	
-            ProductName = entity.ProductName,	
+            ProductId = entity.ProductFk,	
             TotalPrice = entity.TotalPrice,	
             Quantity = entity.Quantity,
             PricePerUnit = entity.PricePerUnit,

@@ -15,10 +15,10 @@ public sealed record UpdateSaleCommand : IRequest<ApiResult<SaleDTO>>
     public long Id { get; init; }
     public DateTime SaleDate { get; init; }
     public string ClientName { get; init; }
-    public string ProductName { get; init; }
     public int Quantity { get; init; }
     public decimal PricePerUnit { get; init; }
     public decimal TotalPrice { get; init; }
+    public long ProductId { get; init; }
 }
 
 public class UpdateSaleCommandHandler : IRequestHandler<UpdateSaleCommand, ApiResult<SaleDTO>>
@@ -43,7 +43,7 @@ public class UpdateSaleCommandHandler : IRequestHandler<UpdateSaleCommand, ApiRe
             Id = entity.Id,
             SaleDate = entity.SaleDate,	
             ClientName = entity.ClientName,	
-            ProductName = entity.ProductName,	
+            ProductFk = entity.ProductFk,	
             TotalPrice = entity.TotalPrice,	
             Quantity = entity.Quantity,
             PricePerUnit = entity.PricePerUnit,
@@ -58,7 +58,7 @@ public class UpdateSaleCommandHandler : IRequestHandler<UpdateSaleCommand, ApiRe
             Id = entity.Id,
             SaleDate = entity.SaleDate,	
             ClientName = entity.ClientName,	
-            ProductName = entity.ProductName,	
+            ProductId = entity.ProductFk,	
             TotalPrice = entity.TotalPrice,	
             Quantity = entity.Quantity,
             PricePerUnit = entity.PricePerUnit,

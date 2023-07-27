@@ -42,11 +42,11 @@ public class SeedCreator
     {
         List<Sale> sales = new()
         {
-            new Sale { Id = 2, Quantity = 2, SaleDate = DateTime.UtcNow, ClientName = "José", TotalPrice = 20, PricePerUnit = 120, ProductName = "WhiteHorse" },
-            new Sale { Id = 3, Quantity = 1, SaleDate = DateTime.UtcNow, ClientName = "Maria", TotalPrice = 40, PricePerUnit = 40, ProductName = "Peixe" },
-            new Sale { Id = 4, Quantity = 2, SaleDate = DateTime.UtcNow, ClientName = "João", TotalPrice = 4, PricePerUnit = 2, ProductName = "Amendoim" },
-            new Sale { Id = 5, Quantity = 2, SaleDate = DateTime.UtcNow, ClientName = "Rodrigo", TotalPrice = 8, PricePerUnit = 4, ProductName = "Guarána" },
-            new Sale { Id = 6, Quantity = 1, SaleDate = DateTime.UtcNow, ClientName = "Ana", TotalPrice = 120, PricePerUnit = 120, ProductName = "Coca" },
+            new Sale { Id = 2, Quantity = 2, SaleDate = DateTime.UtcNow, ClientName = "José", TotalPrice = 20, PricePerUnit = 120, ProductFk = 2 },
+            new Sale { Id = 3, Quantity = 1, SaleDate = DateTime.UtcNow, ClientName = "Maria", TotalPrice = 40, PricePerUnit = 40, ProductFk = 2 },
+            new Sale { Id = 4, Quantity = 2, SaleDate = DateTime.UtcNow, ClientName = "João", TotalPrice = 4, PricePerUnit = 2, ProductFk = 3 },
+            new Sale { Id = 5, Quantity = 2, SaleDate = DateTime.UtcNow, ClientName = "Rodrigo", TotalPrice = 8, PricePerUnit = 4, ProductFk = 4 },
+            new Sale { Id = 6, Quantity = 1, SaleDate = DateTime.UtcNow, ClientName = "Ana", TotalPrice = 120, PricePerUnit = 120, ProductFk = 6 },
         };
 
         _context.Sales.AddRange(sales);

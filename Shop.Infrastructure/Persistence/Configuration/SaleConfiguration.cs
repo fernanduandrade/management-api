@@ -20,8 +20,8 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(prop => prop.ClientName)
             .HasColumnName("client_name");
 
-        builder.Property(prop => prop.ProductName)
-            .HasColumnName("product_name");
+        builder.Property(prop => prop.ProductFk)
+            .HasColumnName("product_fk");
 
         builder.Property(prop => prop.SaleDate)
             .HasColumnName("sale_date");
@@ -43,5 +43,10 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
 
         builder.Property(prop => prop.LastModifiedBy)
             .HasColumnName("last_modified_by");
+        
+        builder.HasOne(prop => prop.Product)
+            .WithMany()
+            .HasForeignKey(prop => prop.ProductFk)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

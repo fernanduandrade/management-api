@@ -15,6 +15,7 @@ public class SaleControllerTest : ClientFixture
     [Fact, Priority(-1)]
     public async Task Get_Sales_Should_Return_200()
     {
+        SeedWork.AddProducts();
         SeedWork.AddSales();
         var response = await AsGetAsync("/api/v1/sales?pageSize=5");
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -25,8 +26,7 @@ public class SaleControllerTest : ClientFixture
     {
         SaleDTO sale = new()
         {
-            Id = 14, Quantity = 3, SaleDate = DateTime.UtcNow, ClientName = "Amorim", TotalPrice = 30, PricePerUnit = 10,
-            ProductName = "Pão integral"
+            Quantity = 3, SaleDate = DateTime.UtcNow, ClientName = "Amorim", TotalPrice = 30, PricePerUnit = 10, ProductId = 4
         };
 
         var response = await AsPostAsync("/api/v1/sales", sale);
@@ -53,7 +53,7 @@ public class SaleControllerTest : ClientFixture
     {
         SaleDTO newSale = new()
         {
-            Id = 6, Quantity = 1, SaleDate = DateTime.Now, ClientName = "Amorim", TotalPrice = 10, PricePerUnit = 10, ProductName = "Balinha"
+            Id = 6, Quantity = 1, SaleDate = DateTime.Now, ClientName = "Amorim", TotalPrice = 10, PricePerUnit = 10, ProductId = 1
         };
         var response = await AsPutAsync("/api/v1/sales", newSale);
 
