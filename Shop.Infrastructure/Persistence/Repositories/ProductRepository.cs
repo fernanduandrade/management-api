@@ -14,13 +14,22 @@ public class ProductRepository : IProductRepository
     }
     public async Task<bool> IsProductUniqueAsync(string productName)
     {
-        var entity = await _appContext.Products
+        var productExists = await _appContext.Products
             .FirstOrDefaultAsync(product => product.Name.ToUpper() == productName.ToUpper());
     
-        if(entity is not null) {
+        if(productExists is not null) {
           return true;
         }
 
         return false;
+    }
+
+    public async Task<Product> FindByIdAsync(long id)
+    {
+        var product = await _appContext.Products
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (product is not null) return product;
+        return null;
     }
 }
