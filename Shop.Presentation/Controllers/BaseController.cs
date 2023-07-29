@@ -9,7 +9,6 @@ namespace Shop.Presentation.Controllers;
 [ValidationModelState]
 [ApiController]
 [Route("api/v{version:ApiVersion}/[controller]s")]
-[Authorize]
 public abstract class BaseController : ControllerBase
 {
     private ISender _mediator = null;

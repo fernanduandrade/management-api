@@ -27,4 +27,8 @@
       <ProjectReference Include="..\Shop.Application\Shop.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Client\MockClientRepository.cs\" />
+    </ItemGroup>
+
 </Project>
