@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Shop.Application.Product.Interfaces;
 using Shop.Domain.Entities;
@@ -7,6 +8,7 @@ namespace Shop.Infrastructure.Persistence.Repositories;
 public class ProductRepository : IProductRepository
 {
     private readonly AppDbContext _appContext;
+    private readonly IMapper _mapper;
 
     public ProductRepository(AppDbContext appContext)
     {
@@ -27,9 +29,25 @@ public class ProductRepository : IProductRepository
     public async Task<Product> FindByIdAsync(long id)
     {
         var product = await _appContext.Products
+            .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == id);
 
-        if (product is not null) return product;
-        return null;
+        return product;
+    }
+
+    public async Task<List<Product>> GetAllPaginated(int pageSize, int pageNumber)
+    {
+        var result = await _appContext.Products
+            .AsNoTracking()
+            .Take(pageSize)
+            .Skip(pageNumber)
+            .ToListAsync();
+
+        return result;
+    }
+
+    public virtual void SetEntityStateModified(Product entity)
+    {
+        _appContext.Products.Entry(entity).State = EntityState.Modified;
     }
 }

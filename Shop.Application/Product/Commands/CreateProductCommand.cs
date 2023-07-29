@@ -27,10 +27,9 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
     {
         bool productExists = await _productRepository.IsProductUniqueAsync(request.Name);
 
-        if(productExists) {
-            
+        if(productExists)
             return new ApiResult<ProductDTO>(new ProductDTO(), ResponseTypeEnum.Warning, "Product already exists.");
-        }
+
         Entities.Product entity = new()
         {	
             Description = request.Description,	
@@ -56,8 +55,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
     
         if (entity.Id <= 0)
             return new ApiResult<ProductDTO>(dto, ResponseTypeEnum.Error, "Error while trying to create the register.");
-    
-    
+        
         return new ApiResult<ProductDTO>(dto, ResponseTypeEnum.Success, "Operation completed successfully."); 
     }
 }

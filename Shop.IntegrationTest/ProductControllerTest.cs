@@ -48,7 +48,7 @@ public class ProductControllerTest : ClientFixture
     public async Task Update_Product_Should_Return_200()
     {
         var product = new ProductDTO()
-            { Id = 6, Name = "Cubo mágico", Description = "Entretenimento", IsAvaliable = true, Price = 29, Quantity = 7 };
+            { Id = 6, Name = "Magic  Cube", Description = "Magic  Cube", IsAvaliable = true,Price = 29, Quantity = 7 };
         var response = await AsPutAsync("/api/v1/products", product);
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

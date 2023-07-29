@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Shop.Application.Common.Interfaces;
 using Shop.Application.Common.Models;
 using Shop.Application.Product.DTOs;
+using Shop.Application.Product.Interfaces;
 
 namespace Shop.Application.Product.Queries;
 
@@ -13,21 +14,21 @@ public sealed record GetProductByIdQuery : IRequest<ApiResult<ProductDTO>>
     public long Id { get; init; }
 }
 
-public class GetquizByIdQueryHandler : IRequestHandler<GetProductByIdQuery, ApiResult<ProductDTO>>
+public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, ApiResult<ProductDTO>>
 {
-    private readonly IAppDbContext _context;
+    private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
+
+    public GetProductByIdQueryHandler(IProductRepository productRepository, IMapper mapper)
+        => (_productRepository, _mapper) = (productRepository, mapper);
     public async Task<ApiResult<ProductDTO>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
-        var result = await _context.Products
-            .AsNoTracking()
-            .Where(product => product.Id == request.Id)
-            .ProjectTo<ProductDTO>(_mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync();
-        
+        var result = await _productRepository.FindByIdAsync(request.Id);
         if(result is null)
-            return new ApiResult<ProductDTO>(null, ResponseTypeEnum.Warning,"Failed to find the register.");
+            return new ApiResult<ProductDTO>(null, ResponseTypeEnum.Warning,"Failed to find the record.");
         
-        return new ApiResult<ProductDTO>(result, ResponseTypeEnum.Success,"Operation completed successfully.");
+        var dto = _mapper.Map<ProductDTO>(result);
+        
+        return new ApiResult<ProductDTO>(dto, ResponseTypeEnum.Success,"Operation completed successfully.");
     }
 }

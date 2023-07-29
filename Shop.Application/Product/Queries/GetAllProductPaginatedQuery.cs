@@ -1,11 +1,8 @@
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Shop.Application.Common.Interfaces;
-using Shop.Application.Common.Mapping;
 using Shop.Application.Common.Models;
 using Shop.Application.Product.DTOs;
+using Shop.Application.Product.Interfaces;
 
 namespace Shop.Application.Product.Queries;
 
@@ -19,18 +16,16 @@ public class
     GetAllProductPaginatedQueryHandler : IRequestHandler<GetAllProductPaginatedQuery,
         ApiResult<PaginatedList<ProductDTO>>>
 {
-    private readonly IAppDbContext _context;
+    private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
 
-    public GetAllProductPaginatedQueryHandler(IAppDbContext context, IMapper mapper)
-        => (_context, _mapper) = (context, mapper);
+    public GetAllProductPaginatedQueryHandler(IProductRepository productRepository, IMapper mapper)
+        => (_productRepository, _mapper) = (productRepository, mapper);
     public async Task<ApiResult<PaginatedList<ProductDTO>>> Handle(GetAllProductPaginatedQuery request, CancellationToken cancellationTokens)
     {
-        var result = await _context.Products
-            .AsNoTracking()
-            .ProjectTo<ProductDTO>(_mapper.ConfigurationProvider)
-            .PaginatedListAsync(request.PageNumber, request.PageSize);
-
-        return new ApiResult<PaginatedList<ProductDTO>>(result, ResponseTypeEnum.Success ,message: "Operation completed successfully.");
+        var result = await _productRepository.GetAllPaginated(request.PageSize, request.PageNumber);
+        var dtos = _mapper.Map<List<ProductDTO>>(result);
+        var paginate = new PaginatedList<ProductDTO>(dtos, dtos.Count, request.PageNumber, request.PageSize);
+        return new ApiResult<PaginatedList<ProductDTO>>(paginate, ResponseTypeEnum.Success ,message: "Operation completed successfully.");
     }
 }

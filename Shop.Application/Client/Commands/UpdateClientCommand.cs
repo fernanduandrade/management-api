@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Shop.Application.Client.DTOs;
 using Shop.Application.Common.Interfaces;
 using Shop.Application.Common.Models;
+using Shop.Application.Product.Interfaces;
 using Shop.Domain.Events;
 using Entities = Shop.Domain.Entities;
 
