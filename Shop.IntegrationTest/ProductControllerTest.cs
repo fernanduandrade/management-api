@@ -23,7 +23,7 @@ public class ProductControllerTest : ClientFixture
     public async Task Create_Product_Should_Return_201()
     {
         var product = new ProductDTO()
-            { Name = "Cubo mágico", Description = "Brincadeira", IsAvaliable = true, Price = 29, Quantity = 7 };
+            { Name = "Magic Cube", Description = "Toy", IsAvaliable = true, Price = 29, Quantity = 7 };
 
         var response = await AsPostAsync("/api/v1/products", product);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);

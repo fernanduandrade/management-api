@@ -18,6 +18,7 @@ public class CreateProductCommnadHandlerTests
         _appContext = new();
         _productRepository = new();
     }
+    
     [Fact]
     public async Task Handle_Should_Return_Type_Error_When_Id_Is_Zero()
     {
