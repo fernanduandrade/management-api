@@ -1,5 +1,3 @@
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Shop.Application.Common.Models;
 
@@ -12,9 +10,5 @@ public static class MappingExtensions
         int pageNumber,
         int pageSize) where TDestination : class
         => PaginatedList<TDestination>.CreateAsync(queryable.AsNoTracking(), pageNumber, pageSize);
-
-    public static Task<List<TDestination>> ProjectToListAsync<TDestination>(
-        this IQueryable<TDestination> queryable,
-        IConfigurationProvider configuraiton) where TDestination : class
-        => queryable.ProjectTo<TDestination>(configuraiton).AsNoTracking().ToListAsync();
+    
 }

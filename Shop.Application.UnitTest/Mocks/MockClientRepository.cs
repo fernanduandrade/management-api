@@ -1,4 +1,3 @@
-using Moq;
 using Shop.Application.Client.Interfaces;
 
 namespace Shop.Application.UnitTest.Mocks;

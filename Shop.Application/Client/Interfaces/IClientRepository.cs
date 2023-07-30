@@ -1,6 +1,9 @@
+using Entities = Shop.Domain.Entities;
+
 namespace Shop.Application.Client.Interfaces;
 
 public interface IClientRepository
 {
-    Task<Domain.Entities.Client> GetByIdAsync(long id);
+    Task<Entities.Client> FindByIdAsync(long id);
+    void SetEntityStateModified(Entities.Client entity);
 }

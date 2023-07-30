@@ -20,7 +20,7 @@ public class GetClientByIdQueryHandler : IRequestHandler<GetClientByIdQuery ,Api
         => (_clientRepository, _mapper) = (clientRepository, mapper);
     public async Task<ApiResult<ClientDTO>> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
     {
-        var result = await _clientRepository.GetByIdAsync(request.Id);
+        var result = await _clientRepository.FindByIdAsync(request.Id);
 
         if(result is null)
             return new ApiResult<ClientDTO>(null, ResponseTypeEnum.Warning,"Failed to find the record.");

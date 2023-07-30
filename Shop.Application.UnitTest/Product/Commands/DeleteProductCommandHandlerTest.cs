@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using Shop.Application.Common.Interfaces;
 using Shop.Application.Common.Models;
 using Shop.Application.Product.Commands;

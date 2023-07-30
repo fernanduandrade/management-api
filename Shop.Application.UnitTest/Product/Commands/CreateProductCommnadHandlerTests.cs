@@ -1,6 +1,7 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using Shop.Application.Common.Interfaces;
+using Shop.Application.Common.Mapping;
 using Shop.Application.Common.Models;
 using Shop.Application.Product.Commands;
 using Shop.Application.Product.Interfaces;
@@ -12,11 +13,18 @@ public class CreateProductCommnadHandlerTests
 {
     private readonly Mock<IAppDbContext> _appContext;
     private readonly Mock<IProductRepository> _productRepository;
+    private readonly IMapper _mapper;
 
     public CreateProductCommnadHandlerTests()
     {
         _appContext = new();
         _productRepository = new();
+        var mapperConfig = new MapperConfiguration(c =>
+        {
+            c.AddProfile<MappingProfile>();
+        });
+
+        _mapper = mapperConfig.CreateMapper();
     }
     
     [Fact]
@@ -51,7 +59,8 @@ public class CreateProductCommnadHandlerTests
 
         var handler = new CreateProductCommandHandler(
             _appContext.Object,
-            _productRepository.Object
+            _productRepository.Object,
+            _mapper
             );
         
         // Act
@@ -93,7 +102,8 @@ public class CreateProductCommnadHandlerTests
 
         var handler = new CreateProductCommandHandler(
             _appContext.Object,
-            _productRepository.Object
+            _productRepository.Object,
+            _mapper
         );
         
         // Act
@@ -125,7 +135,8 @@ public class CreateProductCommnadHandlerTests
 
         var handler = new CreateProductCommandHandler(
             _appContext.Object,
-            _productRepository.Object
+            _productRepository.Object,
+            _mapper
         );
         
         // Act

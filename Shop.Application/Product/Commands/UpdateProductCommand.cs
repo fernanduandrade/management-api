@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Shop.Application.Common.Models;
 using Shop.Application.Common.Interfaces;
@@ -22,9 +23,10 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
 {
     private readonly IAppDbContext _context;
     private readonly IProductRepository _productRepository;
+    private readonly IMapper _mapper;
 
-    public UpdateProductCommandHandler(IAppDbContext context, IProductRepository productRepository)
-        => (_context, _productRepository) = (context, productRepository);
+    public UpdateProductCommandHandler(IAppDbContext context, IProductRepository productRepository, IMapper mapper)
+        => (_context, _productRepository, _mapper) = (context, productRepository, mapper);
 
     public async Task<ApiResult<ProductDTO>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
@@ -35,6 +37,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
                     "Failed to update the record, product not found.");
 
             bool isProductAvaliable = request.Quantity > 0;
+            
             Entities.Product updateEntity = new()
             {
                 Description = request.Description,
@@ -49,15 +52,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
             _productRepository.SetEntityStateModified(updateEntity);
             await _context.SaveChangesAsync(cancellationToken);
 
-            ProductDTO dto = new()
-            {
-                Description = updateEntity.Description,
-                Id = updateEntity.Id,
-                IsAvaliable = updateEntity.IsAvaliable,
-                Name = updateEntity.Name,
-                Price = updateEntity.Price,
-                Quantity = updateEntity.Quantity,
-            };
+            ProductDTO dto = _mapper.Map<ProductDTO>(updateEntity);
 
             return new ApiResult<ProductDTO>(dto, ResponseTypeEnum.Success, "Operation completed successfully.");
         

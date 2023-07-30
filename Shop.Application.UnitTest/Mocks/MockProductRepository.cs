@@ -1,4 +1,3 @@
-using Moq;
 using Shop.Application.Product.Interfaces;
 using Entities = Shop.Domain.Entities;
 namespace Shop.Application.UnitTest.Mocks;

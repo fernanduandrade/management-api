@@ -53,4 +53,14 @@ public class ProductControllerTest : ClientFixture
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
+    
+    [Fact]
+    public async Task Create_Non_Valid_Product_Should_Return_400()
+    {
+        var product = new ProductDTO()
+            { Name = "", Description = "Toy", IsAvaliable = true, Price = 29, Quantity = 7 };
+
+        var response = await AsPostAsync("/api/v1/products", product);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
 }

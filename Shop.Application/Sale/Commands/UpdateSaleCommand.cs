@@ -5,6 +5,7 @@ using Shop.Application.Common.Interfaces;
 using Shop.Application.Common.Mapping;
 using Shop.Application.Common.Models;
 using Shop.Application.Sale.DTOs;
+using Shop.Application.Sale.Interfaces;
 using Shop.Domain.Events;
 using Entities = Shop.Domain.Entities;
 
@@ -24,16 +25,14 @@ public sealed record UpdateSaleCommand : IRequest<ApiResult<SaleDTO>>
 public class UpdateSaleCommandHandler : IRequestHandler<UpdateSaleCommand, ApiResult<SaleDTO>>
 {
     private readonly IAppDbContext _context;
-
-    public UpdateSaleCommandHandler(IAppDbContext context)
-        => (_context) = (context);
+    private readonly ISaleRepository _saleRepository;
+    private readonly IMapper _mapper;
+    public UpdateSaleCommandHandler(IAppDbContext context, ISaleRepository saleRepository, IMapper mapper)
+        => (_context, _saleRepository, _mapper) = (context, saleRepository, mapper);
     
     public async Task<ApiResult<SaleDTO>> Handle(UpdateSaleCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context
-            .Sales
-            .AsNoTracking()
-            .FirstOrDefaultAsync(sale => sale.Id == request.Id);
+        var entity = await _saleRepository.FindByIdAsync(request.Id);
 
         if(entity is null)
             return new ApiResult<SaleDTO>(new SaleDTO(), ResponseTypeEnum.Warning, "Failed to update the register.");
@@ -50,20 +49,10 @@ public class UpdateSaleCommandHandler : IRequestHandler<UpdateSaleCommand, ApiRe
         };
         
         updateEntity.AddDomainEvent(new SaleCreateEvent(updateEntity));
-        _context.Sales.Entry(updateEntity).State = EntityState.Modified;
+        _saleRepository.SetEntityStateModified(updateEntity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        SaleDTO dto = new()
-        {
-            Id = entity.Id,
-            SaleDate = entity.SaleDate,	
-            ClientName = entity.ClientName,	
-            ProductId = entity.ProductFk,	
-            TotalPrice = entity.TotalPrice,	
-            Quantity = entity.Quantity,
-            PricePerUnit = entity.PricePerUnit,
-        };
-        
+        SaleDTO dto = _mapper.Map<SaleDTO>(updateEntity);
         return new ApiResult<SaleDTO>(dto, ResponseTypeEnum.Success, "Operation completed successfully.");
     }
 } 

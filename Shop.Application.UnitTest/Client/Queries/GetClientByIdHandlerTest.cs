@@ -1,6 +1,4 @@
 using AutoMapper;
-using Moq;
-using Shop.Application.Client.DTOs;
 using Shop.Application.Client.Interfaces;
 using Shop.Application.Client.Queries;
 using Shop.Application.Common.Mapping;
@@ -32,7 +30,7 @@ public class GetClientByIdHandlerTest
         var query = new GetClientByIdQuery() { Id = 19 };
         Entities.Client clientDtoExpected = null;
         _clientRepository
-            .Setup(x => x.GetByIdAsync(query.Id))
+            .Setup(x => x.FindByIdAsync(query.Id))
             .ReturnsAsync(clientDtoExpected);
 
         var handler = new GetClientByIdQueryHandler(
@@ -52,7 +50,7 @@ public class GetClientByIdHandlerTest
         Entities.Client clientDtoExpected = new() { Id = 5, Name = "Clara", LastName = "Siqueira", Credit = 120, Debt = 0, Phone = "00000000000", IsActive = true };
         string messageExpected = "Operation completed successfully.";
         _clientRepository
-            .Setup(x => x.GetByIdAsync(query.Id))
+            .Setup(x => x.FindByIdAsync(query.Id))
             .ReturnsAsync(clientDtoExpected);
 
         var handler = new GetClientByIdQueryHandler(

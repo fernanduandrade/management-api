@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Shop.Application.Common.Interfaces;
 using Shop.Application.Common.Models;
@@ -21,8 +22,9 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 {
     private readonly IAppDbContext _context;
     private readonly IProductRepository _productRepository;
-    public CreateProductCommandHandler(IAppDbContext context, IProductRepository productRepository)
-        => (_context, _productRepository) = (context, productRepository);
+    private readonly IMapper _mapper;
+    public CreateProductCommandHandler(IAppDbContext context, IProductRepository productRepository, IMapper mapper)
+        => (_context, _productRepository, _mapper) = (context, productRepository, mapper);
     public async Task<ApiResult<ProductDTO>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         bool productExists = await _productRepository.IsProductUniqueAsync(request.Name);
@@ -42,19 +44,11 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         entity.AddDomainEvent(new ProductCreateEvent(entity));
         _context.Products.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
-    
-        ProductDTO dto = new()
-        {
-            Id = entity.Id,
-            Description = entity.Description,	
-            Name = entity.Name,	
-            IsAvaliable = entity.IsAvaliable,	
-            Price = entity.Price,	
-            Quantity = entity.Quantity
-        };
-    
+
         if (entity.Id <= 0)
-            return new ApiResult<ProductDTO>(dto, ResponseTypeEnum.Error, "Error while trying to create the register.");
+            return new ApiResult<ProductDTO>(null, ResponseTypeEnum.Error, "Error while trying to create the register.");
+        
+        ProductDTO dto = _mapper.Map<ProductDTO>(entity);
         
         return new ApiResult<ProductDTO>(dto, ResponseTypeEnum.Success, "Operation completed successfully."); 
     }

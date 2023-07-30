@@ -10,12 +10,18 @@ public class ClientRepository : IClientRepository
 
     public ClientRepository(AppDbContext context)
         => (_context) = (context);
-    public async Task<Client> GetByIdAsync(long id)
+
+    public async Task<Client> FindByIdAsync(long id)
     {
         var entity = await _context.Clients
             .AsNoTracking()
-            .FirstOrDefaultAsync(client => client.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id);
 
         return entity;
+    }
+    
+    public virtual void SetEntityStateModified(Client entity)
+    {
+        _context.Clients.Entry(entity).State = EntityState.Modified;
     }
 }

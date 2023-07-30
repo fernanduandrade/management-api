@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Shop.Application.Client.Interfaces;
 using Shop.Application.Common.Interfaces;
 using Shop.Application.Product.Interfaces;
+using Shop.Application.Sale.Interfaces;
 using Shop.Infrastructure.Persistence;
 using Shop.Infrastructure.Persistence.Interceptors;
 using Shop.Infrastructure.Persistence.Repositories;
@@ -33,6 +34,7 @@ public static class ConfigureServices
         services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
+        services.AddScoped<ISaleRepository, SaleRepository>();
         services.AddTransient<IDateTime, DateTimeService>();
         services.AddHealthChecks()
             .AddDbContextCheck<AppDbContext>();

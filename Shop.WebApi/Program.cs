@@ -8,6 +8,7 @@ using Serilog;
 using Shop.Application;
 using Shop.Infrastructure;
 using Shop.Presentation;
+using Shop.Presentation.Middlewares;
 using Shop.Presentation.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -80,6 +81,7 @@ app.UseCors(builder => builder
     .AllowAnyMethod()
     .AllowAnyHeader());
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseSerilogRequestLogging();
 app.UseAuthentication();
 app.UseAuthorization();

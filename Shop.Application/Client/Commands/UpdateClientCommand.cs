@@ -1,9 +1,9 @@
+using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Shop.Application.Client.DTOs;
+using Shop.Application.Client.Interfaces;
 using Shop.Application.Common.Interfaces;
 using Shop.Application.Common.Models;
-using Shop.Application.Product.Interfaces;
 using Shop.Domain.Events;
 using Entities = Shop.Domain.Entities;
 
@@ -23,16 +23,15 @@ public sealed record UpdateClientCommand : IRequest<ApiResult<ClientDTO>>
 public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, ApiResult<ClientDTO>>
 {
     private readonly IAppDbContext _context;
+    private readonly IClientRepository _repository;
+    private readonly IMapper _mapper;
 
-    public UpdateClientCommandHandler(IAppDbContext context)
-        => (_context) = (context);
+    public UpdateClientCommandHandler(IAppDbContext context, IClientRepository repository, IMapper mapper)
+        => (_context, _repository, _mapper) = (context, repository, mapper);
     
     public async Task<ApiResult<ClientDTO>> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context
-            .Clients
-            .AsNoTracking()
-            .FirstOrDefaultAsync(client => client.Id == request.Id);
+        var entity = await _repository.FindByIdAsync(request.Id);
 
         if(entity is null)
             return new ApiResult<ClientDTO>(new ClientDTO(), ResponseTypeEnum.Warning, "Failed to update the register.");
@@ -49,19 +48,10 @@ public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, A
         };
 
         updateEntity.AddDomainEvent(new ClientCreateEvent(updateEntity));
-        _context.Clients.Entry(updateEntity).State = EntityState.Modified;
+        _repository.SetEntityStateModified(updateEntity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        ClientDTO dto = new()
-        {
-            Id = updateEntity.Id,
-            Credit = updateEntity.Credit,	
-            Name = updateEntity.Name,	
-            IsActive = updateEntity.IsActive,	
-            LastName = updateEntity.LastName,	
-            Phone = updateEntity.Phone,	
-            Debt = updateEntity.Debt,
-        };
+        var dto = _mapper.Map<ClientDTO>(updateEntity);
         
         return new ApiResult<ClientDTO>(dto, ResponseTypeEnum.Success ,"Operation completed successfully.");
     }

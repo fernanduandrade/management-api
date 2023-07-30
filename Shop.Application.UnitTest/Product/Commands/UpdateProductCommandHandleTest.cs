@@ -1,6 +1,7 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using Shop.Application.Common.Interfaces;
+using Shop.Application.Common.Mapping;
 using Shop.Application.Common.Models;
 using Shop.Application.Product.Commands;
 using Shop.Application.Product.Interfaces;
@@ -12,10 +13,18 @@ public class UpdateProductCommandHandleTest
 {
     private readonly Mock<IAppDbContext> _appDbContext;
     private readonly Mock<IProductRepository> _productRepository;
+    private readonly IMapper _mapper;
     public UpdateProductCommandHandleTest()
     {
         _appDbContext = new();
         _productRepository = new();
+        
+        var mapperConfig = new MapperConfiguration(c =>
+        {
+            c.AddProfile<MappingProfile>();
+        });
+
+        _mapper = mapperConfig.CreateMapper();
     }
 
     [Fact]
@@ -43,7 +52,8 @@ public class UpdateProductCommandHandleTest
             .Setup(x => x.Products).Returns(mockProductsSet.Object);
         var handler = new UpdateProductCommandHandler(
             _appDbContext.Object,
-            _productRepository.Object
+            _productRepository.Object,
+            _mapper
         );
         
         // Act
@@ -87,7 +97,8 @@ public class UpdateProductCommandHandleTest
             .Setup(x => x.Products).Returns(mockProductsSet.Object);
         var handler = new UpdateProductCommandHandler(
             _appDbContext.Object,
-            _productRepository.Object
+            _productRepository.Object,
+            _mapper
         );
         
         // Act
@@ -131,7 +142,8 @@ public class UpdateProductCommandHandleTest
             .Setup(x => x.Products).Returns(mockProductsSet.Object);
         var handler = new UpdateProductCommandHandler(
             _appDbContext.Object,
-            _productRepository.Object
+            _productRepository.Object,
+            _mapper
         );
         
         // Act
@@ -176,7 +188,8 @@ public class UpdateProductCommandHandleTest
             .Setup(x => x.Products).Returns(mockProductsSet.Object);
         var handler = new UpdateProductCommandHandler(
             _appDbContext.Object,
-            _productRepository.Object
+            _productRepository.Object,
+            _mapper
         );
         
         // Act
@@ -221,7 +234,8 @@ public class UpdateProductCommandHandleTest
             .Setup(x => x.Products).Returns(mockProductsSet.Object);
         var handler = new UpdateProductCommandHandler(
             _appDbContext.Object,
-            _productRepository.Object
+            _productRepository.Object,
+            _mapper
         );
         
         // Act
