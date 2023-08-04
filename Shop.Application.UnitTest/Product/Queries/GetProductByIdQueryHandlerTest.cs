@@ -63,7 +63,7 @@ public class GetProductByIdQueryHandlerTest
     public async Task Get_Product_By_Id_Exits_ShouldReturn_Data()
     {
 
-        Entities.Product entity = new() { Id = 19, Name = "Tomato", Description = "Tomato", Price = 10, Quantity = 43, IsAvaliable = true };
+        Entities.Product entity = new() { Id = 19, Name = "Tomato", Description = "Tomato", Price = 10, Quantity = 43 };
 
         var query = new GetProductByIdQuery() { Id = 19 };
         

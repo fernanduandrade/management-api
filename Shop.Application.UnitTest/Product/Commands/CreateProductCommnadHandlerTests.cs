@@ -48,7 +48,6 @@ public class CreateProductCommnadHandlerTests
         {
             product.Id = 0;
             product.Description = command.Description;
-            product.IsAvaliable = command.IsAvaliable;
             product.Quantity = command.Quantity;
             product.Name = command.Name;
             product.Price = command.Price;
@@ -91,7 +90,6 @@ public class CreateProductCommnadHandlerTests
         {
             product.Id = 21;
             product.Description = command.Description;
-            product.IsAvaliable = command.IsAvaliable;
             product.Quantity = command.Quantity;
             product.Name = command.Name;
             product.Price = command.Price;

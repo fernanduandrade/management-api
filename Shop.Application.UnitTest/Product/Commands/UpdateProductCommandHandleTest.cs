@@ -70,7 +70,6 @@ public class UpdateProductCommandHandleTest
         {
             Id = 3,
             Description = "Milk",
-            IsAvaliable = true,
             Quantity = 10,
             Price = 20,
             Name = "Milk"
@@ -114,7 +113,6 @@ public class UpdateProductCommandHandleTest
         Entities.Product product = new()
         {
             Id = 3,
-            IsAvaliable = true,
             Description = "Milk",
             Quantity = 10,
             Price = 20,
@@ -160,7 +158,6 @@ public class UpdateProductCommandHandleTest
         Entities.Product product = new()
         {
             Id = 3,
-            IsAvaliable = true,
             Description = "Milk",
             Quantity = 10,
             Price = 20,
@@ -206,7 +203,6 @@ public class UpdateProductCommandHandleTest
         Entities.Product product = new()
         {
             Id = 3,
-            IsAvaliable = true,
             Description = "Milk",
             Quantity = 10,
             Price = 20,

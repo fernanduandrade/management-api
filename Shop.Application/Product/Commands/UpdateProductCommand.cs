@@ -36,13 +36,11 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
                 return new ApiResult<ProductDTO>(new ProductDTO(), ResponseTypeEnum.Warning,
                     "Failed to update the record, product not found.");
 
-            bool isProductAvaliable = request.Quantity > 0;
             
             Entities.Product updateEntity = new()
             {
                 Description = request.Description,
                 Id = request.Id,
-                IsAvaliable = isProductAvaliable,
                 Name = request.Name,
                 Price = request.Price,
                 Quantity = request.Quantity,

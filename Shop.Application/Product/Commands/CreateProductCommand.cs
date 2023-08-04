@@ -35,8 +35,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         Entities.Product entity = new()
         {	
             Description = request.Description,	
-            Name = request.Name,	
-            IsAvaliable = request.IsAvaliable,	
+            Name = request.Name,
             Price = request.Price,	
             Quantity = request.Quantity	
         };

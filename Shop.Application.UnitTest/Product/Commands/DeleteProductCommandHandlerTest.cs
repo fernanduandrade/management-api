@@ -36,7 +36,6 @@ public class DeleteProductCommandHandlerTest
         {
             product.Id = 3;
             product.Description = "Cheese";
-            product.IsAvaliable = true;
             product.Quantity = 3;
             product.Name = "Cheese";
             product.Price = 30;
@@ -64,7 +63,6 @@ public class DeleteProductCommandHandlerTest
         {
             Id = 3,
             Description = "Cheese",
-            IsAvaliable = true,
             Quantity = 3,
             Name = "Cheese",
             Price = 30,
@@ -82,7 +80,6 @@ public class DeleteProductCommandHandlerTest
         {
             product.Id = 3;
             product.Description = "Cheese";
-            product.IsAvaliable = true;
             product.Quantity = 3;
             product.Name = "Cheese";
             product.Price = 30;

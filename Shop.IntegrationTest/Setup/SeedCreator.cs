@@ -27,11 +27,11 @@ public class SeedCreator
     {
         List<Product> products = new()
         {
-            new Product { Id = 2, Name = "Bleach", Description = "Cleaner", Price = 80, Quantity = 3, IsAvaliable = true },
-            new Product { Id = 3, Name = "Coconout", Description = "Fruit", Price = 10, Quantity = 43, IsAvaliable = true },
-            new Product { Id = 4, Name = "Bean", Description = "Good for lunch", Price = 23, Quantity = 0, IsAvaliable = false },
-            new Product { Id = 5, Name = "Wine", Description = "30 years old", Price = 122, Quantity = 11, IsAvaliable = true },
-            new Product { Id = 6, Name = "Brush Teeth", Description = "Cleaner", Price = 4, Quantity = 0, IsAvaliable = false },
+            new Product { Id = 2, Name = "Bleach", Description = "Cleaner", Price = 80, Quantity = 3 },
+            new Product { Id = 3, Name = "Coconout", Description = "Fruit", Price = 10, Quantity = 43 },
+            new Product { Id = 4, Name = "Bean", Description = "Good for lunch", Price = 23, Quantity = 0 },
+            new Product { Id = 5, Name = "Wine", Description = "30 years old", Price = 122, Quantity = 11 },
+            new Product { Id = 6, Name = "Brush Teeth", Description = "Cleaner", Price = 4, Quantity = 0 },
         };
 
         _context.Products.AddRange(products);
