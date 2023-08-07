@@ -1,4 +1,3 @@
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +8,7 @@ using Shop.Application.Sale.Interfaces;
 using Shop.Infrastructure.Persistence;
 using Shop.Infrastructure.Persistence.Interceptors;
 using Shop.Infrastructure.Persistence.Repositories;
+using Shop.Infrastructure.PipeLine;
 using Shop.Infrastructure.Services;
 
 namespace Shop.Infrastructure;
@@ -37,6 +37,15 @@ public static class ConfigureServices
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<ISaleRepository, SaleRepository>();
         services.AddTransient<IDateTime, DateTimeService>();
+
+        services.AddMediator(o =>
+        {
+            o.AddPipeline<TransactionPipeline>();
+            o.AddPipelineForEFCoreTransaction<AppDbContext>(option =>
+            {
+                option.BeginTransactionOnCommand = true;
+            });
+        });
         services.AddHealthChecks()
             .AddDbContextCheck<AppDbContext>();
         return services;

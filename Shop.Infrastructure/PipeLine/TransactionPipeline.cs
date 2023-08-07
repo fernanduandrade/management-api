@@ -1,8 +1,9 @@
 using Shop.Infrastructure.Persistence;
+using SimpleSoft.Mediator;
 
 namespace Shop.Infrastructure.PipeLine;
 
-public class TransactionPipeline
+public class TransactionPipeline : Pipeline
 {
     private readonly AppDbContext _context;
 
