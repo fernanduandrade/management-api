@@ -17,4 +17,7 @@
   <ItemGroup>
     <None Remove="Events\Product\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DomainErrors/" />
+  </ItemGroup>
 </Project>

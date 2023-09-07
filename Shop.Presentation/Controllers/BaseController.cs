@@ -15,4 +15,4 @@ public abstract class BaseController : ControllerBase
 
     protected ISender Mediator =>
         _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
-}
+}   

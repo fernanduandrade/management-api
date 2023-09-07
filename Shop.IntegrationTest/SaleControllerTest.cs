@@ -59,4 +59,16 @@ public class SaleControllerTest : ClientFixture
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
+
+    [Fact]
+    public async Task Create_Sale_ProductDoesntExits_Should_Return_BadRequest()
+    {
+        SaleDTO newSale = new()
+        {
+            Quantity = 1, SaleDate = DateTime.Now, ClientName = "Joaozin123", TotalPrice = 10, PricePerUnit = 10, ProductId = 998
+        };
+        var response = await AsPostAsync("/api/v1/sales", newSale);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
 }
