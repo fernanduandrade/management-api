@@ -12,6 +12,7 @@ public class SaleController : BaseController
     [HttpPost]
     public async Task<ActionResult> Create(CreateSaleCommand command)
     {
+        command.SaleDate = DateTime.UtcNow;
         var result = await Mediator.Send(command);
 
         return Created("", result);

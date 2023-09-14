@@ -19,21 +19,29 @@ public class CreateSaleEventHandler : INotificationHandler<SaleCreateEvent>
         var product = await _productRepository.FindByIdAsync(productId);
 
         if(product is null) {
-            throw new InvalidProductException("deu ruim"); 
+            throw new InvalidProductException("Produto não encontrado"); 
         }
         product.Quantity = product.Quantity - sale.Quantity;
 
-        var newProduct = new Entities.Product()
+        try 
         {
-            Id = product.Id,
-            Description = product.Description,
-            Name = product.Name,
-            Price = product.Price,
-            Quantity = product.Quantity,
-            
-        };
+            var newProduct = new Entities.Product()
+            {
+                Id = product.Id,
+                Description = product.Description,
+                Name = product.Name,
+                Price = product.Price,
+                Quantity = product.Quantity,
+                
+            };
 
-        _context.Products.Update(newProduct);
-        await _context.SaveChangesAsync(cancellationToken);
+            _context.Products.Update(newProduct);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine("asdasdsad");
+        }
+        
     }
 }
