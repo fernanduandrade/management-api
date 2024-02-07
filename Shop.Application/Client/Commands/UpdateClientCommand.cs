@@ -11,7 +11,7 @@ namespace Shop.Application.Client.Commands;
 
 public sealed record UpdateClientCommand : IRequest<ApiResult<ClientDTO>>
 {
-    public long Id { get; init; }
+    public Guid Id { get; init; }
     public string Name { get; init; }
     public string LastName { get; init; }
     public bool IsActive { get; init; }
@@ -47,7 +47,7 @@ public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, A
             Debt = request.Debt,
         };
 
-        updateEntity.AddDomainEvent(new ClientCreateEvent(updateEntity));
+        updateEntity.Raise(new ClientCreateEvent(updateEntity));
         _repository.SetEntityStateModified(updateEntity);
         await _context.SaveChangesAsync(cancellationToken);
 

@@ -26,7 +26,7 @@ public class ProductController : BaseController
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(int id)
+    public async Task<ActionResult> Delete(Guid id)
     {
         var command = new DeleteProductCommand() { Id = id };
         var result = await Mediator.Send(command);
@@ -45,7 +45,7 @@ public class ProductController : BaseController
     
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResult<ProductDTO>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResult<ProductDTO>>> GetProductById(long id)
+    public async Task<ActionResult<ApiResult<ProductDTO>>> GetProductById(Guid id)
     {
         GetProductByIdQuery query = new() { Id = id};
         var result = await Mediator.Send(query);

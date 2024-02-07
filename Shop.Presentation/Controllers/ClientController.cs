@@ -26,7 +26,7 @@ public class ClientController : BaseController
     }
     
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(int id)
+    public async Task<ActionResult> Delete(Guid id)
     {
         DeleteClientCommand command = new() { Id = id};
         var result = await Mediator.Send(command);
@@ -44,7 +44,7 @@ public class ClientController : BaseController
     
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResult<ClientDTO>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResult<ClientDTO>>> GetClientById(long id)
+    public async Task<ActionResult<ApiResult<ClientDTO>>> GetClientById(Guid id)
     {
         GetClientByIdQuery query = new() { Id = id};
         var result = await Mediator.Send(query);

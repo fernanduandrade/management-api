@@ -15,7 +15,7 @@ public class CreateSaleEventHandler : INotificationHandler<SaleCreateEvent>
     public async Task Handle(SaleCreateEvent notification, CancellationToken cancellationToken)
     {
         var sale = notification.Item;
-        long productId = sale.ProductFk;
+        Guid productId = sale.ProductId;
         var product = await _productRepository.FindByIdAsync(productId);
 
         if(product is null) {

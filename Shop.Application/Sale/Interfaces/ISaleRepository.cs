@@ -4,6 +4,6 @@ namespace Shop.Application.Sale.Interfaces;
 
 public interface ISaleRepository
 {
-    Task<Entities.Sale> FindByIdAsync(long id);
-    void SetEntityStateModified(Entities.Sale entity);
+    Task<Entities.SalesHistory> FindByIdAsync(Guid id);
+    void SetEntityStateModified(Entities.SalesHistory entity);
 }

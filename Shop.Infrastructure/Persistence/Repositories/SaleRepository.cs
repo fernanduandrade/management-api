@@ -11,7 +11,7 @@ public class SaleRepository : ISaleRepository
     public SaleRepository(AppDbContext context)
         => (_context) = (context);
 
-    public async Task<Sale> FindByIdAsync(long id)
+    public async Task<SalesHistory> FindByIdAsync(Guid id)
     {
         var entity = await _context.Sales
             .AsNoTracking()
@@ -20,7 +20,7 @@ public class SaleRepository : ISaleRepository
         return entity;
     }
     
-    public virtual void SetEntityStateModified(Sale entity)
+    public virtual void SetEntityStateModified(SalesHistory entity)
     {
         _context.Sales.Entry(entity).State = EntityState.Modified;
     }

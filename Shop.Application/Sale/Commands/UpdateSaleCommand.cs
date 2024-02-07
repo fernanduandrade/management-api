@@ -13,9 +13,9 @@ namespace Shop.Application.Sale.Commands;
 
 public sealed record UpdateSaleCommand : IRequest<ApiResult<SaleDTO>>
 {
-    public long Id { get; init; }
+    public Guid Id { get; init; }
     public DateTime SaleDate { get; init; }
-    public string ClientName { get; init; }
+    public Guid ClientId { get; init; }
     public int Quantity { get; init; }
     public decimal PricePerUnit { get; init; }
     public decimal TotalPrice { get; init; }
@@ -37,18 +37,18 @@ public class UpdateSaleCommandHandler : IRequestHandler<UpdateSaleCommand, ApiRe
         if(entity is null)
             return new ApiResult<SaleDTO>(new SaleDTO(), ResponseTypeEnum.Warning, "Failed to update the register.");
 
-        Entities.Sale updateEntity = new()
+        Entities.SalesHistory updateEntity = new()
         {
             Id = entity.Id,
-            SaleDate = entity.SaleDate,	
-            ClientName = entity.ClientName,	
-            ProductFk = entity.ProductFk,	
+            Date = entity.Date,	
+            ClientId = entity.ClientId,	
+            ProductId = entity.ProductId,	
             TotalPrice = entity.TotalPrice,	
             Quantity = entity.Quantity,
             PricePerUnit = entity.PricePerUnit,
         };
         
-        updateEntity.AddDomainEvent(new SaleCreateEvent(updateEntity));
+        updateEntity.Raise(new SaleCreateEvent(updateEntity));
         _saleRepository.SetEntityStateModified(updateEntity);
         await _context.SaveChangesAsync(cancellationToken);
 

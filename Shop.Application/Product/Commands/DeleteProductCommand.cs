@@ -8,7 +8,7 @@ namespace Shop.Application.Product.Commands;
 
 public sealed record DeleteProductCommand : IRequest<ApiResult>
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
 }
 
 public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, ApiResult>

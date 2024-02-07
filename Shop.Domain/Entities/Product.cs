@@ -1,6 +1,8 @@
+using SharedKernel;
+
 namespace Shop.Domain.Entities;
 
-public class Product : BaseAuditiableEntity
+public class Product : AuditableEntity
 {
     public string Description {get; set;}
     public string Name {get; set;}

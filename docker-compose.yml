@@ -7,23 +7,11 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - database-data:/var/lib/postgresql/data/
+      - database-data-shop:/var/lib/postgresql/data/
     environment:
       - POSTGRES_DB=shop
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=andrade
       - POSTGRES_PASSWORD=123654
-  
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    ports:
-      - "5050:80"
-    volumes:
-      - pgadmin:/root/.pgadmin
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=onanduandrade@gmail.com
-      - PGADMIN_DEFAULT_PASSWORD=123654
 
 volumes:
-  database-data:
-  pgadmin:
+  database-data-shop:

@@ -4,7 +4,7 @@ using Entities = Shop.Domain.Entities;
 
 namespace Shop.Application.Sale.DTOs;
 
-public sealed record SaleDTO : IMapFrom<Entities.Sale>
+public sealed record SaleDTO : IMapFrom<Entities.SalesHistory>
 {
     public long Id { get; init; }
     public DateTime SaleDate { get; set; }
@@ -16,6 +16,6 @@ public sealed record SaleDTO : IMapFrom<Entities.Sale>
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Entities.Sale, SaleDTO>();
+        profile.CreateMap<Entities.SalesHistory, SaleDTO>();
     }
 }

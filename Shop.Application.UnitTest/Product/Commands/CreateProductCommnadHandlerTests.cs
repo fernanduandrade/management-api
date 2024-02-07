@@ -46,7 +46,7 @@ public class CreateProductCommnadHandlerTests
         var mockProductsSet = new Mock<DbSet<Entities.Product>>();
         mockProductsSet.Setup(m => m.Add(It.IsAny<Entities.Product>())).Callback<Entities.Product>((product) =>
         {
-            product.Id = 0;
+            product.Id = new Guid();
             product.Description = command.Description;
             product.Quantity = command.Quantity;
             product.Name = command.Name;
@@ -88,7 +88,7 @@ public class CreateProductCommnadHandlerTests
         var mockProductsSet = new Mock<DbSet<Entities.Product>>();
         mockProductsSet.Setup(m => m.Add(It.IsAny<Entities.Product>())).Callback<Entities.Product>((product) =>
         {
-            product.Id = 21;
+            product.Id = new Guid();
             product.Description = command.Description;
             product.Quantity = command.Quantity;
             product.Name = command.Name;

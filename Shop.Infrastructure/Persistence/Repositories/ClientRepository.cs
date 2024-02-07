@@ -11,7 +11,7 @@ public class ClientRepository : IClientRepository
     public ClientRepository(AppDbContext context)
         => (_context) = (context);
 
-    public async Task<Client> FindByIdAsync(long id)
+    public async Task<Client> FindByIdAsync(Guid id)
     {
         var entity = await _context.Clients
             .AsNoTracking()

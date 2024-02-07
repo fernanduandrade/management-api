@@ -11,7 +11,7 @@ namespace Shop.Application.Sale.Queries;
 
 public sealed record GetSaleByIdQuery : IRequest<ApiResult<SaleDTO>>
 {
-    public long Id { get; init; }
+    public Guid Id { get; init; }
 }
 
 public class GetSaleByQueryHandler : IRequestHandler<GetSaleByIdQuery, ApiResult<SaleDTO>>

@@ -4,11 +4,11 @@ using Shop.Domain.Entities;
 
 namespace Shop.Infrastructure.Persistence.Configuration;
 
-public class SaleConfiguration : IEntityTypeConfiguration<Sale>
+public class SaleConfiguration : IEntityTypeConfiguration<SalesHistory>
 {
-    public void Configure(EntityTypeBuilder<Sale> builder)
+    public void Configure(EntityTypeBuilder<SalesHistory> builder)
     {
-        builder.ToTable("sales");
+        builder.ToTable("sales_history");
         builder.HasKey(prop => prop.Id);
         
         builder.Property(prop => prop.Id)
@@ -17,14 +17,14 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(prop => prop.Quantity)
             .HasColumnName("quantity");
         
-        builder.Property(prop => prop.ClientName)
-            .HasColumnName("client_name");
+        builder.Property(prop => prop.ClientId)
+            .HasColumnName("client_fk");
 
-        builder.Property(prop => prop.ProductFk)
+        builder.Property(prop => prop.ProductId)
             .HasColumnName("product_fk");
 
-        builder.Property(prop => prop.SaleDate)
-            .HasColumnName("sale_date");
+        builder.Property(prop => prop.Date)
+            .HasColumnName("date");
 
         builder.Property(prop => prop.PricePerUnit)
             .HasColumnName("price_per_unit");
@@ -46,7 +46,12 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         
         builder.HasOne(prop => prop.Product)
             .WithMany()
-            .HasForeignKey(prop => prop.ProductFk)
+            .HasForeignKey(prop => prop.ProductId)
+            .OnDelete(DeleteBehavior.NoAction);
+        
+        builder.HasOne(prop => prop.Client)
+            .WithMany()
+            .HasForeignKey(prop => prop.ClientId)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }

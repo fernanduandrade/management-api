@@ -33,7 +33,7 @@ public class ProductRepository : IProductRepository
         return result;
     }
 
-    public async Task<Product> FindByIdAsync(long id)
+    public async Task<Product> FindByIdAsync(Guid id)
     {
         var entity = await _context.Products
             .AsNoTracking()

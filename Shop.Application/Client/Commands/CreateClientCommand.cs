@@ -37,12 +37,12 @@ public class CreateClientCommandHandler : IRequestHandler<CreateClientCommand, A
             Debt = request.Debt,
         };
         
-        entity.AddDomainEvent(new ClientCreateEvent(entity));
+        entity.Raise(new ClientCreateEvent(entity));
         _context.Clients.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        if (entity.Id <= 0)
-            return new ApiResult<ClientDTO>(null, ResponseTypeEnum.Error, "Error while trying to create the register.");
+        // if (entity.Id <= 0)
+        //     return new ApiResult<ClientDTO>(null, ResponseTypeEnum.Error, "Error while trying to create the register.");
         
         ClientDTO dto = _mapper.Map<ClientDTO>(entity);
         return new ApiResult<ClientDTO>(dto, ResponseTypeEnum.Success, "Operation completed successfully.");

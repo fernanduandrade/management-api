@@ -11,7 +11,7 @@ namespace Shop.Application.Product.Queries;
 
 public sealed record GetProductByIdQuery : IRequest<ApiResult<ProductDTO>>
 {
-    public long Id { get; init; }
+    public Guid Id { get; init; }
 }
 
 public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, ApiResult<ProductDTO>>

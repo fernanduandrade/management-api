@@ -9,7 +9,7 @@ public class CreateSaleCommandValidator : AbstractValidator<CreateSaleCommand>
     public CreateSaleCommandValidator()
     {
         RuleFor(x => x.Quantity).NotEqual(0);
-        RuleFor(x => x.ClientName).NotEmpty();
+        RuleFor(x => x.ClientId).NotNull();
         RuleFor(x => x.TotalPrice).NotEqual(0);
         RuleFor(x => x.ProductId).NotNull();
     }

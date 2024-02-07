@@ -1,8 +1,8 @@
 using Shop.Application.Common.Interfaces;
-using Shop.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using SharedKernel;
 
 namespace Shop.Infrastructure.Persistence.Interceptors;
 
@@ -36,7 +36,7 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
     {
         if (context is null) return;
 
-        foreach(var entry in context.ChangeTracker.Entries<BaseAuditiableEntity>())
+        foreach(var entry in context.ChangeTracker.Entries<AuditableEntity>())
         {
             if(entry.State == EntityState.Added)
             {

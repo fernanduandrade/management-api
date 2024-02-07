@@ -1,6 +1,9 @@
+using SharedKernel;
+using Shop.Domain.Entities;
+
 namespace Shop.Domain.Events;
 
-public class ProductCreateEvent : BaseEvent
+public class ProductCreateEvent : IDomainEvent
 {
     public Product Item { get; set; }
 

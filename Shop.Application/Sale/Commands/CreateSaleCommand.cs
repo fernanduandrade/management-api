@@ -11,9 +11,9 @@ namespace Shop.Application.Sale.Commands;
 
 public sealed record CreateSaleCommand : IRequest<ApiResult<SaleDTO>>
 {
-    public DateTime SaleDate { get; init; }
-    public string ClientName { get; init; }
-    public long ProductId { get; init; }
+    public DateTime SaleDate { get; set; }
+    public Guid ClientId { get; init; }
+    public Guid ProductId { get; init; }
     public int Quantity { get; init; }
     public decimal PricePerUnit { get; init; }
     public decimal TotalPrice { get; init; }
@@ -28,22 +28,22 @@ public class CreateSaleCommandHandler : IRequestHandler<CreateSaleCommand, ApiRe
         => (_context, _mapper) = (context, mapper);
     public async Task<ApiResult<SaleDTO>> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
     {
-        Entities.Sale entity = new()
+        Entities.SalesHistory entity = new()
         {	
-            SaleDate = request.SaleDate,	
-            ClientName = request.ClientName,	
-            ProductFk = request.ProductId,	
+            Date = request.SaleDate,	
+            ClientId = request.ClientId,	
+            ProductId = request.ProductId,	
             TotalPrice = request.TotalPrice,	
             Quantity = request.Quantity,
             PricePerUnit = request.PricePerUnit
         };
         
-        entity.AddDomainEvent(new SaleCreateEvent(entity));
+        entity.Raise(new SaleCreateEvent(entity));
         _context.Sales.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        if (entity.Id <= 0)
-            return new ApiResult<SaleDTO>(null, ResponseTypeEnum.Error, "Error while trying to create the register.");
+        // if (entity.Id <= 0)
+        //     return new ApiResult<SaleDTO>(null, ResponseTypeEnum.Error, "Error while trying to create the register.");
 
         SaleDTO dto = _mapper.Map<SaleDTO>(entity);
         return new ApiResult<SaleDTO>(dto, ResponseTypeEnum.Success, "Operation completed successfully.");

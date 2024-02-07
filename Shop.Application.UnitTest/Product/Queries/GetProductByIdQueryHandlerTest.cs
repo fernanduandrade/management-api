@@ -35,7 +35,7 @@ public class GetProductByIdQueryHandlerTest
             _mapper
         );
 
-        var result = await handler.Handle(new GetProductByIdQuery() { Id = 6 }, CancellationToken.None);
+        var result = await handler.Handle(new GetProductByIdQuery() { Id = new Guid() }, CancellationToken.None);
         
         result.ShouldBeOfType<ApiResult<ProductDTO>>();
     }
@@ -46,7 +46,7 @@ public class GetProductByIdQueryHandlerTest
 
         Entities.Product expected = null;
         _productRepository
-            .Setup(x => x.FindByIdAsync(19))
+            .Setup(x => x.FindByIdAsync(new Guid()))
             .ReturnsAsync(expected);
         
         var handler = new GetProductByIdQueryHandler(
@@ -54,7 +54,7 @@ public class GetProductByIdQueryHandlerTest
             _mapper
         );
 
-        var result = await handler.Handle(new GetProductByIdQuery() { Id = 18 }, CancellationToken.None);
+        var result = await handler.Handle(new GetProductByIdQuery() { Id = new Guid() }, CancellationToken.None);
         
         result.Data.ShouldBeNull();
     }
@@ -63,9 +63,9 @@ public class GetProductByIdQueryHandlerTest
     public async Task Get_Product_By_Id_Exits_ShouldReturn_Data()
     {
 
-        Entities.Product entity = new() { Id = 19, Name = "Tomato", Description = "Tomato", Price = 10, Quantity = 43 };
+        Entities.Product entity = new() { Id = new Guid(), Name = "Tomato", Description = "Tomato", Price = 10, Quantity = 43 };
 
-        var query = new GetProductByIdQuery() { Id = 19 };
+        var query = new GetProductByIdQuery() { Id = new Guid() };
         
         _productRepository
             .Setup(x => x.FindByIdAsync(query.Id))
@@ -85,7 +85,7 @@ public class GetProductByIdQueryHandlerTest
     [Fact]
     public async Task Get_Product_By_Id_Doesnt_Exists_ShouldReturn_Type_Warning()
     {
-        var query = new GetProductByIdQuery() { Id = 19 };
+        var query = new GetProductByIdQuery() { Id = new Guid() };
 
         var handler = new GetProductByIdQueryHandler(
             _productRepository.Object,

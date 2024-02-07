@@ -27,7 +27,7 @@ public class GetClientByIdHandlerTest
     [Fact]
     public async Task Client_Doesnt_Exists_Should_Return_Data_Null()
     {
-        var query = new GetClientByIdQuery() { Id = 19 };
+        var query = new GetClientByIdQuery() { Id = new Guid() };
         Entities.Client clientDtoExpected = null;
         _clientRepository
             .Setup(x => x.FindByIdAsync(query.Id))
@@ -46,8 +46,8 @@ public class GetClientByIdHandlerTest
     [Fact]
     public async Task Client_Exists_Should_Return_Type_Successful()
     {
-        var query = new GetClientByIdQuery() { Id = 31 };
-        Entities.Client clientDtoExpected = new() { Id = 5, Name = "Clara", LastName = "Siqueira", Credit = 120, Debt = 0, Phone = "00000000000", IsActive = true };
+        var query = new GetClientByIdQuery() { Id = new Guid() };
+        Entities.Client clientDtoExpected = new() { Id = new Guid(), Name = "Clara", LastName = "Siqueira", Credit = 120, Debt = 0, Phone = "00000000000", IsActive = true };
         string messageExpected = "Operation completed successfully.";
         _clientRepository
             .Setup(x => x.FindByIdAsync(query.Id))

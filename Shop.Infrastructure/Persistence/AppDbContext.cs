@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using SharedKernel;
 using Shop.Application.Common.Interfaces;
 using Shop.Infrastructure.Common;
 using Shop.Infrastructure.Persistence.Interceptors;
@@ -12,16 +13,15 @@ using Shop.Infrastructure.Identity;
 
 namespace Shop.Infrastructure.Persistence;
 
-public class AppDbContext : ApiAuthorizationDbContext<ApplicationUser>, IAppDbContext
+public class AppDbContext : DbContext, IAppDbContext
 {
     private readonly IMediator _mediator;
     private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
 
     public AppDbContext(
         DbContextOptions<AppDbContext> options,
-        IOptions<OperationalStoreOptions> operationalStoreOptions,
         IMediator mediator,
-        AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor) : base(options, operationalStoreOptions)
+        AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor) : base(options)
     {
         _mediator= mediator;
         _auditableEntitySaveChangesInterceptor= auditableEntitySaveChangesInterceptor;
@@ -31,11 +31,12 @@ public class AppDbContext : ApiAuthorizationDbContext<ApplicationUser>, IAppDbCo
     
     public DbSet<Entities.Product> Products => Set<Entities.Product>();
     
-    public DbSet<Entities.Sale> Sales => Set<Entities.Sale>();
+    public DbSet<Entities.SalesHistory> Sales => Set<Entities.SalesHistory>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        builder.Ignore<List<IDomainEvent>>().ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(builder);
     }
 
@@ -44,10 +45,10 @@ public class AppDbContext : ApiAuthorizationDbContext<ApplicationUser>, IAppDbCo
         optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
     }
 
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        await _mediator.DispatchDomainEvents(this);
-        var result = await base.SaveChangesAsync(cancellationToken);
-        return result;
-    }
+    // public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    // {
+    //     await _mediator.DispatchDomainEvents(this);
+    //     var result = await base.SaveChangesAsync(cancellationToken);
+    //     return result;
+    // }
 }

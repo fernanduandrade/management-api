@@ -7,7 +7,7 @@ namespace Shop.Application.Client.Commands;
 
 public sealed record DeleteClientCommand :IRequest<ApiResult>
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
 }
 
 public class DeleteClientCommandHandler : IRequestHandler<DeleteClientCommand, ApiResult>

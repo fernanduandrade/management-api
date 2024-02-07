@@ -8,7 +8,7 @@ namespace Shop.Application.Client.Queries;
 
 public sealed record GetClientByIdQuery : IRequest<ApiResult<ClientDTO>>
 {
-    public long Id { get; init; }
+    public Guid Id { get; init; }
 }
 
 public class GetClientByIdQueryHandler : IRequestHandler<GetClientByIdQuery ,ApiResult<ClientDTO>>

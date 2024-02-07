@@ -12,7 +12,7 @@ namespace Shop.Application.Product.Commands;
 
 public sealed record UpdateProductCommand : IRequest<ApiResult<ProductDTO>>
 {
-    public int Id {get; init; }
+    public Guid Id {get; init; }
     public string Name { get; init; }
     public string Description { get; init; }
     public int Quantity { get; init; }
@@ -46,7 +46,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
                 Quantity = request.Quantity,
             };
 
-            updateEntity.AddDomainEvent(new ProductCreateEvent(updateEntity));
+            updateEntity.Raise(new ProductCreateEvent(updateEntity));
             _productRepository.SetEntityStateModified(updateEntity);
             await _context.SaveChangesAsync(cancellationToken);
 

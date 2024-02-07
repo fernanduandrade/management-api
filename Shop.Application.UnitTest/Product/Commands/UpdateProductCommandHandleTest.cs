@@ -33,12 +33,12 @@ public class UpdateProductCommandHandleTest
         Entities.Product product = null;
 
         _productRepository.Setup(x => x.FindByIdAsync(
-            It.IsAny<long>()
+            It.IsAny<Guid>()
         )).ReturnsAsync(product);
 
         var command = new UpdateProductCommand()
         {
-            Id = 3,
+            Id = new Guid(),
             Description = "Milk",
             Quantity = 10,
             Price = 20,
@@ -68,7 +68,7 @@ public class UpdateProductCommandHandleTest
     {
         Entities.Product product = new()
         {
-            Id = 3,
+            Id = new Guid(),
             Description = "Milk",
             Quantity = 10,
             Price = 20,
@@ -76,13 +76,13 @@ public class UpdateProductCommandHandleTest
         };
         
         _productRepository.Setup(x => x.FindByIdAsync(
-            It.IsAny<long>()
+            It.IsAny<Guid>()
         )).ReturnsAsync(product);
         _productRepository.Setup(x => x.SetEntityStateModified(It.IsAny<Entities.Product>()));
         
         var command = new UpdateProductCommand()
         {
-            Id = 3,
+            Id = new Guid(),
             Description = "Milk Cheap",
             Quantity = 2,
             Price = 20,
@@ -112,7 +112,7 @@ public class UpdateProductCommandHandleTest
     {
         Entities.Product product = new()
         {
-            Id = 3,
+            Id = new Guid(),
             Description = "Milk",
             Quantity = 10,
             Price = 20,
@@ -120,13 +120,13 @@ public class UpdateProductCommandHandleTest
         };
         
         _productRepository.Setup(x => x.FindByIdAsync(
-            It.IsAny<long>()
+            It.IsAny<Guid>()
         )).ReturnsAsync(product);
         _productRepository.Setup(x => x.SetEntityStateModified(It.IsAny<Entities.Product>()));
         
         var command = new UpdateProductCommand()
         {
-            Id = 3,
+            Id = new Guid(),
             Description = "Milk Cheap",
             Quantity = 0,
             Price = 20,
@@ -157,7 +157,7 @@ public class UpdateProductCommandHandleTest
     {
         Entities.Product product = new()
         {
-            Id = 3,
+            Id = new Guid(),
             Description = "Milk",
             Quantity = 10,
             Price = 20,
@@ -165,13 +165,13 @@ public class UpdateProductCommandHandleTest
         };
         
         _productRepository.Setup(x => x.FindByIdAsync(
-            It.IsAny<long>()
+            It.IsAny<Guid>()
         )).ReturnsAsync(product);
         _productRepository.Setup(x => x.SetEntityStateModified(It.IsAny<Entities.Product>()));
         
         var command = new UpdateProductCommand()
         {
-            Id = 3,
+            Id = new Guid(),
             Description = "Milk Cheap",
             Quantity = 1,
             Price = 20,
@@ -202,7 +202,7 @@ public class UpdateProductCommandHandleTest
     {
         Entities.Product product = new()
         {
-            Id = 3,
+            Id = new Guid(),
             Description = "Milk",
             Quantity = 10,
             Price = 20,
@@ -210,13 +210,13 @@ public class UpdateProductCommandHandleTest
         };
         
         _productRepository.Setup(x => x.FindByIdAsync(
-            It.IsAny<long>()
+            It.IsAny<Guid>()
         )).ReturnsAsync(product);
         _productRepository.Setup(x => x.SetEntityStateModified(It.IsAny<Entities.Product>()));
         
         var command = new UpdateProductCommand()
         {
-            Id = 3,
+            Id = new Guid(),
             Description = "Milk Cheap Gold",
             Quantity = 1,
             Price = 10,

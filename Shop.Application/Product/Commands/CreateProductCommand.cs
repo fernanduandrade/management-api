@@ -40,12 +40,12 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             Quantity = request.Quantity	
         };
     
-        entity.AddDomainEvent(new ProductCreateEvent(entity));
+        entity.Raise(new ProductCreateEvent(entity));
         _context.Products.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        if (entity.Id <= 0)
-            return new ApiResult<ProductDTO>(null, ResponseTypeEnum.Error, "Error while trying to create the register.");
+        // if (entity.Id <= 0)
+        //     return new ApiResult<ProductDTO>(null, ResponseTypeEnum.Error, "Error while trying to create the register.");
         
         ProductDTO dto = _mapper.Map<ProductDTO>(entity);
         

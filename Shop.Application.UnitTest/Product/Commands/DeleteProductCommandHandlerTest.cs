@@ -24,17 +24,17 @@ public class DeleteProductCommandHandlerTest
         // Arrange
         Entities.Product product = null;
         _productRepository.Setup(x => x.FindByIdAsync(
-            It.IsAny<long>()
+            It.IsAny<Guid>()
         )).ReturnsAsync(product);
         
         var command = new DeleteProductCommand()
         {
-            Id = 2
+            Id = new Guid()
         };
         var mockProductsSet = new Mock<DbSet<Entities.Product>>();
         mockProductsSet.Setup(m => m.Add(It.IsAny<Entities.Product>())).Callback<Entities.Product>((product) =>
         {
-            product.Id = 3;
+            product.Id = new Guid();
             product.Description = "Cheese";
             product.Quantity = 3;
             product.Name = "Cheese";
@@ -61,24 +61,24 @@ public class DeleteProductCommandHandlerTest
         // Arrange
         Entities.Product product = new()
         {
-            Id = 3,
+            Id = new Guid(),
             Description = "Cheese",
             Quantity = 3,
             Name = "Cheese",
             Price = 30,
         };
         _productRepository.Setup(x => x.FindByIdAsync(
-            It.IsAny<long>()
+            It.IsAny<Guid>()
         )).ReturnsAsync(product);
         
         var command = new DeleteProductCommand()
         {
-            Id = 3
+            Id = new Guid()
         };
         var mockProductsSet = new Mock<DbSet<Entities.Product>>();
         mockProductsSet.Setup(m => m.Add(It.IsAny<Entities.Product>())).Callback<Entities.Product>((product) =>
         {
-            product.Id = 3;
+            product.Id = new Guid();
             product.Description = "Cheese";
             product.Quantity = 3;
             product.Name = "Cheese";

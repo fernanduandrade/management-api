@@ -1,6 +1,6 @@
-namespace Shop.Domain.Common;
+namespace SharedKernel;
 
-public abstract class BaseAuditiableEntity : BaseEntity
+public abstract class AuditableEntity : Entity
 {
     public DateTime Created {get; set;}
     public string? CreatedBy {get; set;}
