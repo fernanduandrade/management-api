@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Shop.Infrastructure.Persistence;
+using Shop.Infrastructure.Persistence.Data;
 
 #nullable disable
 
@@ -134,9 +135,10 @@ namespace Shop.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("client_fk");
+                    b.Property<string>("ClientName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("client_name");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone")
@@ -148,7 +150,7 @@ namespace Shop.Infrastructure.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("ate");
+                        .HasColumnName("date");
 
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("timestamp with time zone")
@@ -176,8 +178,6 @@ namespace Shop.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
-
                     b.HasIndex("ProductId");
 
                     b.ToTable("sales_history", (string)null);
@@ -185,19 +185,11 @@ namespace Shop.Infrastructure.Migrations
 
             modelBuilder.Entity("Shop.Domain.Entities.SalesHistory", b =>
                 {
-                    b.HasOne("Shop.Domain.Entities.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Shop.Domain.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Client");
 
                     b.Navigation("Product");
                 });

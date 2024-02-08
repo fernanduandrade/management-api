@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Application.Client.Interfaces;
 using Shop.Application.Common.Interfaces;
-using Shop.Application.Product.Interfaces;
-using Shop.Application.Sale.Interfaces;
-using Shop.Infrastructure.Persistence;
+using Shop.Domain.Clients;
+using Shop.Domain.Products;
+using Shop.Domain.SalesHistory;
+using Shop.Infrastructure.Common;
+using Shop.Infrastructure.Persistence.Data;
+using Shop.Infrastructure.Persistence.Data.Repositories;
 using Shop.Infrastructure.Persistence.Interceptors;
-using Shop.Infrastructure.Persistence.Repositories;
 using Shop.Infrastructure.PipeLine;
 using Shop.Infrastructure.Services;
 
@@ -29,11 +30,12 @@ public static class ConfigureServices
                 });
         });
 
-        services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
-        services.AddScoped<ISaleRepository, SaleRepository>();
+        services.AddScoped<ISaleHistoryRepository, SaleHistoryRepository>();
         services.AddTransient<IDateTime, DateTimeService>();
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddMediator(o =>
         {

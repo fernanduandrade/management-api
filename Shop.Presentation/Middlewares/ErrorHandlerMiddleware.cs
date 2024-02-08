@@ -1,9 +1,7 @@
 using System.Net;
-using Newtonsoft;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Domain.Errors;
 using Newtonsoft.Json;
 
 namespace Shop.Presentation.Middlewares;
@@ -32,15 +30,6 @@ public class ErrorHandlingMiddleware
             response.StatusCode = (int)HttpStatusCode.BadRequest;
             await response.WriteAsync(JsonConvert.SerializeObject(validationErrors));
         }
-        catch(InvalidProductException ex)
-        {
-            var domainError = GetBadQuestDomain(ex);
-            var response = context.Response;
-            response.ContentType = "application/json";
-            response.StatusCode = (int)HttpStatusCode.BadRequest;
-            await response.WriteAsync(JsonConvert
-                .SerializeObject(JsonConvert.SerializeObject(domainError)));
-        }
         catch (Exception ex)
         {
             var response = context.Response;
@@ -50,23 +39,6 @@ public class ErrorHandlingMiddleware
         }
         
     }
-
-    private ValidationProblemDetails GetBadQuestDomain(InvalidProductException ex)
-    {
-        var traceId = Guid.NewGuid().ToString();
-
-        var validationErrors = new ValidationProblemDetails
-        {
-            Status = (int)HttpStatusCode.BadRequest,
-            Type = "https://httpstatuses.com/400",
-            Title = ex.Message,
-            Detail = "Um ou mais errors ocorreram por favor e precisam ser corrigidos. Por favor olhe os detalhes",
-            Instance = traceId
-        };
-
-        return validationErrors;
-    }
-
     private ValidationProblemDetails GetBadRequestValidation(ValidationException ex)
     {
         var traceId = Guid.NewGuid().ToString();

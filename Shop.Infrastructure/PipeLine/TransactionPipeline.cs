@@ -1,4 +1,4 @@
-using Shop.Infrastructure.Persistence;
+using Shop.Infrastructure.Persistence.Data;
 using SimpleSoft.Mediator;
 
 namespace Shop.Infrastructure.PipeLine;

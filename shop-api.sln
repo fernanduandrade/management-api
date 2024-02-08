@@ -23,9 +23,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Infrastructure", "Shop
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.OAuth", "Shop.OAuth\Shop.OAuth.csproj", "{49B2238F-F40F-410D-9495-44E5DFB34A7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.IntegrationTest", "Shop.IntegrationTest\Shop.IntegrationTest.csproj", "{C054009C-0E20-4958-AC86-EA3FD677EACB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Integration.Test", "Shop.Integration.Test\Shop.Integration.Test.csproj", "{C054009C-0E20-4958-AC86-EA3FD677EACB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Application.UnitTest", "Shop.Application.UnitTest\Shop.Application.UnitTest.csproj", "{5D3884C2-AE1C-4F59-9EDB-3EC6A7099A3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Application.Test", "Shop.Application.Test\Shop.Application.Test.csproj", "{5D3884C2-AE1C-4F59-9EDB-3EC6A7099A3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "SharedKernel\SharedKernel.csproj", "{DF9CD173-09EE-428A-8CD5-0EC3370772B5}"
 EndProject
