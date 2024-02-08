@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Presentation.Tools;
 
-namespace Shop.Presentation.Controllers;
+namespace Shop.Presentation.Controllers.Base;
 
 [ValidationModelState]
 [ApiController]

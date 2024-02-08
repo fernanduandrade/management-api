@@ -9,7 +9,11 @@ public class Product : AuditableEntity, IAggregateRoot
     public decimal Price {get; private set;}
     public int Quantity {get; private set;}
 
-    public bool IsAvaliable => IsAvaliableBehavior(Quantity);
+    public bool IsAvaliable
+    {
+        get { return IsAvaliableBehavior(Quantity); }
+        set { ; }
+    }
 
     private bool IsAvaliableBehavior(int quantity)
         => quantity > 0;

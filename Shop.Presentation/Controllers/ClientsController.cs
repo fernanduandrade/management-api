@@ -7,10 +7,11 @@ using Shop.Application.Clients.GetAllClientPaginated;
 using Shop.Application.Clients.GetClientById;
 using Shop.Application.Clients.UpdateClient;
 using Shop.Application.Common.Models;
+using Shop.Presentation.Controllers.Base;
 
 namespace Shop.Presentation.Controllers;
 
-public class ClientController : BaseController
+public class ClientsController : BaseController
 {
     [HttpPost]
     public async Task<ActionResult> Create(CreateClientCommand command)

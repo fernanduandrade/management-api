@@ -7,10 +7,11 @@ using Shop.Application.Products.Dtos;
 using Shop.Application.Products.GetAllProductPaginated;
 using Shop.Application.Products.GetProductById;
 using Shop.Application.Products.UpdateProduct;
+using Shop.Presentation.Controllers.Base;
 
 namespace Shop.Presentation.Controllers;
 
-public class ProductController : BaseController
+public class ProductsController : BaseController
 {
     [HttpPost]
     public async Task<ActionResult> Create(CreateProductCommand command)

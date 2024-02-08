@@ -9,7 +9,9 @@ public class SaleHistory : AuditableEntity, IAggregateRoot
     public string ClientName { get; private set; }
     public int Quantity { get; private set; }
     public decimal PricePerUnit { get; private set; }
-    public decimal TotalPrice => CalculateTotalPriceBehaviour(Quantity, PricePerUnit);
+    public decimal TotalPrice { get { return CalculateTotalPriceBehaviour(Quantity, PricePerUnit); }
+        private set {}
+    }
     public virtual Product Product {get; private set; }
     public Guid ProductId { get; private set; }
 

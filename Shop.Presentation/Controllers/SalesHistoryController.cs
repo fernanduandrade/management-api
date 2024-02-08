@@ -7,10 +7,11 @@ using Shop.Application.SalesHistory.DeleteSaleHistory;
 using Shop.Application.SalesHistory.Dtos;
 using Shop.Application.SalesHistory.GetAllSaleHistory;
 using Shop.Application.SalesHistory.UpdateSaleHistory;
+using Shop.Presentation.Controllers.Base;
 
 namespace Shop.Presentation.Controllers;
 
-public class SaleController : BaseController
+public class SalesHistoryController : BaseController
 {
     [HttpPost]
     public async Task<ActionResult> Create(CreateSaleHistoryCommand command)

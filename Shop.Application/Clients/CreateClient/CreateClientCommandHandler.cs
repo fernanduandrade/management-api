@@ -20,15 +20,15 @@ public sealed class CreateClientCommandHandler : IRequestHandler<CreateClientCom
         _mapper = mapper;
     }
 
-public async Task<ApiResult<ClientDto>> Handle(CreateClientCommand request, CancellationToken cancellationToken)
-{
-    var entity = Client.Create(request.Name, request.LastName, request.Phone, request.IsActive,
-        request.Debt, request.Credit);
-    
-    _clientRepository.Add(entity);
-    await _unitOfWork.Commit(cancellationToken);
+    public async Task<ApiResult<ClientDto>> Handle(CreateClientCommand request, CancellationToken cancellationToken)
+    {
+        var entity = Client.Create(request.Name, request.LastName, request.Phone, request.IsActive,
+                request.Debt, request.Credit);
 
-    var dto = _mapper.Map<ClientDto>(entity);
-    return new ApiResult<ClientDto>(dto, ResponseTypeEnum.Success, "Operation completed successfully.");
-}
+            _clientRepository.Add(entity);
+            await _unitOfWork.Commit(cancellationToken);
+
+            var dto = _mapper.Map<ClientDto>(entity);
+            return new ApiResult<ClientDto>(dto, ResponseTypeEnum.Success, "Operation completed successfully.");
+    }
 }
