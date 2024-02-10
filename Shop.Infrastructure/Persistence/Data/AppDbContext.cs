@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SharedKernel;
 using Shop.Domain.Clients;
+using Shop.Domain.OrderProducts;
+using Shop.Domain.Orders;
 using Shop.Domain.Products;
 using Shop.Domain.SalesHistory;
 using Shop.Infrastructure.Persistence.Interceptors;
@@ -33,6 +35,10 @@ public class AppDbContext : ApiAuthorizationDbContext<ApplicationUser>
     public DbSet<Product> Products => Set<Product>();
     
     public DbSet<SaleHistory> SalesHistory => Set<SaleHistory>();
+
+    public DbSet<Order> Orders => Set<Order>();
+
+    public DbSet<OrderProduct> OrderProducts => Set<OrderProduct>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Application.Common.Interfaces;
 using Shop.Domain.Clients;
+using Shop.Domain.OrderProducts;
+using Shop.Domain.Orders;
 using Shop.Domain.Products;
 using Shop.Domain.SalesHistory;
 using Shop.Infrastructure.Common;
@@ -33,6 +35,8 @@ public static class ConfigureServices
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<ISaleHistoryRepository, SaleHistoryRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IOrderProductRepository, OrderProductRepository>();
         services.AddTransient<IDateTime, DateTimeService>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();

@@ -10,5 +10,6 @@ public class CreateSaleCommandValidator : AbstractValidator<CreateSaleHistoryCom
         RuleFor(x => x.Quantity).NotEqual(0);
         RuleFor(x => x.ClientName).NotEmpty();
         RuleFor(x => x.ProductId).NotNull();
+        RuleFor(x => x.PaymentType).NotNull();
     }
 }

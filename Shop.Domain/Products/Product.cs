@@ -1,4 +1,5 @@
 using SharedKernel;
+using Shop.Domain.OrderProducts;
 
 namespace Shop.Domain.Products;
 
@@ -8,6 +9,8 @@ public class Product : AuditableEntity, IAggregateRoot
     public string? Name {get; private set;}
     public decimal Price {get; private set;}
     public int Quantity {get; private set;}
+    
+    public List<OrderProduct> OrderProducts { get; set; }
 
     public bool IsAvaliable
     {

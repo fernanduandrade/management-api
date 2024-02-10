@@ -43,6 +43,11 @@ public class SaleConfiguration : IEntityTypeConfiguration<SaleHistory>
 
         builder.Property(prop => prop.LastModifiedBy)
             .HasColumnName("last_modified_by");
+
+        builder.Property(prop => prop.PaymentType)
+            .HasColumnName("payment_type")
+            .HasConversion(v => v.ToString(),
+                v => (PaymentType)Enum.Parse(typeof(PaymentType), v));
         
         builder.HasOne(prop => prop.Product)
             .WithMany()

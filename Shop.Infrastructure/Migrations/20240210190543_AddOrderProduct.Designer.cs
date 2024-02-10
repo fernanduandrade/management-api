@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Shop.Infrastructure.Persistence.Data;
@@ -11,9 +12,11 @@ using Shop.Infrastructure.Persistence.Data;
 namespace Shop.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240210190543_AddOrderProduct")]
+    partial class AddOrderProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -375,11 +378,10 @@ namespace Shop.Infrastructure.Migrations
 
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uuid")
-                        .HasColumnName("product_id");
+                        .HasColumnName("order_id");
 
                     b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("order_id");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 

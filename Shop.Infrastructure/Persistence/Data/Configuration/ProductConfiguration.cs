@@ -40,5 +40,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(prop => prop.LastModifiedBy)
             .HasColumnName("last_modified_by");
+        
+        builder.HasMany(o => o.OrderProducts)
+            .WithOne(op => op.Product)
+            .HasForeignKey(op => op.ProductId);
     }
 }
