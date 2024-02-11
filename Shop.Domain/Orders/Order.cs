@@ -5,7 +5,7 @@ namespace Shop.Domain.Orders;
 
 public class Order : AuditableEntity, IAggregateRoot
 {
-    public OrderStatus OrderStatus { get; private set; }
+    public OrderStatus Status { get; private set; }
     public string ClientName { get; private set; }
     
     public List<OrderProduct> OrderProducts { get; private set; }
@@ -15,7 +15,7 @@ public class Order : AuditableEntity, IAggregateRoot
         Order order = new()
         {
             Id = new Guid(),
-            OrderStatus = orderStatus,
+            Status = orderStatus,
             ClientName = clientName
         };
 

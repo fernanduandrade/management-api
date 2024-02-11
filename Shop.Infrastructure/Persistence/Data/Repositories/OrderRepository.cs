@@ -47,4 +47,15 @@ public class OrderRepository : IOrderRepository
         var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
         _context.Orders.Remove(order);
     }
+
+    public async Task<List<Order>> GetAllByStatusPaginated(int pageSize, int pageNumber, OrderStatus orderStatus)
+    {
+        var orders = await _context.Orders.AsNoTracking()
+            .Where(x => x.Status == orderStatus)
+            .Take(pageSize)
+            .Skip(pageNumber)
+            .ToListAsync();
+
+        return orders;
+    }
 }

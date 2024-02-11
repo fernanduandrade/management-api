@@ -8,7 +8,7 @@ public sealed record OrderDto : IMapFrom<Order>
 {
     public Guid Id { get; init; }
     public string? ClientName { get; init; }
-    public OrderStatus OrderStatus { get; init; }
+    public OrderStatus Status { get; init; }
 
     public void Mapping(Profile profile)
     {

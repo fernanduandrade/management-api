@@ -17,8 +17,8 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(x => x.ClientName)
             .HasColumnName("client_name");
 
-        builder.Property(x => x.OrderStatus)
-            .HasColumnName("order_status")
+        builder.Property(x => x.Status)
+            .HasColumnName("status")
             .HasConversion(v => v.ToString(),
                 v => (OrderStatus)Enum.Parse(typeof(OrderStatus), v));
         
