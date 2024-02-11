@@ -5,6 +5,7 @@ using Shop.Application.Products.CreateProduct;
 using Shop.Application.Products.DeleteProduct;
 using Shop.Application.Products.Dtos;
 using Shop.Application.Products.GetAllProductPaginated;
+using Shop.Application.Products.GetAutoComplete;
 using Shop.Application.Products.GetProductById;
 using Shop.Application.Products.UpdateProduct;
 using Shop.Presentation.Controllers.Base;
@@ -49,9 +50,17 @@ public class ProductsController : BaseController
     
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResult<ProductDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResult<ProductDto>>> GetProductById(Guid id)
+    public async Task<ActionResult<ApiResult<ProductDto>>> GetProductById([FromRoute] GetProductByIdQuery  query)
     {
-        GetProductByIdQuery query = new(id);
+        var result = await Mediator.Send(query);
+    
+        return Ok(result);
+    }
+    
+    [HttpGet("autocomplete")]
+    [ProducesResponseType(typeof(ApiResult<ProductDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResult<ProductDto>>> AutComplete([FromQuery] GetAutoCompleteQuery query)
+    {
         var result = await Mediator.Send(query);
     
         return Ok(result);

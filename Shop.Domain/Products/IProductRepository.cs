@@ -11,4 +11,5 @@ public interface IProductRepository : IRepository<Product>
     void Add(Product product);
     void Update(Product product);
     Task Remove(Guid id);
+    Task<List<Product>> AutoComplete(string search);
 }

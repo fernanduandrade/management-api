@@ -53,6 +53,15 @@ public class ProductRepository : IProductRepository
         _context.Products.Remove(product);
     }
 
+    public async Task<List<Product>> AutoComplete(string search)
+    {
+        var products = await _context.Products.
+            Where(x => x.Name.ToLower().Contains(search.ToLower()))
+            .ToListAsync();
+        
+        return products;
+    }
+
     public virtual void SetEntityStateModified(Product entity)
     {
         _context.Products.Entry(entity).State = EntityState.Modified;
