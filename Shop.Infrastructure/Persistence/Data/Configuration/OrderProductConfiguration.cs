@@ -11,14 +11,14 @@ public class OrderProductConfiguration : IEntityTypeConfiguration<OrderProduct>
         builder.ToTable("order_products");
         builder.HasKey(x => x.Id);
         
-        builder.Property(prop => prop.Id)
+        builder.Property(prop => prop.Id)   
             .HasColumnName("id");
 
         builder.Property(x => x.OrderId)
-            .HasColumnName("product_id");
+            .HasColumnName("order_id");
         
         builder.Property(x => x.ProductId)
-            .HasColumnName("order_id");
+            .HasColumnName("product_id");
         
         builder.Property(prop => prop.CreatedBy)
             .HasColumnName("created_by");

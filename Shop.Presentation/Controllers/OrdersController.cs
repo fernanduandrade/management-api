@@ -28,7 +28,7 @@ public class OrdersController : BaseController
     }
     
     [HttpGet("status")]
-    public async Task<IActionResult> Add([FromQuery]GetOrderStatusPaginatedQuery query)
+    public async Task<IActionResult> GetByStatus([FromQuery]GetOrderStatusPaginatedQuery query)
     {
         var result = await Mediator.Send(query);
 
