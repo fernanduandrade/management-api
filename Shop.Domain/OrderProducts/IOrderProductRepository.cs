@@ -9,5 +9,7 @@ public interface IOrderProductRepository : IRepository<OrderProduct>
     Task<OrderProduct> FindByIdAsync(Guid id);
     void Add(OrderProduct orderProduct);
     void Update(OrderProduct orderProduct);
-    Task Remove(Guid id);    
+    Task FindByIdAndRemove(Guid id);
+    Task<OrderProduct> OrderProductExist(Guid productId, Guid orderId);
+    public void Remove(OrderProduct orderProduct);
 }

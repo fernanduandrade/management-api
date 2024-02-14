@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Shop.Application.OrderProducts.CreateOrderProduct;
+using Shop.Application.OrderProducts.RemoveOrderProduct;
+using Shop.Application.Orders.CloseOrder;
 using Shop.Application.Orders.CreateOrder;
 using Shop.Application.Orders.GetOrderById;
 using Shop.Application.Orders.GetOrderPaginated;
@@ -19,8 +21,16 @@ public class OrdersController : BaseController
         return Ok(result);
     }
     
-    [HttpPost("add-product")]
-    public async Task<IActionResult> Add(CreateOrderProductCommand command)
+    [HttpPost("products/add")]
+    public async Task<IActionResult> Add([FromBody]CreateOrderProductCommand command)
+    {
+        var result = await Mediator.Send(command);
+
+        return Ok(result);
+    }
+    
+    [HttpDelete("products/remove")]
+    public async Task<IActionResult> RemoveOrderProduct([FromQuery] RemoveOrderProductCommand command)
     {
         var result = await Mediator.Send(command);
 
@@ -39,6 +49,14 @@ public class OrdersController : BaseController
     public async Task<IActionResult> ById([FromRoute] GetOrderByIdQuery query)
     {
         var result = await Mediator.Send(query);
+
+        return Ok(result);
+    }
+
+    [HttpGet("close")]
+    public async Task<IActionResult> CloseOrder([FromQuery] CloseOrderCommand command)
+    {
+        var result = await Mediator.Send(command);
 
         return Ok(result);
     }

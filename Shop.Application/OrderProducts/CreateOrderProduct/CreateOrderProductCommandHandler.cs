@@ -21,13 +21,23 @@ public sealed class CreateOrderProductCommandHandler : IRequestHandler<CreateOrd
     }
     public async Task<ApiResult<OrderProductDto>> Handle(CreateOrderProductCommand request, CancellationToken cancellationToken)
     {
-        var orderProduct = OrderProduct.Create(request.ProductId, request.OrderId);
+        var orderProduct = await _orderProductRepository.OrderProductExist(request.ProductId, request.OrderId);
 
-        _orderProductRepository.Add(orderProduct);
+        if (orderProduct is null)
+        {
+            var newOrderProduct = OrderProduct.Create(request.ProductId, request.OrderId);
+
+            _orderProductRepository.Add(newOrderProduct);
+            await _unitOfWork.Commit(cancellationToken);
+
+            var dto = _mapper.Map<OrderProductDto>(newOrderProduct);
+
+            return new ApiResult<OrderProductDto>(dto, ResponseTypeEnum.Success, "Sucesso");
+        }
+
+        orderProduct.IncrementQuantity();
         await _unitOfWork.Commit(cancellationToken);
-
-        var dto = _mapper.Map<OrderProductDto>(orderProduct);
-
-        return new ApiResult<OrderProductDto>(dto, ResponseTypeEnum.Success, "Sucesso");
+        var updateDto = _mapper.Map<OrderProductDto>(orderProduct);
+        return new ApiResult<OrderProductDto>(updateDto, ResponseTypeEnum.Success, "Sucesso");
     }
 }

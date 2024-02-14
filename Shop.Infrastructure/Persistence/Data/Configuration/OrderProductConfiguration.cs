@@ -20,6 +20,9 @@ public class OrderProductConfiguration : IEntityTypeConfiguration<OrderProduct>
         builder.Property(x => x.ProductId)
             .HasColumnName("product_id");
         
+        builder.Property(x => x.Quantity)
+            .HasColumnName("quantity");
+
         builder.Property(prop => prop.CreatedBy)
             .HasColumnName("created_by");
 

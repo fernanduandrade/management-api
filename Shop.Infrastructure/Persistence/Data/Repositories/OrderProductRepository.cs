@@ -37,10 +37,23 @@ public class OrderProductRepository : IOrderProductRepository
     public void Update(OrderProduct orderProduct)
         => _context.OrderProducts.Update(orderProduct);
 
-    public async Task Remove(Guid id)
+    public async Task FindByIdAndRemove(Guid id)
     {
         var orderProduct = await _context.OrderProducts
             .FirstOrDefaultAsync(x => x.Id == id);
         _context.OrderProducts.Remove(orderProduct);
+    }
+    
+    public void Remove(OrderProduct orderProduct)
+    {
+        _context.OrderProducts.Remove(orderProduct);
+    }
+    
+    public async Task<OrderProduct> OrderProductExist(Guid productId, Guid orderId)
+    {
+        var orderProduct = await _context.OrderProducts
+            .FirstOrDefaultAsync(x => x.OrderId == orderId && x.ProductId == productId);
+
+        return orderProduct;
     }
 }

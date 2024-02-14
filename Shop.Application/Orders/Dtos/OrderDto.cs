@@ -17,7 +17,13 @@ public sealed record OrderDto : IMapFrom<Order>
         profile.CreateMap<Order, OrderDto>()
             .ForMember(
                 dest => dest.Products,
-                opt => opt.MapFrom(src => src.OrderProducts.Select(op => op.Product).ToList())
-            );;
+                opt =>
+                    opt.MapFrom(src => src.OrderProducts.Select(op => new ProductDto
+                    {
+                        Price = op.Product.Price, 
+                        Name = op.Product.Name,
+                        Quantity = op.Quantity
+                    }).ToList())
+            );
     }
 }

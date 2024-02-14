@@ -1,5 +1,7 @@
 using SharedKernel;
 using Shop.Domain.OrderProducts;
+using Shop.Domain.SalesHistory;
+using Shop.Domain.SalesHistory.Events;
 
 namespace Shop.Domain.Orders;
 
@@ -20,5 +22,15 @@ public class Order : AuditableEntity, IAggregateRoot
         };
 
         return order;
+    }
+
+    public void DispatchProductsSold(List<OrderProduct> products, string clientName, PaymentType paymentType)
+    {
+        Raise(new CreateBulkSaleEvent(products, clientName, paymentType));
+    }
+
+    public void CloseOrder()
+    {
+        Status = OrderStatus.FECHADO;
     }
 }

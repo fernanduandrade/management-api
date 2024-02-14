@@ -4,8 +4,8 @@ using Shop.Domain.Products;
 using Shop.Domain.Products.Errors;
 using Shop.Domain.SalesHistory.Events;
 
-namespace Shop.Application.Sale.Events;
-public class SaleCreatedEventHandler : INotificationHandler<SaleCreatedEvent>
+namespace Shop.Application.SalesHistory.Events;
+public sealed class SaleCreatedEventHandler : INotificationHandler<SaleCreatedEvent>
 {
   private readonly IProductRepository _productRepository;
   private readonly IUnitOfWork _unitOfWork;

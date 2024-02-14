@@ -30,6 +30,11 @@ public class SaleHistoryRepository : ISaleHistoryRepository
     public void Add(SaleHistory saleHistory)
         => _context.SalesHistory.Add(saleHistory);
 
+    public void AddMany(List<SaleHistory> saleHistories)
+    {
+        _context.SalesHistory.AddRange(saleHistories);
+    }
+
     public void Update(SaleHistory saleHistory)
         => _context.SalesHistory.Update(saleHistory);
 
