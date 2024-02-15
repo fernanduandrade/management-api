@@ -43,7 +43,18 @@ public class SaleHistoryRepository : ISaleHistoryRepository
         var saleHistory = await _context.SalesHistory.FirstOrDefaultAsync(x => x.Id == id);
         _context.Remove(saleHistory);
     }
-    
+
+    public decimal TodaySales()
+    {
+        DateTime compareDate = DateTime.UtcNow;
+        var todaySales = _context.SalesHistory
+            .Where(x => x.Date.Day == compareDate.Day)
+            .ToList()
+            .Sum(x => x.TotalPrice);
+
+        return todaySales;
+    }
+
     public virtual void SetEntityStateModified(SaleHistory entity)
     {
         _context.SalesHistory.Entry(entity).State = EntityState.Modified;

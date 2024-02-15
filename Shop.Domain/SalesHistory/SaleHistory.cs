@@ -24,6 +24,7 @@ public class SaleHistory : AuditableEntity, IAggregateRoot
     {
         SaleHistory saleHistory = new()
         {
+            Id = new Guid(),
             ClientName = clientName,
             Quantity = quantity,
             PricePerUnit = pricePerUnit,

@@ -19,15 +19,17 @@ public class AppDbContext : ApiAuthorizationDbContext<ApplicationUser>
 {
     private readonly IMediator _mediator;
     private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
+    private readonly PublishDomainEventsInterceptor _publishDomainEventsInterceptor;
 
     public AppDbContext(
         DbContextOptions<AppDbContext> options,
         IOptions<OperationalStoreOptions> operationalStoreOptions,
         IMediator mediator,
-        AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor) : base(options, operationalStoreOptions)
+        AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor, PublishDomainEventsInterceptor publishDomainEventsInterceptor) : base(options, operationalStoreOptions)
     {
         _mediator= mediator;
         _auditableEntitySaveChangesInterceptor= auditableEntitySaveChangesInterceptor;
+        _publishDomainEventsInterceptor = publishDomainEventsInterceptor;
     }
 
     public DbSet<Client> Clients => Set<Client>();
@@ -46,9 +48,10 @@ public class AppDbContext : ApiAuthorizationDbContext<ApplicationUser>
         builder.Ignore<List<IDomainEvent>>().ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(builder);
     }
-
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        optionsBuilder.AddInterceptors(_publishDomainEventsInterceptor);
         optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
     }
 }

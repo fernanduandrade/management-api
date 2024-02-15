@@ -11,4 +11,5 @@ public interface ISaleHistoryRepository : IRepository<SaleHistory>
     void AddMany(List<SaleHistory> saleHistories);
     void Update(SaleHistory saleHistory);
     Task Remove(Guid id);
+    decimal TodaySales();
 }

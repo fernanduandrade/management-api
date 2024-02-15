@@ -22,7 +22,8 @@ public static class ConfigureServices
         this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();
-
+        services.AddScoped<PublishDomainEventsInterceptor>();
+        
         services.AddDbContext<AppDbContext>(options =>
         {
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), 

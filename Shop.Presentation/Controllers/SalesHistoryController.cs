@@ -6,6 +6,7 @@ using Shop.Application.SalesHistory.CreateSale;
 using Shop.Application.SalesHistory.DeleteSaleHistory;
 using Shop.Application.SalesHistory.Dtos;
 using Shop.Application.SalesHistory.GetAllSaleHistory;
+using Shop.Application.SalesHistory.GetTodaySales;
 using Shop.Application.SalesHistory.UpdateSaleHistory;
 using Shop.Presentation.Controllers.Base;
 
@@ -49,9 +50,17 @@ public class SalesHistoryController : BaseController
     
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResult<SaleHistoryDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResult<SaleHistoryDto>>> GetSaleById(Guid id)
+    public async Task<ActionResult<ApiResult<SaleHistoryDto>>> GetSaleById([FromRoute]GetClientByIdQuery query)
     {
-        GetClientByIdQuery query = new(id);
+        var result = await Mediator.Send(query);
+    
+        return Ok(result);
+    }
+    
+    [HttpGet("today")]
+    [ProducesResponseType(typeof(ApiResult<decimal>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResult<SaleHistoryDto>>> GetTodaySales([FromQuery]GetTodaySaleQuery query)
+    {
         var result = await Mediator.Send(query);
     
         return Ok(result);
