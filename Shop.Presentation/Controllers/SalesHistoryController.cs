@@ -31,9 +31,8 @@ public class SalesHistoryController : BaseController
     }
     
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(Guid id)
+    public async Task<ActionResult> Delete([FromRoute]DeleteSaleHistoryCommand command)
     {
-        var command = new DeleteSaleHistoryCommand(id);
         var result = await Mediator.Send(command);
         if (result.Data)
             return Ok(result);

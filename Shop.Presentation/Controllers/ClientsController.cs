@@ -30,9 +30,8 @@ public class ClientsController : BaseController
     }
     
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(Guid id)
+    public async Task<ActionResult> Delete([FromRoute] DeleteClientCommand command)
     {
-        DeleteClientCommand command = new(id);
         var result = await Mediator.Send(command);
         if (result.Type == ResponseTypeEnum.Error) return BadRequest(result);
         return Ok(result);
@@ -48,9 +47,8 @@ public class ClientsController : BaseController
     
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResult<ClientDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResult<ClientDto>>> GetClientById(Guid id)
+    public async Task<ActionResult<ApiResult<ClientDto>>> GetClientById([FromRoute] GetClientByIdQuery query)
     {
-        GetClientByIdQuery query = new(id);;
         var result = await Mediator.Send(query);
     
         return Ok(result);
