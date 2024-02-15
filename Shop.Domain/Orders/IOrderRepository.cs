@@ -10,5 +10,5 @@ public interface IOrderRepository : IRepository<Order>
     void Add(Order order);
     void Update(Order order);
     Task Remove(Guid id);
-    Task<List<Order>> GetAllByStatusPaginated(int pageSize, int pageNumber, OrderStatus orderStatus);
+    IQueryable<Order> GetAllByStatus(OrderStatus orderStatus);
 }

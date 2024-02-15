@@ -48,10 +48,10 @@ public class SaleHistoryRepository : ISaleHistoryRepository
     {
         DateTime compareDate = DateTime.UtcNow;
         var todaySales = _context.SalesHistory
-            .Where(x => x.Date.Day == compareDate.Day)
+            .Where(x => x.Date.Date == compareDate.Date)
             .ToList()
             .Sum(x => x.TotalPrice);
-
+        
         return todaySales;
     }
 

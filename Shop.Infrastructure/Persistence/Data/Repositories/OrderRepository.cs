@@ -51,13 +51,10 @@ public class OrderRepository : IOrderRepository
         _context.Orders.Remove(order);
     }
 
-    public async Task<List<Order>> GetAllByStatusPaginated(int pageSize, int pageNumber, OrderStatus orderStatus)
+    public IQueryable<Order> GetAllByStatus(OrderStatus orderStatus)
     {
-        var orders = await _context.Orders.AsNoTracking()
-            .Where(x => x.Status == orderStatus)
-            .Take(pageSize)
-            .Skip(pageNumber)
-            .ToListAsync();
+        var orders = _context.Orders.AsNoTracking()
+            .Where(x => x.Status == orderStatus);
 
         return orders;
     }

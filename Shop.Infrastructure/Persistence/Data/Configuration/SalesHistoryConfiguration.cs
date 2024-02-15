@@ -24,7 +24,8 @@ public class SaleConfiguration : IEntityTypeConfiguration<SaleHistory>
             .HasColumnName("product_fk");
 
         builder.Property(prop => prop.Date)
-            .HasColumnName("date");
+            .HasColumnName("date")
+            .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));;
 
         builder.Property(prop => prop.PricePerUnit)
             .HasColumnName("price_per_unit");
