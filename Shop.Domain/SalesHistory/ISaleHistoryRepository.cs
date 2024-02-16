@@ -5,7 +5,7 @@ namespace Shop.Domain.SalesHistory;
 public interface ISaleHistoryRepository : IRepository<SaleHistory>
 {
     void SetEntityStateModified(SaleHistory saleHistory);
-    Task<List<SaleHistory>> GetAllPaginated(int pageSize, int pageNumber);
+    IQueryable<SaleHistory> GetAllPaginated();
     Task<SaleHistory> FindByIdAsync(Guid id);
     void Add(SaleHistory saleHistory);
     void AddMany(List<SaleHistory> saleHistories);

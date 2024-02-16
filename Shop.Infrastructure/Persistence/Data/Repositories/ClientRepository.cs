@@ -9,13 +9,10 @@ public class ClientRepository : IClientRepository
     public ClientRepository(AppDbContext context)
         => (_context) = (context);
 
-    public async Task<List<Client>> GetAllPaginated(int pageSize, int pageNumber)
+    public IQueryable<Client> GetAllPaginated()
     {
-        var result = await _context.Clients
-            .AsNoTracking()
-            .Take(pageSize)
-            .Skip(pageNumber)
-            .ToListAsync();
+        var result =  _context.Clients
+            .AsNoTracking();
 
         return result;
     }

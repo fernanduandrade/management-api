@@ -18,10 +18,14 @@ public sealed class GetAllProductPaginatedQueryHandler : IRequestHandler<GetAllP
     public async Task<ApiResult<PaginatedList<ProductDto>>> Handle(GetAllProductPaginatedQuery request,
         CancellationToken cancellationTokens)
     {
-        var result = await _productRepository.GetAllPaginated(request.PageSize, request.PageNumber);
-        var dtos = _mapper.Map<List<ProductDto>>(result);
-        var paginate = new PaginatedList<ProductDto>(dtos, dtos.Count, request.PageNumber, request.PageSize);
-        return new ApiResult<PaginatedList<ProductDto>>(paginate, ResponseTypeEnum.Success,
+        var records = _productRepository.GetAllPaginated();
+        
+        var pagination = await PaginatedList<Product>
+            .CreateAsync(records, request.PageNumber, request.PageSize);
+        var dto = _mapper.Map<List<ProductDto>>(pagination.Items);
+        
+        var result = new PaginatedList<ProductDto>(dto, pagination.TotalCount, request.PageNumber, request.PageSize);
+        return new ApiResult<PaginatedList<ProductDto>>(result, ResponseTypeEnum.Success,
             message: "Operation completed successfully.");
     }
 }

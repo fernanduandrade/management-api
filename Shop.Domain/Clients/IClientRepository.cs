@@ -5,7 +5,7 @@ namespace Shop.Domain.Clients;
 public interface IClientRepository : IRepository<Client>
 {
     void SetEntityStateModified(Client client);
-    Task<List<Client>> GetAllPaginated(int pageSize, int pageNumber);
+    IQueryable<Client> GetAllPaginated();
     Task<Client> FindByIdAsync(Guid id);
     void Add(Client client);
     void Update(Client client);

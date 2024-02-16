@@ -6,7 +6,7 @@ public interface IProductRepository : IRepository<Product>
 {
     Task<bool> IsProductUniqueAsync(string productName);
     void SetEntityStateModified(Product product);
-    Task<List<Product>> GetAllPaginated(int pageSize, int pageNumber);
+    IQueryable<Product> GetAllPaginated();
     Task<Product> FindByIdAsync(Guid id);
     void Add(Product product);
     void Update(Product product);

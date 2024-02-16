@@ -10,13 +10,10 @@ public class SaleHistoryRepository : ISaleHistoryRepository
     public SaleHistoryRepository(AppDbContext context)
         => (_context) = (context);
 
-    public async Task<List<SaleHistory>> GetAllPaginated(int pageSize, int pageNumber)
+    public IQueryable<SaleHistory> GetAllPaginated()
     {
-        var result = await _context.SalesHistory
-            .AsNoTracking()
-            .Take(pageSize)
-            .Skip(pageNumber)
-            .ToListAsync();
+        var result = _context.SalesHistory
+            .AsNoTracking();
 
         return result;
     }

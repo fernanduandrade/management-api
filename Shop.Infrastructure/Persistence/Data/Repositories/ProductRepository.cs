@@ -13,21 +13,17 @@ public class ProductRepository : IProductRepository
     {
         var productExists = await _context.Products
             .FirstOrDefaultAsync(product => product.Name.ToUpper() == productName.ToUpper());
-    
-        if(productExists is not null) {
-          return true;
-        }
+
+        if (productExists is not null)
+            return true;
 
         return false;
     }
 
-    public async Task<List<Product>> GetAllPaginated(int pageSize, int pageNumber)
+    public IQueryable<Product> GetAllPaginated()
     {
-        var result = await _context.Products
-            .AsNoTracking()
-            .Take(pageSize)
-            .Skip(pageNumber)
-            .ToListAsync();
+        var result = _context.Products
+            .AsNoTracking();
 
         return result;
     }

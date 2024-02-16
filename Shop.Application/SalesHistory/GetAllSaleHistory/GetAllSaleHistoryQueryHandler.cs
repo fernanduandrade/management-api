@@ -16,10 +16,12 @@ public sealed class GetAllSaleHistoryQueryHandler : IRequestHandler<GetAllSaleHi
     
     public async Task<ApiResult<PaginatedList<SaleHistoryDto>>> Handle(GetAllSaleHistoryQuery request, CancellationToken cancellationToken)
     {
-        var result = await _saleHistoryRepository.GetAllPaginated(request.PageSize, request.PageNumber);
-        var dtos = _mapper.Map<List<SaleHistoryDto>>(result);
-        var paginate = new PaginatedList<SaleHistoryDto>(dtos, dtos.Count, request.PageNumber, request.PageSize);
-
-        return new ApiResult<PaginatedList<SaleHistoryDto>>(paginate, ResponseTypeEnum.Success,"Operation completed successfully.");
+        var records = _saleHistoryRepository.GetAllPaginated();
+        var pagination = await PaginatedList<SaleHistory>
+            .CreateAsync(records, request.PageNumber, request.PageSize);
+        var dto = _mapper.Map<List<SaleHistoryDto>>(pagination.Items);
+        
+        var result = new PaginatedList<SaleHistoryDto>(dto, pagination.TotalCount, request.PageNumber, request.PageSize);
+        return new ApiResult<PaginatedList<SaleHistoryDto>>(result, ResponseTypeEnum.Success,"Operation completed successfully.");
     }
 }
