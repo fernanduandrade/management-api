@@ -20,12 +20,9 @@ public sealed class GetAllProductPaginatedQueryHandler : IRequestHandler<GetAllP
     {
         var records = _productRepository.GetAllPaginated();
         
-        var pagination = await PaginatedList<Product>
-            .CreateAsync(records, request.PageNumber, request.PageSize);
-        var dto = _mapper.Map<List<ProductDto>>(pagination.Items);
-        
-        var result = new PaginatedList<ProductDto>(dto, pagination.TotalCount, request.PageNumber, request.PageSize);
-        return new ApiResult<PaginatedList<ProductDto>>(result, ResponseTypeEnum.Success,
+        var pagination = await PaginatedList<ProductDto>
+            .CreateAsync(records, request.PageNumber, request.PageSize, _mapper);
+        return new ApiResult<PaginatedList<ProductDto>>(pagination, ResponseTypeEnum.Success,
             message: "Operation completed successfully.");
     }
 }

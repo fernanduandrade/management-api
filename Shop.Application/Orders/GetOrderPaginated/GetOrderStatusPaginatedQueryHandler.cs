@@ -20,11 +20,9 @@ public class GetOrderStatusPaginatedQueryHandler
     public async Task<ApiResult<PaginatedList<OrderDto>>> Handle(GetOrderStatusPaginatedQuery request,
         CancellationToken cancellationToken)
     {
-        var record = _orderRepository.GetAllByStatus(request.Status);
-        var pagination = await PaginatedList<Order>
-            .CreateAsync(record, request.PageNumber, request.PageSize);
-        var dto = _mapper.Map<List<OrderDto>>(pagination.Items);
-        var result = new PaginatedList<OrderDto>(dto, pagination.TotalCount, request.PageNumber, request.PageSize);
+        var records = _orderRepository.GetAllByStatus(request.Status);
+        var result = await PaginatedList<OrderDto>
+            .CreateAsync(records, request.PageNumber, request.PageSize, _mapper);
         return new ApiResult<PaginatedList<OrderDto>>(result, ResponseTypeEnum.Success, "Sucesso");
     }
 }
