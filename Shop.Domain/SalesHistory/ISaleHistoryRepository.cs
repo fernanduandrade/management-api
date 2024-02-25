@@ -12,4 +12,5 @@ public interface ISaleHistoryRepository : IRepository<SaleHistory>
     void Update(SaleHistory saleHistory);
     Task Remove(Guid id);
     decimal TodaySales();
+    decimal MonthSales();
 }

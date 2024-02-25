@@ -20,7 +20,7 @@
     <PackageReference Include="SimpleSoft.Mediator.Microsoft.Extensions.EFCoreTransactionPipeline" Version="2.2.0" />
   </ItemGroup>
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>

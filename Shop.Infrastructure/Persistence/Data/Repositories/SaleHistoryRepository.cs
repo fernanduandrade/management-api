@@ -13,14 +13,17 @@ public class SaleHistoryRepository : ISaleHistoryRepository
     public IQueryable<SaleHistory> GetAllPaginated()
     {
         var result = _context.SalesHistory
-            .AsNoTracking();
+            .AsNoTracking()
+            .Include(x => x.Product);
 
         return result;
     }
 
     public async Task<SaleHistory> FindByIdAsync(Guid id)
     {
-        var saleHistory = await _context.SalesHistory.FirstOrDefaultAsync(x => x.Id == id);
+        var saleHistory = await _context.SalesHistory
+            .Include(x => x.Product)
+            .FirstOrDefaultAsync(x => x.Id == id);
         return saleHistory;
     }
 
@@ -38,7 +41,7 @@ public class SaleHistoryRepository : ISaleHistoryRepository
     public async Task Remove(Guid id)
     {
         var saleHistory = await _context.SalesHistory.FirstOrDefaultAsync(x => x.Id == id);
-        _context.Remove(saleHistory);
+        _context.SalesHistory.Remove(saleHistory);
     }
 
     public decimal TodaySales()
@@ -46,6 +49,17 @@ public class SaleHistoryRepository : ISaleHistoryRepository
         DateTime compareDate = DateTime.UtcNow;
         var todaySales = _context.SalesHistory
             .Where(x => x.Date.Date == compareDate.Date)
+            .ToList()
+            .Sum(x => x.TotalPrice);
+        
+        return todaySales;
+    }
+
+    public decimal MonthSales()
+    {
+        DateTime compareDate = DateTime.UtcNow;
+        var todaySales = _context.SalesHistory
+            .Where(x => x.Date.Month == compareDate.Month)
             .ToList()
             .Sum(x => x.TotalPrice);
         
