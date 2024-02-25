@@ -53,6 +53,10 @@ public class OrderRepository : IOrderRepository
 
     public IQueryable<Order> GetAllByStatus(OrderStatus orderStatus)
     {
+        if(orderStatus == OrderStatus.TODOS){
+            return _context.Orders.AsNoTracking();
+        }
+
         var orders = _context.Orders.AsNoTracking()
             .Where(x => x.Status == orderStatus);
 

@@ -4,5 +4,6 @@ public enum OrderStatus
 {
     ABERTO,
     FECHADO,
-    AGUARDANDO
+    AGUARDANDO,
+    TODOS
 }
