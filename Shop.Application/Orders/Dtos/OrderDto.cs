@@ -11,6 +11,7 @@ public sealed record OrderDto : IMapFrom<Order>
     public string? ClientName { get; init; }
     public OrderStatus Status { get; init; }
     public List<ProductDto> Products { get; init; }
+    public DateTime Date {get; init;}
 
     public void Mapping(Profile profile)
     {
@@ -24,6 +25,9 @@ public sealed record OrderDto : IMapFrom<Order>
                         Name = op.Product.Name,
                         Quantity = op.Quantity
                     }).ToList())
-            );
+            )
+            .ForMember(x => x.Date,
+            opt =>
+                opt.MapFrom(src => src.Created));
     }
 }
