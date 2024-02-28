@@ -62,4 +62,13 @@ public class OrderRepository : IOrderRepository
 
         return orders;
     }
+    
+    public int GetTotalOrders()
+     =>_context.Orders.Count();
+    
+    public int GetTotalClosed()
+        =>_context.Orders.Where(x => x.Status == OrderStatus.FECHADO).Count();
+    
+    public int GetTotalOpen()
+        =>_context.Orders.Where(x => x.Status == OrderStatus.ABERTO).Count();
 }

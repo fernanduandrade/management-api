@@ -11,4 +11,7 @@ public interface IOrderRepository : IRepository<Order>
     void Update(Order order);
     Task Remove(Guid id);
     IQueryable<Order> GetAllByStatus(OrderStatus orderStatus);
+    int GetTotalOrders();
+    int GetTotalClosed();
+    int GetTotalOpen();
 }

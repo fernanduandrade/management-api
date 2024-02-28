@@ -78,6 +78,7 @@ app.UseRouting();
 
 app.UseCors(builder => builder
     .AllowAnyOrigin()
+    .SetPreflightMaxAge(TimeSpan.FromHours(24))
     .AllowAnyMethod()
     .AllowAnyHeader());
 

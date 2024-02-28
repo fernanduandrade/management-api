@@ -3,6 +3,7 @@ using Shop.Application.OrderProducts.CreateOrderProduct;
 using Shop.Application.OrderProducts.RemoveOrderProduct;
 using Shop.Application.Orders.CloseOrder;
 using Shop.Application.Orders.CreateOrder;
+using Shop.Application.Orders.GetAnalytics;
 using Shop.Application.Orders.GetOrderById;
 using Shop.Application.Orders.GetOrderPaginated;
 using Shop.Application.Products.GetAllProductPaginated;
@@ -57,6 +58,14 @@ public class OrdersController : BaseController
     public async Task<IActionResult> CloseOrder([FromQuery] CloseOrderCommand command)
     {
         var result = await Mediator.Send(command);
+
+        return Ok(result);
+    }
+    
+    [HttpGet("analytics")]
+    public async Task<IActionResult> Analytics([FromQuery] GetAnalyticsQuery query)
+    {
+        var result = await Mediator.Send(query);
 
         return Ok(result);
     }
