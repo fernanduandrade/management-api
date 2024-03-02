@@ -14,7 +14,7 @@ public class GetAnalyticsQueryHandler : IRequestHandler<GetAnalyticsQuery, ApiRe
     }
     public Task<ApiResult<AnalyticsDto>> Handle(GetAnalyticsQuery request, CancellationToken cancellationToken)
     {
-        int total = _orderRepository.GetTotalOpen();
+        int total = _orderRepository.GetTotalOrders();
         int closed = _orderRepository.GetTotalClosed();
         int open = _orderRepository.GetTotalOpen();
 

@@ -64,11 +64,11 @@ public class OrderRepository : IOrderRepository
     }
     
     public int GetTotalOrders()
-     =>_context.Orders.Count();
+     =>_context.Orders.AsNoTracking().ToList().Count;
     
     public int GetTotalClosed()
-        =>_context.Orders.Where(x => x.Status == OrderStatus.FECHADO).Count();
+        =>_context.Orders.AsNoTracking().Where(x => x.Status == OrderStatus.FECHADO).Count();
     
     public int GetTotalOpen()
-        =>_context.Orders.Where(x => x.Status == OrderStatus.ABERTO).Count();
+        =>_context.Orders.AsNoTracking().Where(x => x.Status == OrderStatus.ABERTO).Count();
 }

@@ -21,6 +21,7 @@ public sealed record OrderDto : IMapFrom<Order>
                 opt =>
                     opt.MapFrom(src => src.OrderProducts.Select(op => new ProductDto
                     {
+                        Id = op.Product.Id,
                         Price = op.Product.Price, 
                         Name = op.Product.Name,
                         Quantity = op.Quantity
