@@ -14,7 +14,8 @@ public class SaleHistoryRepository : ISaleHistoryRepository
     {
         var result = _context.SalesHistory
             .AsNoTracking()
-            .Include(x => x.Product);
+            .Include(x => x.Product)
+            .OrderByDescending(x => x.Created);
 
         return result;
     }
