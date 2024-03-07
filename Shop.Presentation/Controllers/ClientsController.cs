@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Clients.CreateClient;
+using Shop.Application.Clients.DeleteBulk;
 using Shop.Application.Clients.DeleteClient;
 using Shop.Application.Clients.Dtos;
 using Shop.Application.Clients.GetAllClientPaginated;
@@ -50,6 +51,16 @@ public class ClientsController : BaseController
     public async Task<ActionResult<ApiResult<ClientDto>>> GetClientById([FromRoute] GetClientByIdQuery query)
     {
         var result = await Mediator.Send(query);
+    
+        return Ok(result);
+    }
+
+
+    [HttpDelete("/bulk")]
+    [ProducesResponseType(typeof(ApiResult), StatusCodes.Status204NoContent)]
+    public async Task<ActionResult<ApiResult>> DeleteBulk([FromBody] DeleteClientsBulkCommand command)
+    {
+        var result = await Mediator.Send(command);
     
         return Ok(result);
     }

@@ -65,4 +65,13 @@ public class ProductsController : BaseController
     
         return Ok(result);
     }
+
+    [HttpDelete("/bulk")]
+    [ProducesResponseType(typeof(ApiResult), StatusCodes.Status204NoContent)]
+    public async Task<ActionResult<ApiResult>> DeleteBulk([FromBody] DeleteProductCommand command)
+    {
+        var result = await Mediator.Send(command);
+    
+        return Ok(result);
+    }
 }

@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Application.Common.Models;
 using Shop.Application.OrderProducts.CreateOrderProduct;
 using Shop.Application.OrderProducts.RemoveOrderProduct;
 using Shop.Application.Orders.CloseOrder;
 using Shop.Application.Orders.CreateOrder;
+using Shop.Application.Orders.DeleteBulk;
 using Shop.Application.Orders.GetAnalytics;
 using Shop.Application.Orders.GetOrderById;
 using Shop.Application.Orders.GetOrderPaginated;
@@ -67,6 +70,15 @@ public class OrdersController : BaseController
     {
         var result = await Mediator.Send(query);
 
+        return Ok(result);
+    }
+
+    [HttpDelete("/bulk")]
+    [ProducesResponseType(typeof(ApiResult), StatusCodes.Status204NoContent)]
+    public async Task<ActionResult<ApiResult>> DeleteBulk([FromBody] DeleteOrdersBulkCommand command)
+    {
+        var result = await Mediator.Send(command);
+    
         return Ok(result);
     }
 }

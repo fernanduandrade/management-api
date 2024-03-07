@@ -16,8 +16,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Shop.Domain\Shop.Domain.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Clients\Validations\" />
-    <Folder Include="Products\Events\" />
-  </ItemGroup>
 </Project>
