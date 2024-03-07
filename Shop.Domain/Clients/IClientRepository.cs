@@ -10,4 +10,5 @@ public interface IClientRepository : IRepository<Client>
     void Add(Client client);
     void Update(Client client);
     Task Remove(Guid id);
+    void DeleteBulk(List<Guid> ids);
 }

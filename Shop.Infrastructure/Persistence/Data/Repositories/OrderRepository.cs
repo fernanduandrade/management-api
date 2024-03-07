@@ -71,4 +71,11 @@ public class OrderRepository : IOrderRepository
     
     public int GetTotalOpen()
         =>_context.Orders.AsNoTracking().Where(x => x.Status == OrderStatus.ABERTO).Count();
+
+    public void DeleteBulk(List<Guid> ids)
+    {
+
+        var orders = _context.Orders.Where(x => ids.Contains(x.Id)).ToList();
+        _context.RemoveRange(orders);
+    } 
 }

@@ -62,4 +62,10 @@ public class ProductRepository : IProductRepository
     {
         _context.Products.Entry(entity).State = EntityState.Modified;
     }
+
+    public void DeleteBulk(List<Guid> ids)
+    {
+        var products = _context.Products.Where(x => ids.Contains(x.Id)).ToList();
+        _context.Products.RemoveRange(products);
+    }
 }

@@ -14,4 +14,5 @@ public interface IOrderRepository : IRepository<Order>
     int GetTotalOrders();
     int GetTotalClosed();
     int GetTotalOpen();
+    void DeleteBulk(List<Guid> ids);
 }

@@ -12,4 +12,5 @@ public interface IProductRepository : IRepository<Product>
     void Update(Product product);
     Task Remove(Guid id);
     Task<List<Product>> AutoComplete(string search);
+    void DeleteBulk(List<Guid> ids);
 }

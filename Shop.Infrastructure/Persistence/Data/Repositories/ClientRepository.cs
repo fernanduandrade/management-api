@@ -42,4 +42,10 @@ public class ClientRepository : IClientRepository
     {
         _context.Clients.Entry(entity).State = EntityState.Modified;
     }
+
+    public void DeleteBulk(List<Guid> ids)
+    {
+        var clients = _context.Clients.Where(x => ids.Contains(x.Id)).ToList();
+        _context.RemoveRange(clients);
+    }
 }

@@ -71,4 +71,10 @@ public class SaleHistoryRepository : ISaleHistoryRepository
     {
         _context.SalesHistory.Entry(entity).State = EntityState.Modified;
     }
+
+    public void DeleteBulk(List<Guid> ids)
+    {
+        var sales = _context.SalesHistory.Where(x => ids.Contains(x.Id)).ToList();
+        _context.SalesHistory.RemoveRange(sales);
+    }
 }

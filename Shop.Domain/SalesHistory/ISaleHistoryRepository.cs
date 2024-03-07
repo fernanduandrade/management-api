@@ -13,4 +13,5 @@ public interface ISaleHistoryRepository : IRepository<SaleHistory>
     Task Remove(Guid id);
     decimal TodaySales();
     decimal MonthSales();
+    void DeleteBulk(List<Guid> ids);
 }
