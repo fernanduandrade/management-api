@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Common.Models;
 using Shop.Application.Products.CreateProduct;
+using Shop.Application.Products.DeleteBulk;
 using Shop.Application.Products.DeleteProduct;
 using Shop.Application.Products.Dtos;
 using Shop.Application.Products.GetAllProductPaginated;
@@ -66,9 +67,9 @@ public class ProductsController : BaseController
         return Ok(result);
     }
 
-    [HttpDelete("/bulk")]
+    [HttpDelete("bulk")]
     [ProducesResponseType(typeof(ApiResult), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<ApiResult>> DeleteBulk([FromBody] DeleteProductCommand command)
+    public async Task<ActionResult<ApiResult>> DeleteBulk([FromBody] DeleteProductsBulkCommand command)
     {
         var result = await Mediator.Send(command);
     

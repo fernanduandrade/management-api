@@ -56,7 +56,7 @@ public class ClientsController : BaseController
     }
 
 
-    [HttpDelete("/bulk")]
+    [HttpDelete("bulk")]
     [ProducesResponseType(typeof(ApiResult), StatusCodes.Status204NoContent)]
     public async Task<ActionResult<ApiResult>> DeleteBulk([FromBody] DeleteClientsBulkCommand command)
     {

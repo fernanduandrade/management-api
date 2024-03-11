@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Clients.GetClientById;
 using Shop.Application.Common.Models;
 using Shop.Application.SalesHistory.CreateSale;
+using Shop.Application.SalesHistory.DeleteBulk;
 using Shop.Application.SalesHistory.DeleteSaleHistory;
 using Shop.Application.SalesHistory.Dtos;
 using Shop.Application.SalesHistory.GetAllSaleHistory;
@@ -75,9 +76,9 @@ public class SalesHistoryController : BaseController
         return Ok(result);
     }
 
-    [HttpDelete("/bulk")]
+    [HttpDelete("bulk")]
     [ProducesResponseType(typeof(ApiResult), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<ApiResult>> DeleteBulk([FromBody] DeleteSaleHistoryCommand command)
+    public async Task<ActionResult<ApiResult>> DeleteBulk([FromBody] DeleteSalesHistoryBulkCommand command)
     {
         var result = await Mediator.Send(command);
     

@@ -73,7 +73,7 @@ public class OrdersController : BaseController
         return Ok(result);
     }
 
-    [HttpDelete("/bulk")]
+    [HttpDelete("bulk")]
     [ProducesResponseType(typeof(ApiResult), StatusCodes.Status204NoContent)]
     public async Task<ActionResult<ApiResult>> DeleteBulk([FromBody] DeleteOrdersBulkCommand command)
     {
