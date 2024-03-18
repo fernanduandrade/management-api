@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Application.Clients.AddInput;
 using Shop.Application.Clients.CreateClient;
 using Shop.Application.Clients.DeleteBulk;
 using Shop.Application.Clients.DeleteClient;
@@ -7,6 +8,7 @@ using Shop.Application.Clients.Dtos;
 using Shop.Application.Clients.GetAllClientPaginated;
 using Shop.Application.Clients.GetClientById;
 using Shop.Application.Clients.UpdateClient;
+using Shop.Application.Clients.UpdateStatus;
 using Shop.Application.Common.Models;
 using Shop.Presentation.Controllers.Base;
 
@@ -63,5 +65,23 @@ public class ClientsController : BaseController
         var result = await Mediator.Send(command);
     
         return Ok(result);
+    }
+
+    [HttpPost("update-balance")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> UpdateBalance([FromBody] AddInputCommand command)
+    {
+        _ = await Mediator.Send(command);
+
+        return NoContent();
+    }
+
+    [HttpPost("update-status")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> UpdateStatus([FromBody] UpdateStatusCommand command)
+    {
+        _ = await Mediator.Send(command);
+
+        return NoContent();
     }
 }

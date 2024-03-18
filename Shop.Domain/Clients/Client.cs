@@ -4,12 +4,12 @@ namespace Shop.Domain.Clients;
 
 public class Client : AuditableEntity, IAggregateRoot
 {
-    public string Name { get; set; }
-    public string LastName { get; set; }
-    public bool IsActive { get; set; }
-    public string Phone { get; set; }
-    public decimal Debt { get; set; }
-    public decimal Credit { get; set; }
+    public string Name { get; private set; }
+    public string LastName { get; private set; }
+    public bool IsActive { get; private set; }
+    public string Phone { get; private set; }
+    public decimal Debt { get; private set; }
+    public decimal Credit { get; private set; }
 
 
     public static Client Create(string name, string lastName, string phone, bool isActive, decimal debt, decimal credit)
@@ -26,5 +26,20 @@ public class Client : AuditableEntity, IAggregateRoot
         };
 
         return client;
+    }
+
+
+    public void SetDebtInput(decimal value)
+    {
+        Debt += value;
+    }
+
+    public void SetCreditInput(decimal value)
+    {
+        Credit += value;
+    }
+
+    public void ChangeStatus(){
+        IsActive = !IsActive;
     }
 }
