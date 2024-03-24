@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SharedKernel;
 using Shop.Domain.Products;
 
 namespace Shop.Infrastructure.Persistence.Data.Repositories;
@@ -6,12 +7,20 @@ namespace Shop.Infrastructure.Persistence.Data.Repositories;
 public class ProductRepository : IProductRepository
 {
     private readonly AppDbContext _context;
+    private readonly IRepository<Product> _repository;
+    private readonly DbSet<Product> _dbSet;
 
-    public ProductRepository(AppDbContext context)
-        => (_context) = (context);
+
+    public ProductRepository(AppDbContext context, IRepository<Product> repository)
+    {
+        _context = context;
+        _dbSet = _context.Set<Product>();
+        _repository = repository;
+    }
+
     public async Task<bool> IsProductUniqueAsync(string productName)
     {
-        var productExists = await _context.Products
+        var productExists = await _dbSet
             .FirstOrDefaultAsync(product => product.Name.ToUpper() == productName.ToUpper());
 
         if (productExists is not null)
@@ -22,36 +31,28 @@ public class ProductRepository : IProductRepository
 
     public IQueryable<Product> GetAllPaginated()
     {
-        var result = _context.Products
-            .AsNoTracking();
-
-        return result;
+        return _repository.GetAll();
     }
 
     public async Task<Product> FindByIdAsync(Guid id)
     {
-        var entity = await _context.Products
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id);
-
-        return entity;
+        return await _repository.FindByIdAsync(id);
     }
 
     public void Add(Product product)
-        => _context.Products.Add(product);
+        => _repository.Add(product);
 
     public void Update(Product product)
-        => _context.Products.Update(product);
+        => _repository.Update(product);
 
     public async Task Remove(Guid id)
     {
-        var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
-        _context.Products.Remove(product);
+        await _repository.Remove(id);
     }
 
     public async Task<List<Product>> AutoComplete(string search)
     {
-        var products = await _context.Products.
+        var products = await _dbSet.
             Where(x => x.Name.ToLower().Contains(search.ToLower()))
             .ToListAsync();
         
@@ -60,12 +61,11 @@ public class ProductRepository : IProductRepository
 
     public virtual void SetEntityStateModified(Product entity)
     {
-        _context.Products.Entry(entity).State = EntityState.Modified;
+        _repository.SetEntityStateModified(entity);
     }
 
     public void DeleteBulk(List<Guid> ids)
     {
-        var products = _context.Products.Where(x => ids.Contains(x.Id)).ToList();
-        _context.Products.RemoveRange(products);
+        _repository.DeleteBulk(ids);
     }
 }

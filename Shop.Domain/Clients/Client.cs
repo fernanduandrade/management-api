@@ -4,10 +4,10 @@ namespace Shop.Domain.Clients;
 
 public class Client : AuditableEntity, IAggregateRoot
 {
-    public string Name { get; private set; }
-    public string LastName { get; private set; }
+    public string? Name { get; private set; }
+    public string? LastName { get; private set; }
     public bool IsActive { get; private set; }
-    public string Phone { get; private set; }
+    public string? Phone { get; private set; }
     public decimal Debt { get; private set; }
     public decimal Credit { get; private set; }
 

@@ -18,7 +18,7 @@ public sealed class UpdateClientCommandHandler : IRequestHandler<UpdateClientCom
 
     public async Task<ApiResult<ClientDto>> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
     {
-        var entity = _mapper.Map<Domain.Clients.Client>(request);
+        var entity = _mapper.Map<Client>(request);
 
         _clientRepository.SetEntityStateModified(entity);
         _clientRepository.Update(entity);

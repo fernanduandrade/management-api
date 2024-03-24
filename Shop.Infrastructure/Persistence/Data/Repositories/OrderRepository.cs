@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SharedKernel;
 using Shop.Domain.Orders;
 
 namespace Shop.Infrastructure.Persistence.Data.Repositories;
@@ -6,29 +7,23 @@ namespace Shop.Infrastructure.Persistence.Data.Repositories;
 public class OrderRepository : IOrderRepository
 {
     private readonly AppDbContext _context;
+    private readonly DbSet<Order> _dbSet;
+    private readonly IRepository<Order> _repository;
 
-    public OrderRepository(AppDbContext context)
+    public OrderRepository(AppDbContext context, IRepository<Order> repository)
     {
         _context = context;
+        _dbSet = _context.Set<Order>();
+        _repository = repository;
     }
     public void SetEntityStateModified(Order order)
     {
-        _context.Orders.Entry(order).State = EntityState.Modified;
-    }
-
-    public async Task<List<Order>> GetAllPaginated(int pageSize, int pageNumber)
-    {
-        var orders = await _context.Orders.AsNoTracking()
-            .Take(pageSize)
-            .Skip(pageNumber)
-            .ToListAsync();
-
-        return orders;
+        _repository.SetEntityStateModified(order);
     }
 
     public async Task<Order> FindByIdAsync(Guid id)
     {
-        var order = await _context.Orders
+        var order = await _dbSet
             .Include(x => x.OrderProducts)
             .ThenInclude(x => x.Product)
             .FirstOrDefaultAsync(x => x.Id == id);
@@ -37,45 +32,42 @@ public class OrderRepository : IOrderRepository
 
     public void Add(Order order)
     {
-        _context.Orders.Add(order);
+        _repository.Add(order);
     }
 
     public void Update(Order order)
     {
-        _context.Orders.Update(order);
+        _repository.Update(order);
     }
 
     public async Task Remove(Guid id)
     {
-        var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
-        _context.Orders.Remove(order);
+        await _repository.Remove(id);
     }
 
     public IQueryable<Order> GetAllByStatus(OrderStatus orderStatus)
     {
         if(orderStatus == OrderStatus.TODOS){
-            return _context.Orders.AsNoTracking().OrderByDescending(x => x.Created);
+            return _dbSet.AsNoTracking().OrderByDescending(x => x.Created);
         }
 
-        var orders = _context.Orders.AsNoTracking()
+        var orders = _dbSet.AsNoTracking()
             .Where(x => x.Status == orderStatus).OrderByDescending(x => x.Created);
 
         return orders;
     }
     
     public int GetTotalOrders()
-     =>_context.Orders.AsNoTracking().ToList().Count;
+     => _dbSet.AsNoTracking().ToList().Count;
     
     public int GetTotalClosed()
-        =>_context.Orders.AsNoTracking().Where(x => x.Status == OrderStatus.FECHADO).Count();
+        => _dbSet.AsNoTracking().Where(x => x.Status == OrderStatus.FECHADO).Count();
     
     public int GetTotalOpen()
-        =>_context.Orders.AsNoTracking().Where(x => x.Status == OrderStatus.ABERTO).Count();
+        => _dbSet.AsNoTracking().Where(x => x.Status == OrderStatus.ABERTO).Count();
 
     public void DeleteBulk(List<Guid> ids)
     {
-
-        var orders = _context.Orders.Where(x => ids.Contains(x.Id)).ToList();
-        _context.RemoveRange(orders);
+        _repository.DeleteBulk(ids);
     } 
 }

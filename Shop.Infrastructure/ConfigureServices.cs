@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel;
 using Shop.Application.Common.Interfaces;
 using Shop.Domain.Clients;
 using Shop.Domain.OrderProducts;
@@ -33,6 +34,7 @@ public static class ConfigureServices
                 });
         });
 
+        services.AddScoped(typeof(BaseRepository<>), typeof(IRepository<>));
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<ISaleHistoryRepository, SaleHistoryRepository>();

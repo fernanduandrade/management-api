@@ -1,46 +1,52 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel;
 using Shop.Domain.Clients;
 namespace Shop.Infrastructure.Persistence.Data.Repositories;
 
-public class ClientRepository(AppDbContext context) : IClientRepository
+
+public class ClientRepository : IClientRepository
 {
-    public IQueryable<Client> GetAllPaginated()
+    private readonly AppDbContext _context;
+    private readonly DbSet<Client> _dbSet;
+    private readonly IRepository<Client> _repository;
+
+
+    public ClientRepository(AppDbContext context, IRepository<Client> repository)
     {
-        var result =  context.Clients
-            .AsNoTracking();
+        _context = context;
+        _dbSet = _context.Set<Client>();
+        _repository = repository;
 
-        return result;
     }
-
     public async Task<Client> FindByIdAsync(Guid id)
     {
-        var entity = await context.Clients
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id);
-
-        return entity;
+        return await _repository.FindByIdAsync(id);
     }
 
     public void Add(Client client)
-        => context.Clients.Add(client);
+        => _repository.Add(client);
 
     public void Update(Client client)
-        => context.Clients.Update(client);
+        => _repository.Update(client);
 
     public async Task Remove(Guid id)
     {
-        var client = await context.Clients.FirstOrDefaultAsync(x => x.Id == id);
-        context.Clients.Remove(client);
+        await _repository.Remove(id);
     }
 
-    public virtual void SetEntityStateModified(Client entity)
+    public virtual void SetEntityStateModified(Client client)
     {
-        context.Clients.Entry(entity).State = EntityState.Modified;
+        _repository.SetEntityStateModified(client);
     }
 
     public void DeleteBulk(List<Guid> ids)
     {
-        var clients = context.Clients.Where(x => ids.Contains(x.Id)).ToList();
-        context.RemoveRange(clients);
+        _repository.DeleteBulk(ids);
+    }
+
+    public IQueryable<Client> GetAll(Expression<Func<Client, bool>>? filter = null)
+    {
+        return _repository.GetAll(filter);
     }
 }

@@ -13,15 +13,15 @@ public sealed class GetAllClientPaginatedQueryHandler
     private readonly IClientRepository _clientRepository;
 
     public GetAllClientPaginatedQueryHandler(IMapper mapper, IClientRepository clientRepository)
-        => (_clientRepository, _mapper) = (clientRepository, mapper);
+        => (_mapper, _clientRepository) = (mapper, clientRepository);
     public async Task<ApiResult<PaginatedList<ClientDto>>> Handle(GetAllClientPaginatedQuery request,
             CancellationToken cancellationToken)
-    {
+    {       
         var records = _clientRepository.GetAllPaginated();
         var pagination = await PaginatedList<ClientDto>
             .CreateAsync(records, request.PageNumber, request.PageSize, _mapper);
         
         return new ApiResult<PaginatedList<ClientDto>>(pagination,
-            ResponseTypeEnum.Success ,message: "Operation completed successfully.");
+            ResponseTypeEnum.Success ,message: "Concluido com sucesso.");
     }
 }

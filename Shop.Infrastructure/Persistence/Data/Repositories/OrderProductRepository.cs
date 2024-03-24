@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SharedKernel;
 using Shop.Domain.OrderProducts;
 
 namespace Shop.Infrastructure.Persistence.Data.Repositories;
@@ -6,52 +7,45 @@ namespace Shop.Infrastructure.Persistence.Data.Repositories;
 public class OrderProductRepository : IOrderProductRepository
 {
     private readonly AppDbContext _context;
+    private readonly DbSet<OrderProduct> _dbSet;
+    private readonly IRepository<OrderProduct> _repository;
 
-    public OrderProductRepository(AppDbContext context)
+
+    public OrderProductRepository(AppDbContext context, IRepository<OrderProduct> repository)
     {
         _context = context;
+        _dbSet = _context.Set<OrderProduct>();
+        _repository = repository;
     }
     public void SetEntityStateModified(OrderProduct orderProduct)
     {
-        _context.OrderProducts.Entry(orderProduct).State = EntityState.Modified;
-    }
-
-    public async Task<List<OrderProduct>> GetAllPaginated(int pageSize, int pageNumber)
-    {
-        var orderProducts = await _context.OrderProducts.AsNoTracking()
-            .Take(pageSize)
-            .Skip(pageNumber)
-            .ToListAsync();
-
-        return orderProducts;
-
+        _repository.SetEntityStateModified(orderProduct);
     }
 
     public async Task<OrderProduct> FindByIdAsync(Guid id)
-        => await _context.OrderProducts
-            .FirstOrDefaultAsync(x => x.Id == id);
+        => await _repository.FindByIdAsync(id);
 
     public void Add(OrderProduct orderProduct)
-        => _context.OrderProducts.Add(orderProduct);
+        => _repository.Add(orderProduct);
 
     public void Update(OrderProduct orderProduct)
-        => _context.OrderProducts.Update(orderProduct);
+        => _repository.Update(orderProduct);
 
     public async Task FindByIdAndRemove(Guid id)
     {
-        var orderProduct = await _context.OrderProducts
+        var orderProduct = await _dbSet
             .FirstOrDefaultAsync(x => x.Id == id);
-        _context.OrderProducts.Remove(orderProduct);
+        _dbSet.Remove(orderProduct);
     }
     
     public void Remove(OrderProduct orderProduct)
     {
-        _context.OrderProducts.Remove(orderProduct);
+        _dbSet.Remove(orderProduct);
     }
     
     public async Task<OrderProduct> OrderProductExist(Guid productId, Guid orderId)
     {
-        var orderProduct = await _context.OrderProducts
+        var orderProduct = await _dbSet
             .FirstOrDefaultAsync(x => x.OrderId == orderId && x.ProductId == productId);
 
         return orderProduct;
