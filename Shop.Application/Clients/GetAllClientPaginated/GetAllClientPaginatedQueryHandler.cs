@@ -17,7 +17,7 @@ public sealed class GetAllClientPaginatedQueryHandler
     public async Task<ApiResult<PaginatedList<ClientDto>>> Handle(GetAllClientPaginatedQuery request,
             CancellationToken cancellationToken)
     {       
-        var records = _clientRepository.GetAllPaginated();
+        var records = _clientRepository.GetAll();
         var pagination = await PaginatedList<ClientDto>
             .CreateAsync(records, request.PageNumber, request.PageSize, _mapper);
         

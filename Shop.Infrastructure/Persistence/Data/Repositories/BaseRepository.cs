@@ -4,7 +4,7 @@ using SharedKernel;
 
 namespace Shop.Infrastructure.Persistence.Data.Repositories;
 
-public class BaseRepository<T> : IRepository<T> where T : Entity, IAggregateRoot
+public class BaseRepository<T> : IRepository<T> where T : Entity
 {
     private readonly AppDbContext _context;
     protected readonly DbSet<T> _dbSet;
@@ -30,7 +30,6 @@ public class BaseRepository<T> : IRepository<T> where T : Entity, IAggregateRoot
     public async Task<T> FindByIdAsync(Guid id)
     {
         var entity = await _dbSet
-            .Include(x => x.Id)
             .FirstOrDefaultAsync(x => x.Id == id);
         return entity;
     }

@@ -26,6 +26,6 @@ public sealed class UpdateClientCommandHandler : IRequestHandler<UpdateClientCom
 
         var dto = _mapper.Map<ClientDto>(entity);
         
-        return new ApiResult<ClientDto>(dto, ResponseTypeEnum.Success ,"Operation completed successfully.");
+        return new ApiResult<ClientDto>(dto, ResponseTypeEnum.Success ,"Concluido com sucesso");
     }
 }

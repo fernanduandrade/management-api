@@ -34,7 +34,7 @@ public static class ConfigureServices
                 });
         });
 
-        services.AddScoped(typeof(BaseRepository<>), typeof(IRepository<>));
+        services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<ISaleHistoryRepository, SaleHistoryRepository>();

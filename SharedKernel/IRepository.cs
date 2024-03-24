@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 
 namespace SharedKernel;
 
-public interface IRepository<T> where T : class, IAggregateRoot
+public interface IRepository<T> where T : class
 {
     void SetEntityStateModified(T entity);
     IQueryable<T> GetAll(Expression<Func<T, bool>>? filter = null);

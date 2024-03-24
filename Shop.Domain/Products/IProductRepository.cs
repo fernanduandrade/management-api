@@ -2,7 +2,7 @@ using SharedKernel;
 
 namespace Shop.Domain.Products;
 
-public interface IProductRepository : IRepository<Product>
+public interface IProductRepository
 {
     Task<bool> IsProductUniqueAsync(string productName);
     void SetEntityStateModified(Product product);

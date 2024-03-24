@@ -7,7 +7,7 @@ using Shop.Domain.Clients;
 
 namespace Shop.Application.Clients.UpdateClient;
 
-public sealed record UpdateClientCommand :IMapFrom<Client>, IRequest<ApiResult<ClientDto>>
+public sealed record UpdateClientCommand : IRequest<ApiResult<ClientDto>>
 {
     public Guid Id {get; init;}
     public string Name {get; init;}
@@ -16,9 +16,4 @@ public sealed record UpdateClientCommand :IMapFrom<Client>, IRequest<ApiResult<C
     public string Phone {get; init;}
     public decimal Debt {get; init;}
     public decimal Credit {get; init;}
-
-    public void Mapping(Profile profile)
-    {
-        profile.CreateMap<UpdateClientCommand, Client>();
-    }
 }
