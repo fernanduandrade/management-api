@@ -18,13 +18,13 @@ public sealed class UpdateClientCommandHandler : IRequestHandler<UpdateClientCom
 
     public async Task<ApiResult<ClientDto>> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
     {
-        var entity = _mapper.Map<Client>(request);
-
-        _clientRepository.SetEntityStateModified(entity);
-        _clientRepository.Update(entity);
+        var client = await _clientRepository.FindByIdAsync(request.Id);
+        client.Update(request.Name, request.LastName, request.Phone, request.IsActive, request.Credit, request.Debt);
+        _clientRepository.SetEntityStateModified(client);
+        _clientRepository.Update(client);
         await _unitOfWork.Commit(cancellationToken);
 
-        var dto = _mapper.Map<ClientDto>(entity);
+        var dto = _mapper.Map<ClientDto>(client);
         
         return new ApiResult<ClientDto>(dto, ResponseTypeEnum.Success ,"Concluido com sucesso");
     }

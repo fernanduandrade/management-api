@@ -42,4 +42,15 @@ public class Client : AuditableEntity, IAggregateRoot
     public void ChangeStatus(){
         IsActive = !IsActive;
     }
+
+    public void Update(string? name, string? lastName, string? phone, bool isActive, decimal credit, decimal debt)
+    {
+        Name = name ?? Name;
+        LastName = lastName ?? LastName;
+        Phone = phone ?? Phone;
+        Name = name ?? Name;
+        IsActive = isActive;
+        Credit = credit;
+        Debt = debt;
+    }
 }
