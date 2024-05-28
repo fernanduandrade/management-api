@@ -4,5 +4,6 @@ public enum PaymentType
 {
     PIX,
     DINHEIRO,
-    CARTAO
+    CARTAO,
+    CANCELAR
 }

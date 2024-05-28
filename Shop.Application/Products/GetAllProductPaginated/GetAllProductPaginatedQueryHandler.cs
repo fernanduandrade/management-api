@@ -23,6 +23,6 @@ public sealed class GetAllProductPaginatedQueryHandler : IRequestHandler<GetAllP
         var pagination = await PaginatedList<ProductDto>
             .CreateAsync(records, request.PageNumber, request.PageSize, _mapper);
         return new ApiResult<PaginatedList<ProductDto>>(pagination, ResponseTypeEnum.Success,
-            message: "Operation completed successfully.");
+            message: "Operação.");
     }
 }

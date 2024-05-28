@@ -1,4 +1,4 @@
-version: "3.4"
+version: "3.8"
 
 services:
   postgresql_database:
@@ -13,5 +13,20 @@ services:
       - POSTGRES_USER=andrade
       - POSTGRES_PASSWORD=123654
 
+  redis:
+    image: redis:latest
+    container_name: my-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - redis-net
+
 volumes:
   database-data-shop:
+  redis-data:
+
+
+networks:
+  redis-net:

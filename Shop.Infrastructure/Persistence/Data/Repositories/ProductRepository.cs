@@ -31,7 +31,7 @@ public class ProductRepository : IProductRepository
 
     public IQueryable<Product> GetAllPaginated()
     {
-        return _repository.GetAll();
+        return _repository.GetAll().OrderByDescending(x => x.Created);
     }
 
     public async Task<Product> FindByIdAsync(Guid id)
