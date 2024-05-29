@@ -8,6 +8,7 @@ using Shop.Application.SalesHistory.DeleteSaleHistory;
 using Shop.Application.SalesHistory.Dtos;
 using Shop.Application.SalesHistory.GetAllSaleHistory;
 using Shop.Application.SalesHistory.GetMonthSales;
+using Shop.Application.SalesHistory.GetSaleHistoryById;
 using Shop.Application.SalesHistory.GetTodaySales;
 using Shop.Application.SalesHistory.UpdateSaleHistory;
 using Shop.Presentation.Controllers.Base;
@@ -35,10 +36,8 @@ public class SalesHistoryController : BaseController
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete([FromRoute]DeleteSaleHistoryCommand command)
     {
-        var result = await Mediator.Send(command);
-        if (result.Data)
-            return Ok(result);
-        return BadRequest(result);
+        await Mediator.Send(command);
+        return NoContent();
     }
     
     [HttpGet]
@@ -51,7 +50,7 @@ public class SalesHistoryController : BaseController
     
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResult<SaleHistoryDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResult<SaleHistoryDto>>> GetSaleById([FromRoute]GetClientByIdQuery query)
+    public async Task<ActionResult<ApiResult<SaleHistoryDto>>> GetSaleById([FromRoute]GetSaleHistoryByIdQuery query)
     {
         var result = await Mediator.Send(query);
     

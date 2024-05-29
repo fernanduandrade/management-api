@@ -13,7 +13,7 @@ public sealed record SaleHistoryDto : IMapFrom<SaleHistory>
     public int Quantity { get; init; }
     public decimal PricePerUnit { get; init; }
     public decimal TotalPrice { get; init; }
-    public string ProductName { get; init; }
+    public string? ProductName { get; init; }
 
     public void Mapping(Profile profile)
     {

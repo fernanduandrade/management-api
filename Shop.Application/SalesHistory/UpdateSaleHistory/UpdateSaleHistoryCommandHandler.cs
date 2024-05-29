@@ -19,8 +19,8 @@ public sealed class UpdateSaleHistoryCommandHandler : IRequestHandler<UpdateSale
     
     public async Task<ApiResult<SaleHistoryDto>> Handle(UpdateSaleHistoryCommand request, CancellationToken cancellationToken)
     {
-        var saleHistory = _mapper.Map<SaleHistory>(request);
-        
+        var saleHistory = await _saleHistoryRepository.FindByIdAsync(request.Id);
+        saleHistory.Update(request.ClientName, request.Quantity);
         _saleHistoryRepository.SetEntityStateModified(saleHistory);
         _saleHistoryRepository.Update(saleHistory);
         await _unitOfWork.Commit(cancellationToken);

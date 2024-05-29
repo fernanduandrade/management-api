@@ -34,7 +34,8 @@ public class SaleHistoryRepository : ISaleHistoryRepository
 
     public async Task<SaleHistory> FindByIdAsync(Guid id)
     {
-        return await _repository.FindByIdAsync(id);
+        return await _context.SalesHistory.Include(x => x.Product)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public void Add(SaleHistory saleHistory)

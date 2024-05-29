@@ -37,4 +37,11 @@ public class SaleHistory : AuditableEntity, IAggregateRoot
 
     private decimal CalculateTotalPriceBehaviour(int quantity, decimal pricePerUnit)
      => pricePerUnit * quantity;
+
+    public void Update(string? clientName, int quantity)
+    {
+        Quantity = quantity;
+        ClientName = clientName ?? ClientName;
+
+    }
 }
