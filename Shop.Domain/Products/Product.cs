@@ -1,5 +1,6 @@
 using SharedKernel;
 using Shop.Domain.OrderProducts;
+using Shop.Domain.SalesHistory;
 
 namespace Shop.Domain.Products;
 
@@ -10,8 +11,8 @@ public class Product : AuditableEntity, IAggregateRoot
     public decimal Price {get; private set;}
     public int Quantity {get; private set;}
     
-    public List<OrderProduct> OrderProducts { get; set; }
-
+    public List<OrderProduct> OrderProducts { get; set; } = new();
+    public List<SaleHistory> SaleHistorys { get; set; } = new();
     public bool IsAvaliable
     {
         get { return IsAvaliableBehavior(Quantity); }
@@ -37,5 +38,13 @@ public class Product : AuditableEntity, IAggregateRoot
     public void SetQuantity(int quantity)
     {
         Quantity += quantity;
+    }
+
+    public void Update(string? name, string? description, int quantity, decimal price)
+    {
+        Name = name ?? Name;
+        Description = description ?? Description;
+        Quantity = quantity;
+        Price = price;
     }
 }

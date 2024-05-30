@@ -26,6 +26,6 @@ public sealed class UpdateSaleHistoryCommandHandler : IRequestHandler<UpdateSale
         await _unitOfWork.Commit(cancellationToken);
 
         var dto = _mapper.Map<SaleHistoryDto>(saleHistory);
-        return new ApiResult<SaleHistoryDto>(dto, ResponseTypeEnum.Success, "Operation completed successfully.");
+        return new ApiResult<SaleHistoryDto>(dto, ResponseTypeEnum.Success, "Operação completa.");
     }
 } 

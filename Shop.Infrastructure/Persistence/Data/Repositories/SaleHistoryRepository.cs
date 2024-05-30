@@ -56,13 +56,20 @@ public class SaleHistoryRepository : ISaleHistoryRepository
 
     public decimal TodaySales()
     {
-        DateTime compareDate = DateTime.UtcNow;
+        try{
+DateTime compareDate = DateTime.UtcNow;
         var todaySales = _dbSet
             .Where(x => x.Date.Date == compareDate.Date)
             .ToList()
             .Sum(x => x.TotalPrice);
         
         return todaySales;
+        }
+        catch(Exception ex)
+        {
+return 0;
+        }
+        
     }
 
     public decimal MonthSales()

@@ -20,8 +20,8 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
 
     public async Task<ApiResult<ProductDto>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        var entity = _mapper.Map<Product>(request);
-
+        var entity = await _productRepository.FindByIdAsync(request.Id);
+        entity.Update(request.Name, request.Description, request.Quantity, request.Price);
         _productRepository.SetEntityStateModified(entity);
         _productRepository.Update(entity);
         await _unitOfWork.Commit(cancellationToken);

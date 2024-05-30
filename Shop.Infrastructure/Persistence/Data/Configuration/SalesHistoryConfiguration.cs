@@ -21,11 +21,11 @@ public class SaleConfiguration : IEntityTypeConfiguration<SaleHistory>
             .HasColumnName("client_name");
 
         builder.Property(prop => prop.ProductId)
-            .HasColumnName("product_fk");
+            .HasColumnName("product_id");
 
         builder.Property(prop => prop.Date)
             .HasColumnName("date")
-            .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));;
+            .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
 
         builder.Property(prop => prop.PricePerUnit)
             .HasColumnName("price_per_unit");
@@ -51,8 +51,8 @@ public class SaleConfiguration : IEntityTypeConfiguration<SaleHistory>
                 v => (PaymentType)Enum.Parse(typeof(PaymentType), v));
         
         builder.HasOne(prop => prop.Product)
-            .WithMany()
+            .WithMany(op => op.SaleHistorys)
             .HasForeignKey(prop => prop.ProductId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
