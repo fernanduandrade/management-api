@@ -22,11 +22,13 @@ public sealed class CreateBulkSaleEventHandler : INotificationHandler<CreateBulk
 
         foreach (var product in notification.products)
         {
+            var date = DateTime.UtcNow;
             var sale = SaleHistory.Create(notification.clientName,
                 product.Quantity,
                 product.Product.Price,
                 product.ProductId,
-                notification.paymentType);
+                notification.paymentType,
+                date);
             
             saleHistories.Add(sale);
         }

@@ -25,7 +25,8 @@ public sealed class CreateSaleHistoryCommandHandler : IRequestHandler<CreateSale
             request.Quantity,
             request.PricePerUnit,
             request.ProductId,
-            request.PaymentType);
+            request.PaymentType,
+            request.Date);
         
         entity.Raise(new SaleCreatedEvent(entity.ProductId, entity.Quantity));
         _saleHistoryRepository.Add(entity);

@@ -20,7 +20,8 @@ public class SaleHistory : AuditableEntity, IAggregateRoot
         int quantity,
         decimal pricePerUnit,
         Guid productId,
-        PaymentType paymentType)
+        PaymentType paymentType,
+        DateTime date)
     {
         SaleHistory saleHistory = new()
         {
@@ -29,7 +30,8 @@ public class SaleHistory : AuditableEntity, IAggregateRoot
             Quantity = quantity,
             PricePerUnit = pricePerUnit,
             ProductId = productId,
-            PaymentType = paymentType
+            PaymentType = paymentType,
+            Date = date
         };
 
         return saleHistory;
