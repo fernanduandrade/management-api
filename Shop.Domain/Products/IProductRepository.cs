@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using SharedKernel;
 
 namespace Shop.Domain.Products;
@@ -13,4 +14,5 @@ public interface IProductRepository
     Task Remove(Guid id);
     Task<List<Product>> AutoComplete(string search);
     void DeleteBulk(List<Guid> ids);
+    IQueryable<Product> Get(Expression<Func<Product, bool>> filter = null);
 }

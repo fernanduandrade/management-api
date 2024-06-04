@@ -1,0 +1,33 @@
+@model Shop.Application.Reports.GetProducts.ProductsReportModel;
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="~/Content/BaseLayout.css" type="text/css" />
+</head>
+
+<body>
+  <h1>Lista de produtos cadastrados</h1>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Valor</th>
+        <th>Quantidade</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach(var product in @Model.Products)
+      {
+        <tr>
+          <td>@product.Name</td>
+          <td>@product.Price</td>
+          <td>@product.Quantity</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</body>

@@ -19,7 +19,7 @@ public sealed class GetSalesReportByDateQueryHandler(ISaleHistoryRepository sale
 
         SalesReportModel reportModel = new("Nando", starDate, endDate, records.ToList());
 
-        var stream = await Helper.CreateReport(reportModel, "Sales", "PeriodicReport.cshtml");
+        var stream = await Helper.CreateReport(reportModel, "Sales", "PeriodicSales.cshtml");
         return stream;
     }
 }

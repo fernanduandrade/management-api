@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 using Shop.Domain.Products;
@@ -67,5 +68,10 @@ public class ProductRepository : IProductRepository
     public void DeleteBulk(List<Guid> ids)
     {
         _repository.DeleteBulk(ids);
+    }
+
+    public IQueryable<Product> Get(Expression<Func<Product, bool>> filter = null)
+    {
+        return _repository.GetAll(filter);
     }
 }
