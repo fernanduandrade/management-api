@@ -1,0 +1,38 @@
+@model Manager.Application.Reports.GetSalesByDate.SalesReportModel;
+
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="~/Content/BaseLayout.css" type="text/css" />
+</head>
+<body>
+  <h1>Relatório de Vendas - @Model.StartDate.ToString("dd/MM/yyyy") e @Model.EndDate.ToString("dd/MM/yyyy")</h1>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th>Valor</th>
+        <th>Quantidade</th>
+        <th>Total</th>
+        <th>Dia da venda</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach(var sale in @Model.Sales)
+      {
+        <tr>
+          <td>@sale.Product.Name</td>
+          <td>@sale.PricePerUnit</td>
+          <td>@sale.Quantity</td>
+          <td>@sale.TotalPrice</td>
+          <td>@sale.Date.ToString("dd/MM/yyyy")</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <h2>Total de vendas no período R$ @Model.Sales.Select(x => x.TotalPrice).ToList().Sum()</h2>
+</body>

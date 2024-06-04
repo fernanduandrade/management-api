@@ -19,8 +19,8 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore ./Shop.WebApi/Shop.WebApi.csproj
+      run: dotnet restore ./Manager.API/Manager.API.csproj
     - name: Running Tests
       run: dotnet test

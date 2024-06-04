@@ -1,0 +1,35 @@
+@model Manager.Application.Reports.GetClientsStatus.GetClientsStatusReportModel;
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="~/Content/BaseLayout.css" type="text/css" />
+</head>
+
+<body>
+  <h1>Lista de situação dos clientes cadastrados</h1>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Situação</th>
+        <th>Crédito</th>
+        <th>Débito</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach(var client in @Model.Clients)
+      {
+        <tr>
+          <td>@client.Name</td>
+          <td>@(client.IsActive ? "Ativo" : "Desligado")</td>
+          <td>@client.Credit</td>
+          <td>@client.Debt</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</body>
