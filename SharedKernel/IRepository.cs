@@ -4,7 +4,6 @@ namespace SharedKernel;
 
 public interface IRepository<T> where T : class
 {
-    void SetEntityStateModified(T entity);
     IQueryable<T> GetAll(Expression<Func<T, bool>>? filter = null);
     Task<T> FindByIdAsync(Guid id);
     void Add(T entity);

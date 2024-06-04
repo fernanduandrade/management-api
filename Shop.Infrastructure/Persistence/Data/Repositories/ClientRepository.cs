@@ -35,11 +35,6 @@ public class ClientRepository : IClientRepository
         await _repository.Remove(id);
     }
 
-    public virtual void SetEntityStateModified(Client client)
-    {
-        _repository.SetEntityStateModified(client);
-    }
-
     public void DeleteBulk(List<Guid> ids)
     {
         _repository.DeleteBulk(ids);

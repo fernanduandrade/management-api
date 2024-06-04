@@ -60,11 +60,6 @@ public class ProductRepository : IProductRepository
         return products;
     }
 
-    public virtual void SetEntityStateModified(Product entity)
-    {
-        _repository.SetEntityStateModified(entity);
-    }
-
     public void DeleteBulk(List<Guid> ids)
     {
         _repository.DeleteBulk(ids);

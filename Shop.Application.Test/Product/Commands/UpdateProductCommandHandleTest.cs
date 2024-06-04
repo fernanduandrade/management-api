@@ -78,7 +78,6 @@
 //         _productRepository.Setup(x => x.FindByIdAsync(
 //             It.IsAny<Guid>()
 //         )).ReturnsAsync(product);
-//         _productRepository.Setup(x => x.SetEntityStateModified(It.IsAny<Entities.Product>()));
 //         
 //         var command = new UpdateProductCommand()
 //         {
@@ -122,7 +121,6 @@
 //         _productRepository.Setup(x => x.FindByIdAsync(
 //             It.IsAny<Guid>()
 //         )).ReturnsAsync(product);
-//         _productRepository.Setup(x => x.SetEntityStateModified(It.IsAny<Entities.Product>()));
 //         
 //         var command = new UpdateProductCommand()
 //         {
@@ -167,7 +165,6 @@
 //         _productRepository.Setup(x => x.FindByIdAsync(
 //             It.IsAny<Guid>()
 //         )).ReturnsAsync(product);
-//         _productRepository.Setup(x => x.SetEntityStateModified(It.IsAny<Entities.Product>()));
 //         
 //         var command = new UpdateProductCommand()
 //         {
@@ -212,7 +209,6 @@
 //         _productRepository.Setup(x => x.FindByIdAsync(
 //             It.IsAny<Guid>()
 //         )).ReturnsAsync(product);
-//         _productRepository.Setup(x => x.SetEntityStateModified(It.IsAny<Entities.Product>()));
 //         
 //         var command = new UpdateProductCommand()
 //         {

@@ -21,7 +21,6 @@ public sealed class UpdateSaleHistoryCommandHandler : IRequestHandler<UpdateSale
     {
         var saleHistory = await _saleHistoryRepository.FindByIdAsync(request.Id);
         saleHistory.Update(request.ClientName, request.Quantity);
-        _saleHistoryRepository.SetEntityStateModified(saleHistory);
         _saleHistoryRepository.Update(saleHistory);
         await _unitOfWork.Commit(cancellationToken);
 

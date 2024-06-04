@@ -20,7 +20,6 @@ public sealed class UpdateClientCommandHandler : IRequestHandler<UpdateClientCom
     {
         var client = await _clientRepository.FindByIdAsync(request.Id);
         client.Update(request.Name, request.LastName, request.Phone, request.IsActive, request.Credit, request.Debt);
-        _clientRepository.SetEntityStateModified(client);
         _clientRepository.Update(client);
         await _unitOfWork.Commit(cancellationToken);
 

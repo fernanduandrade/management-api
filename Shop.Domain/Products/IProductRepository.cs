@@ -6,7 +6,6 @@ namespace Shop.Domain.Products;
 public interface IProductRepository
 {
     Task<bool> IsProductUniqueAsync(string productName);
-    void SetEntityStateModified(Product product);
     IQueryable<Product> GetAllPaginated();
     Task<Product> FindByIdAsync(Guid id);
     void Add(Product product);

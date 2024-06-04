@@ -2,7 +2,6 @@ namespace Shop.Domain.Orders;
 
 public interface IOrderRepository
 {
-    void SetEntityStateModified(Order order);
     Task<Order> FindByIdAsync(Guid id);
     void Add(Order order);
     void Update(Order order);

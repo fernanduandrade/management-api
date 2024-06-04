@@ -77,11 +77,6 @@ public class SaleHistoryRepository : ISaleHistoryRepository
         return todaySales;
     }
 
-    public virtual void SetEntityStateModified(SaleHistory entity)
-    {
-        _repository.SetEntityStateModified(entity);
-    }
-
     public void DeleteBulk(List<Guid> ids)
     {
         _repository.DeleteBulk(ids);

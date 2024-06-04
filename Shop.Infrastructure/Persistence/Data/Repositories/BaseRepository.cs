@@ -43,17 +43,15 @@ public class BaseRepository<T> : IRepository<T> where T : Entity
     }
 
     public void Update(T entity)
-        => _dbSet.Update(entity);
+    {
+        _dbSet.Entry(entity).State = EntityState.Modified;
+        _dbSet.Update(entity);
+    }
 
     public async Task Remove(Guid id)
     {
         var entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
         _dbSet.Remove(entity);
-    }
-
-    public virtual void SetEntityStateModified(T entity)
-    {
-        _dbSet.Entry(entity).State = EntityState.Modified;
     }
 
     public void DeleteBulk(List<Guid> ids)

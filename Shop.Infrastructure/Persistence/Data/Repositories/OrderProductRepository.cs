@@ -17,10 +17,6 @@ public class OrderProductRepository : IOrderProductRepository
         _dbSet = _context.Set<OrderProduct>();
         _repository = repository;
     }
-    public void SetEntityStateModified(OrderProduct orderProduct)
-    {
-        _repository.SetEntityStateModified(orderProduct);
-    }
 
     public async Task<OrderProduct> FindByIdAsync(Guid id)
         => await _repository.FindByIdAsync(id);

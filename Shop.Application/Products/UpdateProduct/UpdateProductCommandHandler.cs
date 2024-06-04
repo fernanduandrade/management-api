@@ -22,7 +22,6 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
     {
         var entity = await _productRepository.FindByIdAsync(request.Id);
         entity.Update(request.Name, request.Description, request.Quantity, request.Price);
-        _productRepository.SetEntityStateModified(entity);
         _productRepository.Update(entity);
         await _unitOfWork.Commit(cancellationToken);
         

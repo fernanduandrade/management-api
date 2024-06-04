@@ -16,10 +16,6 @@ public class OrderRepository : IOrderRepository
         _dbSet = _context.Set<Order>();
         _repository = repository;
     }
-    public void SetEntityStateModified(Order order)
-    {
-        _repository.SetEntityStateModified(order);
-    }
 
     public async Task<Order> FindByIdAsync(Guid id)
     {
