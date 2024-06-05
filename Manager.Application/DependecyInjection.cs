@@ -20,9 +20,4 @@ public static class ConfigureServices
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         return services;
     }
-    
-    public static IServiceCollection AddSerilog(this IServiceCollection services, IConfiguration configuration)
-    {
-        return services;
-    }
 }

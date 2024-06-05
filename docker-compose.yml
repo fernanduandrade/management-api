@@ -7,9 +7,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - database-data-Manager:/var/lib/postgresql/data/
+      - database-data-shop:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=Manager
+      - POSTGRES_DB=shop
       - POSTGRES_USER=andrade
       - POSTGRES_PASSWORD=123654
 
@@ -24,7 +24,7 @@ services:
       - redis-net
 
 volumes:
-  database-data-Manager:
+  database-data-shop:
   redis-data:
 
 

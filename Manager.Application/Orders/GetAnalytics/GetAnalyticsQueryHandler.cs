@@ -1,10 +1,11 @@
 using MediatR;
 using Manager.Application.Common.Models;
 using Manager.Domain.Orders;
+using Microsoft.Extensions.Logging;
 
 namespace Manager.Application.Orders.GetAnalytics;
 
-public class GetAnalyticsQueryHandler(IOrderRepository repository)
+public class GetAnalyticsQueryHandler(IOrderRepository repository, ILogger<GetAnalyticsQueryHandler> logger)
     : IRequestHandler<GetAnalyticsQuery, ApiResult<AnalyticsDto>>
 {
     public Task<ApiResult<AnalyticsDto>> Handle(GetAnalyticsQuery request, CancellationToken cancellationToken)

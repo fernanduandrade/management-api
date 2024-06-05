@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Manager.Presentation.Middlewares;
 
-public class ErrorHandlingMiddleware(RequestDelegate next)
+public class ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
 {
     public async Task Invoke(HttpContext context)
     {
@@ -24,6 +24,9 @@ public class ErrorHandlingMiddleware(RequestDelegate next)
         }
         catch (Exception ex)
         {
+
+            logger.LogError($"Exception: {ex.InnerException}");
+            logger.LogError($"Exception: {ex.Message}");
             var responseError = new
             {
                 Message = ex.Message

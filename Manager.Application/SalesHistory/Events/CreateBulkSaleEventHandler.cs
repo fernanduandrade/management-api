@@ -2,22 +2,19 @@ using MediatR;
 using Manager.Application.Common.Interfaces;
 using Manager.Domain.SalesHistory;
 using Manager.Domain.SalesHistory.Events;
+using Microsoft.Extensions.Logging;
 
 namespace Manager.Application.SalesHistory.Events;
 
-public sealed class CreateBulkSaleEventHandler : INotificationHandler<CreateBulkSaleEvent>
+public sealed class CreateBulkSaleEventHandler(ISaleHistoryRepository saleHistoryRepository, IUnitOfWork unitOfWork, ILogger<CreateBulkSaleEventHandler> logger)
+    : INotificationHandler<CreateBulkSaleEvent>
 {
-    private readonly ISaleHistoryRepository _saleHistoryRepository;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ISaleHistoryRepository _saleHistoryRepository = saleHistoryRepository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public CreateBulkSaleEventHandler(ISaleHistoryRepository saleHistoryRepository, IUnitOfWork unitOfWork)
-    {
-        _saleHistoryRepository = saleHistoryRepository;
-        _unitOfWork = unitOfWork;
-    }
-    
     public async Task Handle(CreateBulkSaleEvent notification, CancellationToken cancellationToken)
     {
+        logger.LogInformation("Iniciado processo para adicionar lote de produtos vendidos");
         List<SaleHistory> saleHistories = new();
 
         foreach (var product in notification.products)

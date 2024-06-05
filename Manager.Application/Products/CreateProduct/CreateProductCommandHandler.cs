@@ -4,21 +4,17 @@ using Manager.Application.Common.Interfaces;
 using Manager.Application.Common.Models;
 using Manager.Application.Products.Dtos;
 using Manager.Domain.Products;
+using Microsoft.Extensions.Logging;
 
 namespace Manager.Application.Products.CreateProduct;
 
-public sealed class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, ApiResult<ProductDto>>
+public sealed class CreateProductCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateProductCommandHandler> logger)
+    : IRequestHandler<CreateProductCommand, ApiResult<ProductDto>>
 {
-    private readonly IProductRepository _productRepository;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
+    private readonly IProductRepository _productRepository = productRepository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMapper _mapper = mapper;
 
-    public CreateProductCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork, IMapper mapper)
-    {
-        _productRepository = productRepository;
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-    }
     public async Task<ApiResult<ProductDto>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         var productExistsQuery = _productRepository.Get(product => product.Name.ToUpper() == request.Name.ToUpper());
@@ -33,6 +29,7 @@ public sealed class CreateProductCommandHandler : IRequestHandler<CreateProductC
 
         ProductDto dto = _mapper.Map<ProductDto>(entity);
         
+        logger.LogInformation("Novo produto adicionado {ProductName}", dto.Name);
         return new ApiResult<ProductDto>(dto, ResponseTypeEnum.Success, "Sucesso"); 
     }
 }

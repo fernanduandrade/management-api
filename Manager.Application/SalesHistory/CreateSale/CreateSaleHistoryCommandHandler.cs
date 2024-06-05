@@ -5,19 +5,16 @@ using Manager.Application.Common.Models;
 using Manager.Application.SalesHistory.Dtos;
 using Manager.Domain.SalesHistory;
 using Manager.Domain.SalesHistory.Events;
+using Microsoft.Extensions.Logging;
 
 namespace Manager.Application.SalesHistory.CreateSale;
 
-public sealed class CreateSaleHistoryCommandHandler : IRequestHandler<CreateSaleHistoryCommand, ApiResult<SaleHistoryDto>>
-{
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ISaleHistoryRepository _saleHistoryRepository;
-
-    public CreateSaleHistoryCommandHandler(IUnitOfWork unitOfWork,
+public sealed class CreateSaleHistoryCommandHandler(IUnitOfWork unitOfWork,
         ISaleHistoryRepository saleHistoryRepository,
-        IMapper mapper)
-        => (_unitOfWork, _saleHistoryRepository, _mapper) = (unitOfWork, saleHistoryRepository, mapper);
+        IMapper mapper,
+        ILogger<CreateSaleHistoryCommandHandler> logger)
+        : IRequestHandler<CreateSaleHistoryCommand, ApiResult<SaleHistoryDto>>
+{
     
     public async Task<ApiResult<SaleHistoryDto>> Handle(CreateSaleHistoryCommand request, CancellationToken cancellationToken)
     {
@@ -29,9 +26,10 @@ public sealed class CreateSaleHistoryCommandHandler : IRequestHandler<CreateSale
             request.Date);
         
         entity.Raise(new SaleCreatedEvent(entity.ProductId, entity.Quantity));
-        _saleHistoryRepository.Add(entity);
-        await _unitOfWork.Commit(cancellationToken);
-        var dto = _mapper.Map<SaleHistoryDto>(entity);
-        return new ApiResult<SaleHistoryDto>(dto, ResponseTypeEnum.Success, "Operation completed successfully.");
+        saleHistoryRepository.Add(entity);
+        await unitOfWork.Commit(cancellationToken);
+        var dto = mapper.Map<SaleHistoryDto>(entity);
+        logger.LogInformation("Nova venda adicionada para {ClientName}, produto {ProductName}", dto.ClientName, dto.ProductName);
+        return new ApiResult<SaleHistoryDto>(dto, ResponseTypeEnum.Success, "Sucesso.");
     }
 }

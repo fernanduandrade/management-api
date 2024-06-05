@@ -6,17 +6,11 @@ using SharedKernel;
 
 namespace Manager.Infrastructure.Persistence.Interceptors;
 
-public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
+public class AuditableEntitySaveChangesInterceptor(
+    IUserManagerService currentUserService, IDateTime dateTime) : SaveChangesInterceptor
 {
-    public readonly IUserManagerService _currentUserService;
-    private readonly IDateTime _dateTime;
-
-    public AuditableEntitySaveChangesInterceptor(
-        IUserManagerService currentUserService, IDateTime dateTime)
-    {
-        _currentUserService = currentUserService;
-        _dateTime = dateTime;
-    }
+    public readonly IUserManagerService _currentUserService = currentUserService;
+    private readonly IDateTime _dateTime = dateTime;
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {

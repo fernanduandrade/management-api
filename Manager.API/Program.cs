@@ -39,6 +39,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerConfig(provider);
 }
 
+app.UseStaticFiles();
+
+app.UseSerilogRequestLogging();
+
 app.MapControllers();
 app.AddServicesHealthChecks();
 app.UseRouting();
@@ -51,7 +55,7 @@ app.UseCors(cp => cp
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
-app.UseSerilogRequestLogging();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
