@@ -19,7 +19,7 @@ public static class Helper
         await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
             Headless = true,
-            ExecutablePath = "/snap/bin/chromium",
+            ExecutablePath = Environment.GetEnvironmentVariable("PUPPETER_EXECUTABLE_PATH"),
             Args = ["--no-sandbox"]
         });
         await using var page = await browser.NewPageAsync();

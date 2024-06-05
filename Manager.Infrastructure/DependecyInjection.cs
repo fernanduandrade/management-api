@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
@@ -19,6 +17,8 @@ using Manager.Infrastructure.Persistence.Data;
 using Manager.Infrastructure.Persistence.Data.Repositories;
 using Manager.Infrastructure.Persistence.Interceptors;
 using Manager.Infrastructure.Services;
+using OpenTelemetry.Resources;
+using OpenTelemetry;
 
 namespace Manager.Infrastructure;
 
@@ -61,48 +61,45 @@ public static class DependecyInjection
         
         return services;
     }
-    // public static IHostApplicationBuilder ConfigureOpenTelemetry(this IHostApplicationBuilder builder)
-    // {
-    //     builder.Services.ConfigureHttpClientDefaults(http =>
-    //     {
-    //         // Turn on resilience by default
-    //         http.AddStandardResilienceHandler();
-    //         http.AddServiceDiscovery();
-    //     });
-    //     builder.Logging.AddOpenTelemetry(x =>
-    //     {
-    //         x.IncludeScopes = true;
-    //         x.IncludeFormattedMessage = true;
-    //     });
-    //
-    //     builder.Services.AddOpenTelemetry()
-    //         .WithMetrics(x =>
-    //         {
-    //             x.AddRuntimeInstrumentation()
-    //                 .AddMeter("Microsoft.AspNetCore.Hosting",
-    //                     "Microsoft.AspNetCore.Server.Kestrel",
-    //                     "System.Net.Http",
-    //                     "Manager.API");
-    //         })
-    //         .WithTracing(x =>
-    //         {
-    //             x.AddAspNetCoreInstrumentation()
-    //                 .AddConsoleExporter()
-    //                 .AddHttpClientInstrumentation();
-    //         });
-    //     
-    //     
-    //     var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
-    //     
-    //     if (useOtlpExporter)
-    //     {
-    //         builder.Services.Configure<OpenTelemetryLoggerOptions>(logging => logging.AddOtlpExporter());
-    //         builder.Services.ConfigureOpenTelemetryMeterProvider(metrics => metrics.AddOtlpExporter());
-    //         builder.Services.ConfigureOpenTelemetryTracerProvider(tracing => tracing.AddOtlpExporter());
-    //     }
-    //
-    //     return builder;
-    // }
+
+    public static ILoggingBuilder AddOpenTelemetryLogging(this ILoggingBuilder logging)
+    {
+
+        logging.AddOpenTelemetry(x =>
+        {
+            x.IncludeScopes = true;
+            x.IncludeFormattedMessage = true;
+            x.AddOtlpExporter();
+        });
+    
+        return logging;
+    }
+
+    public static IServiceCollection AddOpenTelemetryServices(this IServiceCollection services)
+    {
+        services.AddOpenTelemetry()
+            .ConfigureResource(resource => resource.AddService("ManagerAPI"))
+            .WithMetrics(x =>
+            {
+                x
+                .AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation();
+
+                x.AddOtlpExporter();
+            })
+            .WithTracing(x =>
+            {
+                x
+                    .AddAspNetCoreInstrumentation()
+                    .AddConsoleExporter()
+                    .AddHttpClientInstrumentation();
+
+                x.AddOtlpExporter();
+            });
+        
+    
+        return services;
+    }
 
     public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
     {

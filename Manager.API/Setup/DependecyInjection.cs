@@ -14,6 +14,12 @@ public static class DiConfiguration
 {
     public static IServiceCollection Addbehaviours(this IServiceCollection services)
     {
+        services.ConfigureHttpClientDefaults(http =>
+        {
+            http.AddStandardResilienceHandler();
+            http.AddServiceDiscovery();
+        });
+        
         services.AddHealthChecks()
             .AddDbContextCheck<AppDbContext>();
             
@@ -70,12 +76,12 @@ public static class DiConfiguration
         return services;
     }
 
-    public static IServiceCollection AddAuth(this IServiceCollection services)
+    public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration1)
     {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.Authority = "http://localhost:5211";
+                options.Authority = configuration1["AppSettings:AuthServer"];
                 options.Audience = "cwm.client";
                 options.IncludeErrorDetails = true;
                 options.TokenValidationParameters.ValidateAudience = false;

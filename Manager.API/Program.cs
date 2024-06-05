@@ -15,7 +15,8 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
-builder.Services
+builder.Logging.AddOpenTelemetryLogging();
+    builder.Services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
     .AddApplicationDi()
@@ -23,8 +24,8 @@ builder.Services
     .AddPersistence(configuration)
     .AddInterceptors()
     .AddVersioning()
+    .AddOpenTelemetryServices()
     .Addbehaviours()
-    .AddAuth()
     .AddSwaggerConfig();
 
 builder.Host.UseSerilog((context, configuration) =>
@@ -39,7 +40,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerConfig(provider);
 }
 
-app.UseStaticFiles();
+//app.UseStaticFiles();
 
 app.UseSerilogRequestLogging();
 

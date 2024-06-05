@@ -1,11 +1,32 @@
 version: "3.8"
 
 services:
+  manager.api:
+    image: manager.api
+    container_name: api
+    depends_on:
+      - postgresql_database
+      - redis
+    build:
+      context: .
+      dockerfile: Manager.API/Dockerfile
+    ports:
+      - 8081:8081
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://manager-dashboard:18889
+      - PUPPETER_EXECUTABLE_PATH=/usr/bin/chromium
+    networks:
+      - otel
+    volumes:
+      - /home/fernando/apis/app:/home/app/.aspnet/DataProtection-Keys
+      
+  
   postgresql_database:
     image: postgres:latest
+    hostname: db
     restart: always
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
       - database-data-shop:/var/lib/postgresql/data/
     environment:
@@ -15,14 +36,23 @@ services:
 
   redis:
     image: redis:latest
+    hostname: redis
     container_name: my-redis
     ports:
-      - "6379:6379"
+      - 6379:6379
     volumes:
       - redis-data:/data
     networks:
       - redis-net
 
+  manager-dashboard:
+    image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:latest
+    container_name: dashboard
+    ports:
+      - 18888:18888
+    networks:
+      - otel
+      
 volumes:
   database-data-shop:
   redis-data:
@@ -30,3 +60,4 @@ volumes:
 
 networks:
   redis-net:
+  otel:
