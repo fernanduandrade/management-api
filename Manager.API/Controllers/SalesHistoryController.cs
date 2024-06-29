@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Manager.Application.Clients.GetClientById;
 using Manager.Application.Common.Models;
 using Manager.Application.SalesHistory.CreateSale;
 using Manager.Application.SalesHistory.DeleteBulk;
@@ -15,7 +13,7 @@ using Manager.Presentation.Controllers.Base;
 
 namespace Manager.Presentation.Controllers;
 
-public class SalesHistoryController : BaseController
+public class SalesHistoryController(ILogger<SalesHistoryController> logger) : BaseController
 {
     [HttpPost]
     public async Task<ActionResult> Create(CreateSaleHistoryCommand command)

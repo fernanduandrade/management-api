@@ -18,7 +18,6 @@ using Manager.Infrastructure.Persistence.Data.Repositories;
 using Manager.Infrastructure.Persistence.Interceptors;
 using Manager.Infrastructure.Services;
 using OpenTelemetry.Resources;
-using OpenTelemetry;
 
 namespace Manager.Infrastructure;
 
@@ -44,7 +43,8 @@ public static class DependecyInjection
     {
         services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), 
+            var connection = Environment.GetEnvironmentVariable("DB_CONNECTION");
+            options.UseNpgsql(connection , 
                 config =>
                 {
                     config.EnableRetryOnFailure(3);

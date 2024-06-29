@@ -24,6 +24,7 @@ builder.Logging.AddOpenTelemetryLogging();
     .AddPersistence(configuration)
     .AddInterceptors()
     .AddVersioning()
+    .AddRedis(configuration)
     .AddOpenTelemetryServices()
     .Addbehaviours()
     .AddSwaggerConfig();
@@ -32,15 +33,10 @@ builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-    var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-    app.UseSwaggerConfig(provider);
-}
-
-//app.UseStaticFiles();
+app.UseDeveloperExceptionPage();
+var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+app.UseSwaggerConfig(provider);
+app.UseStaticFiles();
 
 app.UseSerilogRequestLogging();
 

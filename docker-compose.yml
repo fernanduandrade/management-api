@@ -4,46 +4,62 @@ services:
   manager.api:
     image: manager.api
     container_name: api
-    depends_on:
-      - postgresql_database
-      - redis
     build:
       context: .
-      dockerfile: Manager.API/Dockerfile
+      dockerfile: ./Dockerfile
     ports:
+      - 8080:8080
       - 8081:8081
+      - 5211:5211
     environment:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://manager-dashboard:18889
       - PUPPETER_EXECUTABLE_PATH=/usr/bin/chromium
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DB_CONNECTION=Host=postgresql_database;Port=5432;Database=manager;User Id=andrade;Password=123654
     networks:
       - otel
+    depends_on:
+      - postgresql_database
+
+  web.app:
+    container_name: front
+    build:
+     context: .
+     dockerfile: Dockerfile.Front
     volumes:
-      - /home/fernando/apis/app:/home/app/.aspnet/DataProtection-Keys
-      
-  
+      - .:/app
+      - /node_modules:/app/node_modules
+      - /dist:/app/dist
+    ports:
+      - '3001:80'
+
   postgresql_database:
     image: postgres:latest
-    hostname: db
     restart: always
+    command: postgres -c config_file=/etc/postgresql/postgres.conf
+    container_name: app_db
     ports:
       - 5432:5432
     volumes:
-      - database-data-shop:/var/lib/postgresql/data/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres.conf:/etc/postgresql/postgres.conf
+      - database-data-managerv2:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=shop
+      - POSTGRES_DB=manager
       - POSTGRES_USER=andrade
       - POSTGRES_PASSWORD=123654
+    networks:
+      - otel
 
   redis:
     image: redis:latest
-    hostname: redis
     container_name: my-redis
     ports:
       - 6379:6379
     volumes:
       - redis-data:/data
     networks:
-      - redis-net
+      - otel
 
   manager-dashboard:
     image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:latest
@@ -52,12 +68,14 @@ services:
       - 18888:18888
     networks:
       - otel
+    volumes:
+      - ./keys/:/home/app/.aspnet/DataProtection-Keys/
       
 volumes:
-  database-data-shop:
+  database-data-managerv2:
   redis-data:
-
+  node_modules:
+  dist:
 
 networks:
-  redis-net:
-  otel:
+ otel:

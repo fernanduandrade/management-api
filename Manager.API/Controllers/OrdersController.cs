@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Manager.Application.Common.Models;
 using Manager.Application.OrderProducts.CreateOrderProduct;
@@ -9,7 +8,6 @@ using Manager.Application.Orders.DeleteBulk;
 using Manager.Application.Orders.GetAnalytics;
 using Manager.Application.Orders.GetOrderById;
 using Manager.Application.Orders.GetOrderPaginated;
-using Manager.Application.Products.GetAllProductPaginated;
 using Manager.Presentation.Controllers.Base;
 
 namespace Manager.Presentation.Controllers;
